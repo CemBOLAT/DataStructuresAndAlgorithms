@@ -12,14 +12,10 @@ all:
 set: $(setJava)
 	@javac $(setJava)
 	@java JavaSetTest
-	@rm -f *.class
-	@rm -f ./myContainerPackage/*.class
 
 vector : $(vectorJava)
 	@javac $(vectorJava)
 	@java JavaVectorTest
-	@rm -f ./myContainerPackage/*.class
-	@rm -f *.class
 
 clean:
 	@rm -f *.class

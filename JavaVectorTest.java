@@ -1,20 +1,58 @@
 import java.util.Iterator; // Make sure to import Iterator from java.util
 import myContainerPackage.JavaVector;
 import myContainerPackage.JavaContainer;
+import java.io.FileWriter;
+import java.util.Scanner;
+
+/*
+	Taken from pdf file !
+	Your driver code will be in a separate class.
+	*It will do the following
+		**Test each methodat least 2 times and printing the results.
+		**Do not forget to test the constructors.
+		***Writes some sets to text files. Do not forget to include your saved files.
+*/
 
 public class JavaVectorTest {
 	public static void main(String[] args) {
-		JavaVector<Integer> v = new JavaVector<>(); // define outside of try-catch to use in finally
+		JavaVector<Integer> v = new JavaVector<Integer>(); // define outside of try-catch to use in finally
 		try {
-			for (int i = 0; i < 10; i++) {
-				v.Add(i * 2);
+			//for (int i = 0; i < 10; i++) {
+				//v.Add(i * 2);
+				//v.Add(i * 5 + 6);
+			//}
+			//v.Add(0);
+			//v.Add(0);
+			//v.Add(4);
+			//v.Remove(4);
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("Enter the number of elements to add:");
+			int numElements = scanner.nextInt();
+			if (numElements < 0) {
+				throw new RuntimeException("Number of elements is invalid !");
 			}
-			v.Remove(4);
-			Iterator<Integer> iterator = v.getIterator();
+			System.out.println("Enter the elements:");
+			for (int i = 0; i < numElements; i++) {
+				int element = scanner.nextInt();
+				v.Add(element);
+			}
+			System.out.println("Enter the element to remove:");
+			numElements = scanner.nextInt();
+			v.Remove(numElements);
+			System.out.println("Enter the element to search:");
+			numElements = scanner.nextInt();
+			if (v.isIn(numElements)) {
+				System.out.println("The element is in the set");
+			} else {
+				System.out.println("The element is not in the set");
+			}
+			scanner.close();
+			var iterator = v.getIterator();
 			int index = 0;
 			while (iterator.hasNext()) {
 				Integer element = iterator.next();
-				v.setExactData(index, element * 22);
+				//v.setExactData(index, element * 22);
+				v.setExactData(index, element * 2);
 				index++;
 			}
 			JavaVector<Integer> cloneV = new JavaVector<>(v);
@@ -33,11 +71,31 @@ public class JavaVectorTest {
 			//System.out.println(v.getData(-4)); //exception occurs
 			//JavaVector<Integer> vv = new JavaVector<>(-2); //exception occurs
 			//v.Remove(4); //exception occurs
+			Integer	total = 0;
+			var it = v.getIterator();
+			while (it.hasNext()) {
+				total += it.next();
+			}
+			System.out.println("Total = " + total);
+			save(v, "vector.txt"); // saving to file
 		} catch (Exception e) {
 			System.out.println(e);
 		} finally {
 			System.out.println(v);// last mapped vector !
 			System.out.println("Done");
+		}
+	}
+	// ***Writes some sets to text files. Do not forget to include your saved files.
+	// I dont know what is meant by this line. I just saved the set to file.
+	// While saving it to file, I used the toString method of JavaVector class.
+	// I also used the save method of this class.
+	public static <T extends Comparable<T>> void save(JavaVector<T> set, String fileName) {
+		try {
+			FileWriter fileWriter = new FileWriter(fileName, true);
+			fileWriter.write(set.toString() + "\n");
+			fileWriter.close();
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 }

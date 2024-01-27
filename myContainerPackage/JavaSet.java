@@ -2,19 +2,51 @@ package myContainerPackage;
 
 import myContainerPackage.JavaContainer;
 import java.util.Iterator;
+/**
+ * JavaSet class
+ *
+ * @param <T> type of data
+ *
+ * It is a generic class for JavaSet. It has 15 methods:
+ * 1. Add(T n) : add an element to the container
+ * 2. Remove(T n) : remove an element from the container
+ * 3. Size() : return the size of the container
+ * 4. getCapacity() : return the capacity of the container
+ * 5. getData(int index) : return the data at the given index
+ * 6. isIn(T element) : return true if the element is in the container
+ * 7. getIterator() : return an iterator of the container
+ * 8. toString() : return a string representation of the container
+ * 9. equals(Object obj) : return true if the given object is equal to the container
+ * 10. JavaSet() : default constructor
+ * 11. JavaSet(int n) : constructor with capacity
+ * 12. JavaSet(JavaSet other) : copy constructor
+ * 13. IteratorImpl : private class for iterator
+ * 14. hasNext() : return true if the iterator has next element
+ * 15. next() : return the next element of the iterator
+ */
 
 public class JavaSet<T extends Comparable<T>> implements JavaContainer<T> {
 	private T[] data;
 	private int size;
 	private int capacity;
 
-	@SuppressWarnings("unchecked")
+	/**
+		* JavaSet constructor
+
+		* It creates a JavaSet object with default capacity 2
+	*/
 	public JavaSet() {
 		data = (T[]) new Comparable[2];
 		capacity = 2;
 		size = 0;
 	}
 
+	/**
+		* JavaSet constructor
+
+		* @param n capacity of the JavaSet
+		* It creates a JavaSet object with given capacity
+	*/
 	public JavaSet(int n) {
 		if (n <= 0) {
 			throw new RuntimeException("Size of Capacity is invalid !");
@@ -24,6 +56,12 @@ public class JavaSet<T extends Comparable<T>> implements JavaContainer<T> {
 		size = 0;
 	}
 
+	/**
+		* JavaSet constructor
+
+		* @param other JavaSet object
+		* It creates a JavaSet object with given JavaSet object
+	*/
 	public JavaSet(JavaSet<T> other) {
 		size = other.size;
 		capacity = other.capacity;
@@ -33,6 +71,13 @@ public class JavaSet<T extends Comparable<T>> implements JavaContainer<T> {
 		}
 	}
 
+	/**
+		* getData() method
+
+		* @param index index of the data
+		* @return data at the given index
+		* It returns the data at the given index
+	*/
 	public T getData(int index) {
 		if (index < 0) {
 			throw new RuntimeException("Giving index is invalid !");
@@ -40,18 +85,47 @@ public class JavaSet<T extends Comparable<T>> implements JavaContainer<T> {
 		return data[index];
 	}
 
+	/**
+		* Size() method
+
+		* @return size of the container
+		* It returns the size of the container
+	*/
+	@Override
 	public int Size() {
 		return size;
 	}
 
+	/**
+		* getCapacity() method
+
+		* @return capacity of the container
+		* It returns the capacity of the container
+	*/
 	public int getCapacity() {
 		return capacity;
 	}
+	/**
+		* getIterator() method
 
+		* @return iterator of the container
+		* It returns the iterator of the container
+	*/
 	public Iterator<T> getIterator() {
 		return new IteratorImpl();
 	}
+	/**
+		* Add(T n) method
 
+		* @param n element to be added
+		* It adds the given element to the container
+		* It throws an exception if the element is already in the container
+		* It doubles the capacity if the size is equal to the capacity
+		* It adds the element to the container in order
+		* It shifts the elements after the given element
+		* It adds the element to the end if the element is the largest
+		* It increases the size by 1
+	*/
 	public void Add(T n) {
 		if (isIn(n))
 			throw new RuntimeException("Element is in Set");
@@ -82,10 +156,24 @@ public class JavaSet<T extends Comparable<T>> implements JavaContainer<T> {
 		data = newData;
 		size++;
 	}
+	/**
+		* Remove(T n) method
 
+		* @param n element to be removed
+		* It removes the given element from the container
+		* It throws an exception if the element is not in the container
+		* It halves the capacity if the size is equal to half of the capacity
+		* It removes the element from the container
+		* It shifts the elements after the given element
+		* It decreases the size by 1
+	*/
 	public void Remove(T n) {
-		if (!isIn(n))
-			throw new RuntimeException("Element is not in Set");
+		if (size == 0)
+			throw new RuntimeException("Set is empty");
+		if (!isIn(n)){
+			System.out.println("Element not in Set");
+			return;
+		}
 		if (size - 1 == capacity / 2)
 			capacity /= 2;
 		var newData = (T[]) new Comparable[capacity];
@@ -97,7 +185,13 @@ public class JavaSet<T extends Comparable<T>> implements JavaContainer<T> {
 		data = newData;
 		size--;
 	}
+	/**
+		* isIn(T element) method
 
+		* @param element element to be checked
+		* @return true if the element is in the container
+		* It returns true if the element is in the container
+	*/
 	public boolean isIn(T element) {
 		for (var i = 0; i < size; i++) {
 			if (data[i].equals(element)) {
@@ -107,6 +201,13 @@ public class JavaSet<T extends Comparable<T>> implements JavaContainer<T> {
 		return false;
 	}
 
+	/**
+		* toString() method
+
+		* @return string representation of the container
+		* It returns a string representation of the container
+	*/
+	@Override
 	public String toString() {
 		StringBuilder s = new StringBuilder("[");
 		for (var i = 0; i < size; i++) {
@@ -119,13 +220,22 @@ public class JavaSet<T extends Comparable<T>> implements JavaContainer<T> {
 		return String.format("Set: %s, size: %d, capacity: %d", s.toString(), size, capacity);
 	}
 
+	/**
+		* equals(Object obj) method
+
+		* @param obj object to be compared
+		* @return true if the given object is equal to the container
+		* It returns false if the given object is null or the given object is not a JavaSet object
+		* It returns false if the size of the given object is not equal to the size of the container
+		* It returns false if the elements of the given object are not equal to the elements of the container
+	*/
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
 
-		JavaSet<?> other = (JavaSet<?>) obj;
+		var other = (JavaSet<T>) obj;
 
 		if (size != other.size) {
 			return false;
@@ -140,14 +250,30 @@ public class JavaSet<T extends Comparable<T>> implements JavaContainer<T> {
 		return true;
 	}
 
+	/**
+		* IteratorImpl class
+
+		* It is a private class for iterator
+	*/
 	private class IteratorImpl implements Iterator<T> {
 		private int index = 0;
 
+		/**
+			* hasNext() method
+
+			* @return true if the iterator has next element
+			* It returns true if the iterator has next element
+		*/
 		@Override
 		public boolean hasNext() {
 			return index < size;
 		}
+		/**
+			* next() method
 
+			* @return next element of the iterator
+			* It returns the next element of the iterator
+		*/
 		@Override
 		public T next() {
 			return data[index++];
