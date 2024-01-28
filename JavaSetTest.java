@@ -15,9 +15,15 @@ import java.util.Scanner;
 
 public class JavaSetTest {
 	public static void main(String[] args) {
-		testDefault();
-		//testInteger();
-		//testString();
+		try{
+			testDefault();
+			//testInteger();
+			//testString();
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			System.out.println("Done");
+		}
 	}
 
 	// ***Writes some sets to text files. Do not forget to include your saved files.
@@ -77,12 +83,11 @@ public class JavaSetTest {
 				total += it.next();
 			}
 			System.out.println("Total = " + total);
-			save(v, "vector.txt"); // saving to file
+			save(v, "set.txt"); // saving to file
 		} catch (Exception e) {
-			System.out.println(e);
+			throw e;
 		} finally {
 			System.out.println(v);// last mapped vector !
-			System.out.println("Done");
 		}
 	}
 	// I used this method to test the JavaSet class.
@@ -131,12 +136,11 @@ public class JavaSetTest {
 				total += it.next();
 			}
 			System.out.println("Total = " + total);
-			save(v, "vector.txt"); // saving to file
+			save(v, "set.txt"); // saving to file
 		} catch (Exception e) {
-			System.out.println(e);
+			throw e;
 		} finally {
 			System.out.println(v);// last mapped vector !
-			System.out.println("Done");
 		}
 	}
 	public static void testDefault(){
@@ -144,15 +148,15 @@ public class JavaSetTest {
 		try {
 			for (int i = 0; i < 5; i++) {
 				v.Add(i * 2);
-				v.Add(i * 5 + 6);
 			}
-			v.Add(0);
-			v.Add(0);
-			v.Add(443);
-			v.Add(4);
-			v.Remove(4); // removes all 4s
-			v.Remove(0); // removes all 0s
-			v.Remove(1111); // does nothing
+			v.Add(0); // printing error message because it is already in the set
+			v.Add(550); // adding 550
+			v.Add(443); // adding 443
+			v.Add(4); // printing error message because it is already in the set
+			v.Remove(4); // removing 4
+			v.Remove(0); // removing 0
+			v.Remove(1111); // printing error message because it is not in the set
+
 			if (v.isIn(443)) {
 				System.out.println("The element is in the vector"); // this line must be printed
 			} else {
@@ -181,10 +185,10 @@ public class JavaSetTest {
 			System.out.println("Total = " + total);
 
 		} catch (Exception e) {
-			System.out.println(e);
-		} finally {
+			throw e;
+		}
+		finally {
 			System.out.println(v);// last mapped vector !
-			System.out.println("Done");
 		}
 	}
 }

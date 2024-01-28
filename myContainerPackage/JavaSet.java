@@ -2,6 +2,8 @@ package myContainerPackage;
 
 import myContainerPackage.JavaContainer;
 import java.util.Iterator;
+import java.security.InvalidParameterException;
+
 /**
  * JavaSet class
  *
@@ -45,11 +47,12 @@ public class JavaSet<T extends Comparable<T>> implements JavaContainer<T> {
 		* JavaSet constructor
 
 		* @param n capacity of the JavaSet
+		* @throws InvalidParameterException if the given capacity is invalid
 		* It creates a JavaSet object with given capacity
 	*/
 	public JavaSet(int n) {
 		if (n <= 0) {
-			throw new RuntimeException("Size of Capacity is invalid !");
+			throw new InvalidParameterException("Size of Capacity is invalid !");
 		}
 		capacity = n;
 		data = (T[]) new Comparable[n];
@@ -76,11 +79,12 @@ public class JavaSet<T extends Comparable<T>> implements JavaContainer<T> {
 
 		* @param index index of the data
 		* @return data at the given index
+		* @throws InvalidParameterException if the given index is invalid
 		* It returns the data at the given index
 	*/
 	public T getData(int index) {
 		if (index < 0) {
-			throw new RuntimeException("Giving index is invalid !");
+			throw new InvalidParameterException("Giving index is invalid !");
 		}
 		return data[index];
 	}
@@ -119,23 +123,25 @@ public class JavaSet<T extends Comparable<T>> implements JavaContainer<T> {
 
 		* @param n element to be added
 		* It adds the given element to the container
-		* It throws an exception if the element is already in the container
 		* It doubles the capacity if the size is equal to the capacity
 		* It adds the element to the container in order
 		* It shifts the elements after the given element
 		* It adds the element to the end if the element is the largest
 		* It increases the size by 1
+		* @return true if the element is added to the container
+		* @throws InvalidParameterException if the element is already in the container
 	*/
-	public void Add(T n) {
-		if (isIn(n))
-			throw new RuntimeException("Element is in Set");
+	public boolean Add(T n) {
+		if (isIn(n)){
+			throw new InvalidParameterException("Element is already in the Set");
+		}
 		if (size == capacity) {
 			capacity *= 2;
 		}
 		if (size == 0) {
 			data[0] = n;
 			size++;
-			return;
+			return true;
 		}
 		T[] newData = (T[]) new Comparable[capacity];
 		int index = 0;
@@ -155,24 +161,27 @@ public class JavaSet<T extends Comparable<T>> implements JavaContainer<T> {
 		}
 		data = newData;
 		size++;
+		return true;
 	}
 	/**
 		* Remove(T n) method
 
 		* @param n element to be removed
 		* It removes the given element from the container
-		* It throws an exception if the element is not in the container
 		* It halves the capacity if the size is equal to half of the capacity
 		* It removes the element from the container
 		* It shifts the elements after the given element
 		* It decreases the size by 1
+		* @return true if the element is removed from the container
+		* @throws InvalidParameterException if the given element is not in the container
+		* @throws ArithmeticException if the container is empty
 	*/
-	public void Remove(T n) {
-		if (size == 0)
-			throw new RuntimeException("Set is empty");
+	public boolean Remove(T n) {
+		if (size == 0){
+			throw new ArithmeticException("Set is empty");
+		}
 		if (!isIn(n)){
-			System.out.println("Element not in Set");
-			return;
+			throw new InvalidParameterException("Element not in Set");
 		}
 		if (size - 1 == capacity / 2)
 			capacity /= 2;
@@ -184,6 +193,7 @@ public class JavaSet<T extends Comparable<T>> implements JavaContainer<T> {
 		}
 		data = newData;
 		size--;
+		return true;
 	}
 	/**
 		* isIn(T element) method

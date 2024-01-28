@@ -1,7 +1,7 @@
 package myContainerPackage;
 import myContainerPackage.JavaContainer;
 import java.util.Iterator;
-import java.util.Scanner;
+import java.security.InvalidParameterException;
 
 /**
  * JavaVector class
@@ -47,12 +47,13 @@ public class JavaVector<T> implements JavaContainer<T> {
 	 * JavaVector constructor
 
 	 * @param n capacity of the JavaVector
+	 * @throws InvalidParameterException if the given capacity is invalid
 	 * It creates a JavaVector object with given capacity
 	*/
 	@SuppressWarnings("unchecked")
 	public JavaVector(int n) {
 		if (n <= 0){
-			throw new RuntimeException("Size of Capacity is invalid !");
+			throw new InvalidParameterException("Size of Capacity is invalid !");
 		}
 		data = (T[]) new Object[n];
 		size = 0;
@@ -77,11 +78,12 @@ public class JavaVector<T> implements JavaContainer<T> {
 
 	 * @param index index of the data
 	 * @return data at the given index
+	 * @throws InvalidParameterException if the given index is invalid
 	 * It returns the data at the given index
 	*/
 	public T getData(int index) {
 		if (index < 0){
-			throw new RuntimeException("Giving index is invalid !");
+			throw new InvalidParameterException("Giving index is invalid !");
 		}
 		return data[index];
 	}
@@ -90,11 +92,12 @@ public class JavaVector<T> implements JavaContainer<T> {
 
 	 * @param index index of the data
 	 * @param newData new data of the given index
+	 * @throws RuntimeException if the given index is invalid
 	 * It returns the data at the given index
 	*/
 	public void setExactData(int index, T newData){
 		if (index < 0){
-			throw new RuntimeException("Giving index is invalid !");
+			throw new InvalidParameterException("Giving index is invalid !");
 		}
 		data[index] = newData;
 	}
@@ -128,11 +131,10 @@ public class JavaVector<T> implements JavaContainer<T> {
 	 * Otherwise, it adds the element to the end of the container.
 	 * It increases the size by 1.
 	 * It gives a warning if the element is already in the container.
-	 * It throws RuntimeException if the element is null.
-	 * It throws RuntimeException if the element is not comparable.
+	 * @return true if the element is added to the container.
 	 */
 	@SuppressWarnings("unchecked")
-	public void Add(T element) {
+	public boolean Add(T element) {
 		if (size == capacity) {
 			capacity *= 2;
 			var newData = (T[]) new Object[capacity];
@@ -142,27 +144,28 @@ public class JavaVector<T> implements JavaContainer<T> {
 			data = newData;
 		}
 		data[size++] = element;
+		return true;
 	}
 
 	/**
 	 * Remove method.
 	 * @param element element to be removed.
 	 * It removes the given element from the container.
-	 * If the size is equal to 0, it throws RuntimeException.
-	 * If the element is not in the container, it throws RuntimeException.
 	 * If the size is less than or equal to capacity / 2, it halves the capacity.
 	 * It creates a new array with the new capacity.
 	 * It copies the elements except the given element to the new array.
 	 * It assigns the new array to the data.
 	 * It decreases the size by 1.
+	 * @return true if the element is removed from the container.
+	 * @throws InvalidParameterException if the element is not in the container.
+	 * @throws ArithmeticException if the container is empty.
 	 */
-	public void Remove(T element) {
+	public boolean Remove(T element) {
 		if (size == 0) {
-			throw new RuntimeException("Vector is empty");
+			throw new ArithmeticException("Vector is empty");
 		}
 		if (!isIn(element)) {
-			System.out.println("Element not in vector");
-			return;
+			throw new InvalidParameterException("Element not in Vector");
 		}
 		if (size - 1 <= capacity / 2) {
 			capacity /= 2;
@@ -176,6 +179,7 @@ public class JavaVector<T> implements JavaContainer<T> {
 		}
 		data = newData;
 		size = newSize;
+		return true;
 	}
 
 	/**

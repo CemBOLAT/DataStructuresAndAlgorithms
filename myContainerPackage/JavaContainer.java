@@ -19,14 +19,14 @@ public interface JavaContainer <T> {
 	 * @param n element to be added
 	 * It adds the given element to the container
 	*/
-	public void			Add(T n);
+	public boolean		Add(T n);
 	/**
 	 * Remove method
 	 *
 	 * @param n element to be removed
 	 * It removes the given element from the container
 	*/
-	public void			Remove(T n);
+	public boolean		Remove(T n);
 	/**
 	 * Size method
 	 *

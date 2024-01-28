@@ -15,9 +15,15 @@ import java.util.Scanner;
 
 public class JavaVectorTest {
 	public static void main(String[] args) {
-		testDefault();
-		//testInteger();
-		//testString();
+		try{
+			//testDefault();
+			testInteger();
+			//testString();
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			System.out.println("Done");
+		}
 	}
 	// ***Writes some sets to text files. Do not forget to include your saved files.
 	// I dont know what is meant by this line. I just saved the set to file.
@@ -85,10 +91,9 @@ public class JavaVectorTest {
 			System.out.println("Total = " + total);
 			save(v, "vector.txt"); // saving to file
 		} catch (Exception e) {
-			System.out.println(e);
+			throw e;
 		} finally {
 			System.out.println(v);// last mapped vector !
-			System.out.println("Done");
 		}
 	}
 	// I used this method to test the JavaVector class.
@@ -144,10 +149,9 @@ public class JavaVectorTest {
 			System.out.println("Total = " + total);
 			save(v, "vector.txt"); // saving to file
 		} catch (Exception e) {
-			System.out.println(e);
+			throw e;
 		} finally {
 			System.out.println(v);// last mapped vector !
-			System.out.println("Done");
 		}
 	}
 	public static void testDefault(){
@@ -200,10 +204,9 @@ public class JavaVectorTest {
 			System.out.println("Total = " + total);
 
 		} catch (Exception e) {
-			System.out.println(e);
+			throw e;
 		} finally {
 			System.out.println(v);// last mapped vector !
-			System.out.println("Done");
 		}
 	}
 }
