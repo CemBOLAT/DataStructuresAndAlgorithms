@@ -182,6 +182,7 @@ public class JavaVectorTest {
 				index++;
 			}
 
+
 			JavaVector<Integer> cloneV = new JavaVector<Integer>(v);
 			if (cloneV.equals(v)){
 				System.out.println("1 -- Equal to ! "); // this line must be printed
@@ -195,6 +196,7 @@ public class JavaVectorTest {
 				System.out.println("2 -- Not Equal to ! "); // this line must be printed
 			}
 			//System.out.println(v.getData(-4)); //exception occurs
+			//System.out.println(v.getData(100)); //exception occurs
 			//JavaVector<Integer> vv = new JavaVector<>(-2); //exception occurs
 			Integer	total = 0;
 			var it = v.getIterator();

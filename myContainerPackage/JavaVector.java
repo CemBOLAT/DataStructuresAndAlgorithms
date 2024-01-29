@@ -78,12 +78,15 @@ public class JavaVector<T> implements JavaContainer<T> {
 
 	 * @param index index of the data
 	 * @return data at the given index
-	 * @throws InvalidParameterException if the given index is invalid
+	 * @throws InvalidParameterException if the given index is out of bounds
 	 * It returns the data at the given index
 	*/
 	public T getData(int index) {
 		if (index < 0){
-			throw new InvalidParameterException("Giving index is invalid !");
+			throw new InvalidParameterException("Index is out of bounds !");
+		}
+		else if (index >= size){
+			throw new InvalidParameterException("Index is out of bounds !");
 		}
 		return data[index];
 	}
@@ -92,13 +95,16 @@ public class JavaVector<T> implements JavaContainer<T> {
 
 	 * @param index index of the data
 	 * @param newData new data of the given index
-	 * @throws RuntimeException if the given index is invalid
+	 * @throws InvalidParameterException if the given index is out of bounds
 	 * It returns the data at the given index
 	*/
 	public void setExactData(int index, T newData){
 		if (index < 0){
-			throw new InvalidParameterException("Giving index is invalid !");
+			throw new InvalidParameterException("Index is out of bounds !");
+		} else if (index >= size){
+			throw new InvalidParameterException("Index is out of bounds !");
 		}
+
 		data[index] = newData;
 	}
 
