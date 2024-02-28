@@ -6,6 +6,8 @@ public class Order
     private int status;
     private int customer_ID;
 
+    public static final String STATUS[] = {"Initialized", "Processing", "Completed", "Cancelled"};
+
     public Order(String _product_name, int _count, int _total_price, int _status, int _customer_ID)
     {
         this.product_name = _product_name;
