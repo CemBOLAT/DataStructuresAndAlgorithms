@@ -28,21 +28,27 @@ public class FileReader
                 {
                     if (tokens.length != RETAIL_CUSTOMER_SPLIT_LENGTH)
                         throw new Exception("Invalid retail customer data");
-                    people[personCount] = new Retail_customer(tokens[1], tokens[2], tokens[3], tokens[4], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]));
+                    Retail_customer retail_customer = new Retail_customer(tokens[1], tokens[2], tokens[3], tokens[4], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]));
+                    retail_customer.define_orders(orders);
+                    people[personCount] = retail_customer;
                     personCount++;
                 }
                 else if (tokens[0].equals("corporate_customer"))
                 {
                     if (tokens.length != CORPORATE_CUSTOMER_SPLIT_LENGTH)
                         throw new Exception("Invalid corporate customer data");
-                    people[personCount] = new Corporate_customer(tokens[1], tokens[2], tokens[3], tokens[4], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]), tokens[7]);
+                    Corporate_customer corporate_customer = new Corporate_customer(tokens[1], tokens[2], tokens[3], tokens[4], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]), tokens[7]);
+                    corporate_customer.define_orders(orders);
+                    people[personCount] = corporate_customer;
                     personCount++;
                 }
                 else if (tokens[0].equals("operator"))
                 {
                     if (tokens.length != OPERATOR_SPLIT_LENGTH)
                         throw new Exception("Invalid operator data");
-                    people[personCount] = new Operator(tokens[1], tokens[2], tokens[3], tokens[4], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]));
+                    Operator operator = new Operator(tokens[1], tokens[2], tokens[3], tokens[4], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]));
+                    operator.define_customers(people);
+                    people[personCount] = operator;
                     personCount++;
                 }
             }

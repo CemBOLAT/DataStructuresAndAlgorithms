@@ -58,6 +58,6 @@ public class Order
     }
     public void print_order()
     {
-        System.out.println("Product Name: " + this.product_name + "\n" + "Count: " + this.count + "\n" + "Total Price: " + this.total_price + "\n" + "Status: " + this.status + "\n" + "Customer ID: " + this.customer_ID);
+        System.out.println("Product Name: " + this.product_name + " - " + "Count: " + this.count + " - " + "Total Price: " + this.total_price + " - " + "Status: " + STATUS[status]);
     }
 }

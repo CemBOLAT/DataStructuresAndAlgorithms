@@ -31,13 +31,21 @@ public class Customer extends Person
     {
         for(int i = 0; i < this.orderCount; i++)
         {
+            System.out.print("Order #" + (i+1) + " => ");
             orders[i].print_order();
         }
     }
-    public void define_order(String _product_name, int _count, int _total_price, int _status)
+    public void define_orders(Order [] _orders)
     {
-        orders[orderCount] = new Order(_product_name, _count, _total_price, _status, this.getID());
-        orderCount++;
+        int i = 0;
+        while (_orders[i] != null)
+        {
+            if (_orders[i].getCustomerID() == this.getID())
+            {
+                this.orders[this.orderCount] = _orders[i];
+                this.orderCount++;
+            }
+            i++;
+        }
     }
-    
 }

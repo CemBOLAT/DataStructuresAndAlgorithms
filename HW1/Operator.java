@@ -30,13 +30,32 @@ public class Operator extends Person
     {
         for(int i = 0; i < this.customerCount; i++)
         {
+            if (customers[i] instanceof Retail_customer){
+                System.out.println("Customer #" + (i+1) + " (a retail customer) :");
+            }
+            else if (customers[i] instanceof Corporate_customer){
+                System.out.println("Customer #" + (i+1) + " (a corporate customer) :");
+            }
             customers[i].print_customer();
+            customers[i].print_orders();
+            Test.drawline();
         }
     }
-    public void define_customer(String _name, String _surName, String _address, String _phoneNumber, int _ID)
+    public void define_customers(Person [] _customers)
     {
-        customers[customerCount] = new Customer(_name, _surName, _address, _phoneNumber, _ID, this.getID());
-        customerCount++;
+        int i = 0;
+        while (_customers[i] != null)
+        {
+            if (_customers[i] instanceof Customer)
+            {
+                if (((Customer)_customers[i]).getOperatorID() == this.getID())
+                {
+                    this.customers[this.customerCount] = (Customer)_customers[i];
+                    this.customerCount++;
+                }
+            }
+            i++;
+        }
     }
 
 }
