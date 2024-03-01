@@ -1,3 +1,7 @@
+/*
+    Person class is the base class for all the other classes. It has the basic attributes of a person.
+    It has a constructor, getter and setter methods for each attribute.
+*/
 public class Person 
 {
     private String name;
@@ -54,10 +58,4 @@ public class Person
     {
         this.ID = _ID;
     }
-    @Override
-    public String toString()
-    {
-        return "Name & Surname: " + this.name + " " + this.surName + "\n" + "Address: " + this.address + "\n" + "Phone Number: " + this.phoneNumber + "\n" + "ID: " + this.ID;
-    }
-
 }

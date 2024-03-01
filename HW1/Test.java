@@ -18,7 +18,12 @@ public class Test
                     return false;
                 }
             }
-            return true;
+            long d = Long.parseLong(input);
+            if (d <= Integer.MAX_VALUE && d >= Integer.MIN_VALUE){
+                return true;
+            }
+            System.out.println("Invalid input its over max int. Please enter a valid ID.");
+            return false;
         }
         System.out.println("Invalid length of input. Please enter an integer as a valid ID.");
         return false;
@@ -27,9 +32,14 @@ public class Test
     {
         try{
             File dosya = new File("./content.txt");
+            /*
+                As your permisson I used fixed size arrays with size 100.
+                -- You can define the size of the arrays you use as 100. (as pdf file says)
+            */
             Order [] orders = new Order[100];
-            Person [] people = new Person[100];
-            FileReader.fillData(dosya, orders, people);
+            Customer [] customers = new Customer[100];
+            Operator [] operators = new Operator[100];
+            FileReader.fillData(dosya, orders, customers, operators);
             Scanner scanner = new Scanner(System.in);
             System.out.print("Please enter your ID...: ");
             String input = scanner.nextLine();
@@ -38,33 +48,38 @@ public class Test
             }
             int ID = Integer.parseInt(input);
             boolean found = false;
-            for(int i = 0; i < people.length; i++)
+            for (int i = 0; i < operators.length; i++)
             {
-                if(people[i] == null)
+                if (operators[i] == null)
                     break;
-                if(people[i].getID() == ID)
+                if (operators[i].getID() == ID)
                 {
-                    if(people[i] instanceof Operator)
+                    found = true;
+                    System.out.println("*** Operator Screen ***");
+                    drawline();
+                    Operator operator = operators[i];
+                    operator.print_operator();
+                    drawline();
+                    if (operator.getCustomerCount() == 0)
                     {
-                        found = true;
-                        System.out.println("*** Operator Screen ***");
+                        System.out.println("This operator doesn't have any customer.");
                         drawline();
-                        Operator operator = (Operator) people[i];
-                        operator.print_operator();
-                        drawline();
-                        if (operator.getCustomerCount() == 0)
-                        {
-                            System.out.println("This operator doesn't have any customer.");
-                            drawline();
-                            break;
-                        }
-                        operator.print_customers();
+                        break;
                     }
-                    else if(people[i] instanceof Customer)
+                    operator.print_customers();
+                }
+            }
+            if (!found)
+            {
+                for (int i = 0; i < customers.length; i++)
+                {
+                    if (customers[i] == null)
+                        break;
+                    if (customers[i].getID() == ID)
                     {
                         found = true;
                         System.out.println("*** Customer Screen ***");
-                        Customer customer = (Customer) people[i];
+                        Customer customer = customers[i];
                         customer.print_customer();
                         customer.print_orders();
                     }
@@ -74,8 +89,5 @@ public class Test
                 System.out.println("No operator/customer was found with ID " + input + ". Please try again.");
 
         } catch (Exception e) { /* ... */ }
-    }
-    public static void fillCustomerArr(){
-
     }
 }

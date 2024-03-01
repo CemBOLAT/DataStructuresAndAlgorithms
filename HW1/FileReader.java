@@ -1,12 +1,17 @@
 import java.io.File;
 import java.util.Scanner;
 
+/*
+* This class reads the file and fills the arrays with the data in the file.
+* It also checks if the data in the file is in the correct format.
+*/
+
 public class FileReader 
 {
-    private static final int ORDER_SPLIT_LENGTH = 6;
-    private static final int RETAIL_CUSTOMER_SPLIT_LENGTH = 7;
-    private static final int CORPORATE_CUSTOMER_SPLIT_LENGTH = 8;
-    private static final int OPERATOR_SPLIT_LENGTH = 7;
+    private static final int ORDER_SPLIT_LENGTH = 6; // order;product_name;count;total_price;status;customer_id
+    private static final int RETAIL_CUSTOMER_SPLIT_LENGTH = 7; // retail_customer;name;surname;address;phone;ID;operator_ID
+    private static final int CORPORATE_CUSTOMER_SPLIT_LENGTH = 8; // retail_customer;name;surname;address;phone;ID;operator_ID;company_name
+    private static final int OPERATOR_SPLIT_LENGTH = 7; // operator;name;surname;address;phone;ID;wage
 
     public static boolean isValidUIntAsString(String str)
     {
@@ -17,7 +22,10 @@ public class FileReader
             if (str.charAt(i) < '0' || str.charAt(i) > '9')
                 return false;
         }
-        return true;
+        long d = Long.parseLong(str); // it might be 10 digits but it can be over max int
+        if (d <= Integer.MAX_VALUE && d >= Integer.MIN_VALUE)
+            return true;
+        return false;
     }
 
     public static boolean isValidOrder(String [] order){
@@ -73,26 +81,43 @@ public class FileReader
         }
         return true;
     }
-
-    public static boolean isUniqueID(int ID, Person[] people)
+    /*
+    * This method checks if the ID is unique.
+    * It takes an ID and an array of customers and an array of operators as parameters.
+    * It returns true if the ID is unique, otherwise it returns false.
+    */
+    public static boolean isUniqueID(int ID, Customer [] customer, Operator [] operators)
     {
-        for (int i = 0; i < people.length; i++)
+        for (int i = 0; i < customer.length; i++) // check if the ID is unique
         {
-            if (people[i] == null)
+            if (customer[i] == null)
                 break;
-            if (people[i].getID() == ID)
+            if (customer[i].getID() == ID)
+                return false;
+        }
+        for (int i = 0; i < operators.length; i++)
+        {
+            if (operators[i] == null)
+                break;
+            if (operators[i].getID() == ID)
                 return false;
         }
         return true;
     }
-
-    public static void fillData(File file, Order[] orders, Person[] people) throws Exception
+    /*
+    * This method fills the orders, customers and operators arrays with the data in the file.
+    * It takes a file and arrays of orders, customers and operators as parameters.
+    * It throws an exception if the file is not found or if there is an error while reading the file.
+    * It ingores the lines that are not in the correct format.
+    * It also ingores the lines that have the same ID with the other customers or operators.
+    */
+    public static void fillData(File file, Order[] orders, Customer [] customers, Operator [] operators) throws Exception
     {
         try {
             Scanner scanner = new Scanner(file);
             String line;
             String [] tokens;
-            int orderCount = 0, personCount = 0;
+            int orderCount = 0, customerCount = 0, operatorCount = 0;
             while (scanner.hasNextLine()) {
                 line = scanner.nextLine();
                 tokens = line.split(";");
@@ -112,14 +137,14 @@ public class FileReader
                     {
                         continue;
                     }
-                    if (isUniqueID(Integer.parseInt(tokens[5]), people) == false)
+                    if (isUniqueID(Integer.parseInt(tokens[5]), customers, operators) == false)
                     {
                         continue;
                     }
                     Retail_customer retail_customer = new Retail_customer(tokens[1], tokens[2], tokens[3], tokens[4], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]));
                     retail_customer.define_orders(orders);
-                    people[personCount] = retail_customer;
-                    personCount++;
+                    customers[customerCount] = retail_customer;
+                    customerCount++;
                 }
                 else if (tokens[0].equals("corporate_customer"))
                 {
@@ -127,14 +152,14 @@ public class FileReader
                     {
                         continue;
                     }
-                    if (isUniqueID(Integer.parseInt(tokens[5]), people) == false)
+                    if (isUniqueID(Integer.parseInt(tokens[5]), customers, operators) == false)
                     {
                         continue;
                     }
                     Corporate_customer corporate_customer = new Corporate_customer(tokens[1], tokens[2], tokens[3], tokens[4], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]), tokens[7]);
                     corporate_customer.define_orders(orders);
-                    people[personCount] = corporate_customer;
-                    personCount++;
+                    customers[customerCount] = corporate_customer;
+                    customerCount++;
                 }
                 else if (tokens[0].equals("operator"))
                 {
@@ -142,14 +167,14 @@ public class FileReader
                     {
                         continue;
                     }
-                    if (isUniqueID(Integer.parseInt(tokens[5]), people) == false)
+                    if (isUniqueID(Integer.parseInt(tokens[5]), customers, operators) == false)
                     {
                         continue;
                     }
                     Operator operator = new Operator(tokens[1], tokens[2], tokens[3], tokens[4], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]));
-                    operator.define_customers(people);
-                    people[personCount] = operator;
-                    personCount++;
+                    operator.define_customers(customers);
+                    operators[operatorCount] = operator;
+                    operatorCount++;
                 }
                 else {
                     continue;

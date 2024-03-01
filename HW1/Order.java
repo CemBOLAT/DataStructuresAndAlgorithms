@@ -1,3 +1,9 @@
+/*
+    * This class is used to create an order object.
+    * It contains the product name, count, total price, status, and customer ID.
+    * It also contains the methods to get and set the values of the order object.
+    * It also contains the method to print the order.
+*/
 public class Order
 {
     private String product_name;

@@ -1,3 +1,7 @@
+/*
+    * This class is a subclass of Person class. It has a wage and an array of customers. It has a method to define the customers of the operator.
+    * It also has a method to print the operator's information and the customers of the operator.
+*/
 public class Operator extends Person
 {
     private int wage;
@@ -5,6 +9,8 @@ public class Operator extends Person
     private int customerCount;
     public Operator(String _name, String _surName, String _address, String _phoneNumber, int _ID, int _wage)
     {
+        // This is the constructor of the Operator class. It takes 6 parameters and calls the constructor of the Person class with 5 parameters.
+        // It also initializes the wage attribute and creates an array of customers.
         super(_name, _surName, _address, _phoneNumber, _ID);
         this.wage = _wage;
         this.customers = new Customer[100];
@@ -30,10 +36,10 @@ public class Operator extends Person
     {
         for(int i = 0; i < this.customerCount; i++)
         {
-            if (customers[i] instanceof Retail_customer){
+            if (customers[i] instanceof Retail_customer){ // check if the customer is a retail customer
                 System.out.println("Customer #" + (i+1) + " (a retail customer) :");
             }
-            else if (customers[i] instanceof Corporate_customer){
+            else if (customers[i] instanceof Corporate_customer){ // check if the customer is a corporate customer
                 System.out.println("Customer #" + (i+1) + " (a corporate customer) :");
             }
             customers[i].print_customer();
@@ -41,18 +47,18 @@ public class Operator extends Person
             Test.drawline();
         }
     }
-    public void define_customers(Person [] _customers)
+    /*
+        
+    */
+    public void define_customers(Customer [] _customers)
     {
         int i = 0;
         while (_customers[i] != null)
         {
-            if (_customers[i] instanceof Customer)
+            if (((Customer)_customers[i]).getOperatorID() == this.getID())
             {
-                if (((Customer)_customers[i]).getOperatorID() == this.getID())
-                {
-                    this.customers[this.customerCount] = (Customer)_customers[i];
-                    this.customerCount++;
-                }
+                this.customers[this.customerCount] = (Customer)_customers[i];
+                this.customerCount++;
             }
             i++;
         }
