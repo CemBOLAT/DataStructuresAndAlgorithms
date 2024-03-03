@@ -15,15 +15,18 @@ public class Corporate_customer extends Customer
             * It also initializes the company name attribute.
         */
         super(_name, _surName, _address, _phoneNumber, _ID, _operator_ID);
+        // no need for my own validation here becuase no valid input creates a corporate_customer object
+        // and it is not possible to create a person object without valid input
+        // for modularity and reusability I will use the same validation method here
+        if (_company_name == null)
+        {
+            return;
+        }
         this.company_name = _company_name;
     }
     public String getCompanyName()
     {
         return this.company_name;
-    }
-    public void setCompanyName(String _company_name)
-    {
-        this.company_name = _company_name;
     }
     /*
     * This method prints the attributes of the customer.

@@ -9,6 +9,6 @@ public class Retail_customer extends Customer
         /*
             * This is the constructor of the Retail_customer class. It takes 6 parameters and calls the constructor of the Customer class with 6 parameters.
         */
-        super(_name, _surName, _address, _phoneNumber, _ID, _operator_ID);
+       super(_name, _surName, _address, _phoneNumber, _ID, _operator_ID);
     }
 }

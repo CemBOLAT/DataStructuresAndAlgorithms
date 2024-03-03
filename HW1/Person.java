@@ -2,7 +2,7 @@
     Person class is the base class for all the other classes. It has the basic attributes of a person.
     It has a constructor, getter and setter methods for each attribute.
 */
-public class Person 
+public class Person
 {
     private String name;
     private String surName;
@@ -12,6 +12,13 @@ public class Person
 
     public Person(String _name, String _surName, String _address, String _phoneNumber, int _ID)
     {
+        // no need for my own validation here becuase no valid input creates a person object
+        // and it is not possible to create a person object without valid input
+        // for modularity and reusability I will use the same validation method here
+        if (_name == null || _surName == null || _address == null || _phoneNumber == null || _ID <= 0)
+        {
+            return;
+        }
         this.name = _name;
         this.surName = _surName;
         this.address = _address;
@@ -37,25 +44,5 @@ public class Person
     public int getID()
     {
         return this.ID;
-    }
-    public void setName(String _name)
-    {
-        this.name = _name;
-    }
-    public void setSurName(String _surName)
-    {
-        this.surName = _surName;
-    }
-    public void setAddress(String _address)
-    {
-        this.address = _address;
-    }
-    public void setPhoneNumber(String _phoneNumber)
-    {
-        this.phoneNumber = _phoneNumber;
-    }
-    public void setID(int _ID)
-    {
-        this.ID = _ID;
     }
 }

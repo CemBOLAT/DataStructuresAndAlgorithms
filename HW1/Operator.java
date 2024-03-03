@@ -12,6 +12,13 @@ public class Operator extends Person
         // This is the constructor of the Operator class. It takes 6 parameters and calls the constructor of the Person class with 5 parameters.
         // It also initializes the wage attribute and creates an array of customers.
         super(_name, _surName, _address, _phoneNumber, _ID);
+        // no need for my own validation here becuase no valid input creates a operator object
+        // and it is not possible to create a person object without valid input
+        // for modularity and reusability I will use the same validation method here
+        if (_wage <= 0)
+        {
+            return;
+        }
         this.wage = _wage;
         this.customers = new Customer[100];
         this.customerCount = 0;
@@ -19,10 +26,6 @@ public class Operator extends Person
     public int getWage()
     {
         return this.wage;
-    }
-    public void setWage(int _wage)
-    {
-        this.wage = _wage;
     }
     public int getCustomerCount()
     {
@@ -47,9 +50,6 @@ public class Operator extends Person
             Test.drawline();
         }
     }
-    /*
-        
-    */
     public void define_customers(Customer [] _customers)
     {
         int i = 0;

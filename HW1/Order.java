@@ -16,6 +16,10 @@ public class Order
 
     public Order(String _product_name, int _count, int _total_price, int _status, int _customer_ID)
     {
+        if (_product_name == null || _count <= 0 || _total_price <= 0 || _status < 0 || _status > 3 || _customer_ID <= 0)
+        {
+            return;
+        }
         this.product_name = _product_name;
         this.count = _count;
         this.total_price = _total_price;
@@ -41,26 +45,6 @@ public class Order
     public int getCustomerID()
     {
         return this.customer_ID;
-    }
-    public void setProductName(String _product_name)
-    {
-        this.product_name = _product_name;
-    }
-    public void setCount(int _count)
-    {
-        this.count = _count;
-    }
-    public void setTotalPrice(int _total_price)
-    {
-        this.total_price = _total_price;
-    }
-    public void setStatus(int _status)
-    {
-        this.status = _status;
-    }
-    public void setCustomerID(int _customer_ID)
-    {
-        this.customer_ID = _customer_ID;
     }
     public void print_order()
     {

@@ -13,6 +13,8 @@ public class FileReader
     private static final int CORPORATE_CUSTOMER_SPLIT_LENGTH = 8; // retail_customer;name;surname;address;phone;ID;operator_ID;company_name
     private static final int OPERATOR_SPLIT_LENGTH = 7; // operator;name;surname;address;phone;ID;wage
 
+    // This method checks if the string is a valid unsigned integer.
+    // It takes a string as a parameter and returns true if the string is a valid unsigned integer, otherwise it returns false.
     public static boolean isValidUIntAsString(String str)
     {
         if (str.length() == 0 || str.length() > 10) // max int is 214 748 3647
@@ -23,11 +25,12 @@ public class FileReader
                 return false;
         }
         long d = Long.parseLong(str); // it might be 10 digits but it can be over max int
-        if (d <= Integer.MAX_VALUE && d >= Integer.MIN_VALUE)
+        if (d <= Integer.MAX_VALUE && d > 0)
             return true;
         return false;
     }
-
+    // This method checks if the order is in the correct format.
+    // It takes an array of strings as a parameter and returns true if the order is in the correct format, otherwise it returns false.
     public static boolean isValidOrder(String [] order){
         if (order.length != ORDER_SPLIT_LENGTH)
             return false;
@@ -35,14 +38,21 @@ public class FileReader
             return false;
         for (int i = 2; i < ORDER_SPLIT_LENGTH; i++)
         {
-            if (!isValidUIntAsString(order[i]))
+            if (i == 4)
+            {
+                if (order[i].equals("0") || order[i].equals("1") || order[i].equals("2") || order[i].equals("3")) // check if the status is valid (0, 1, 2, 3)
+                    continue;
+                else
+                    return false;
+            }
+            else if (!isValidUIntAsString(order[i]))
                 return false;
         }
-        if (Integer.parseInt(order[2]) == 0)
-            return false;
         return true;
     }
 
+    // This method checks if the retail customer is in the correct format.
+    // It takes an array of strings as a parameter and returns true if the retail customer is in the correct format, otherwise it returns false.
     public static boolean isValidRetailCustomer(String [] retail_customer){
         if (retail_customer.length != RETAIL_CUSTOMER_SPLIT_LENGTH)
             return false;
@@ -55,7 +65,8 @@ public class FileReader
         }
         return true;
     }
-
+    // This method checks if the corporate customer is in the correct format.
+    // It takes an array of strings as a parameter and returns true if the corporate customer is in the correct format, otherwise it returns false.
     public static boolean isValidCorporateCustomer(String [] corporate_customer){
         if (corporate_customer.length != CORPORATE_CUSTOMER_SPLIT_LENGTH)
             return false;
@@ -68,7 +79,8 @@ public class FileReader
         }
         return true;
     }
-
+    // This method checks if the operator is in the correct format.
+    // It takes an array of strings as a parameter and returns true if the operator is in the correct format, otherwise it returns false.
     public static boolean isValidOperator(String [] operator){
         if (operator.length != OPERATOR_SPLIT_LENGTH)
             return false;
@@ -125,7 +137,7 @@ public class FileReader
                 {
                     if (isValidOrder(tokens) == false)
                     {
-                        continue;
+                        continue; // ignore the line
                     }
 
                     orders[orderCount] = new Order(tokens[1], Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]), Integer.parseInt(tokens[5]));
@@ -135,11 +147,11 @@ public class FileReader
                 {
                     if (isValidRetailCustomer(tokens) == false)
                     {
-                        continue;
+                        continue; // ignore the line
                     }
                     if (isUniqueID(Integer.parseInt(tokens[5]), customers, operators) == false)
                     {
-                        continue;
+                        continue; // ignore the line
                     }
                     Retail_customer retail_customer = new Retail_customer(tokens[1], tokens[2], tokens[3], tokens[4], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]));
                     retail_customer.define_orders(orders);
@@ -150,11 +162,11 @@ public class FileReader
                 {
                     if (isValidCorporateCustomer(tokens) == false)
                     {
-                        continue;
+                        continue; // ignore the line
                     }
                     if (isUniqueID(Integer.parseInt(tokens[5]), customers, operators) == false)
                     {
-                        continue;
+                        continue; // ignore the line
                     }
                     Corporate_customer corporate_customer = new Corporate_customer(tokens[1], tokens[2], tokens[3], tokens[4], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]), tokens[7]);
                     corporate_customer.define_orders(orders);
@@ -165,11 +177,11 @@ public class FileReader
                 {
                     if (isValidOperator(tokens) == false)
                     {
-                        continue;
+                        continue; // ignore the line
                     }
                     if (isUniqueID(Integer.parseInt(tokens[5]), customers, operators) == false)
                     {
-                        continue;
+                        continue; // ignore the line
                     }
                     Operator operator = new Operator(tokens[1], tokens[2], tokens[3], tokens[4], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]));
                     operator.define_customers(customers);
@@ -177,7 +189,7 @@ public class FileReader
                     operatorCount++;
                 }
                 else {
-                    continue;
+                    continue; // ignore the line
                 }
             }
         } catch (Exception e) {

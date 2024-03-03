@@ -17,6 +17,13 @@ public class Customer extends Person
             * It also initializes the operator ID attribute and creates an array of orders.
         */
         super(_name, _surName, _address, _phoneNumber, _ID);
+        // no need for my own validation here becuase no valid input creates a customer object
+        // and it is not possible to create a person object without valid input
+        // for modularity and reusability I will use the same validation method here
+        if (_operator_ID <= 0)
+        {
+            return;
+        }
         this.operator_ID = _operator_ID;
         this.orders = new Order[100];
         this.orderCount = 0;
@@ -24,10 +31,6 @@ public class Customer extends Person
     public int getOperatorID()
     {
         return this.operator_ID;
-    }
-    public void setOperatorID(int _operator_ID)
-    {
-        this.operator_ID = _operator_ID;
     }
     public int getOrderCount()
     {
