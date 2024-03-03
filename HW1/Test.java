@@ -34,7 +34,7 @@ public class Test
     {
         System.out.println("-------------------------------------------------");
     }
-    public static boolean isValidInput(String input) throws Exception
+    public static int isValidInput(String input) throws Exception
     {
         if(input.length() > 0 && input.length() < 11) // max int is 214 748 3647
         {
@@ -42,22 +42,22 @@ public class Test
             {
                 if (input.charAt(i) < '0' || input.charAt(i) > '9'){
                     System.out.println("Invalid input. Please enter a valid ID.");
-                    return false;
+                    return 0;
                 }
             }
             long d = Long.parseLong(input);
             if (d <= Integer.MAX_VALUE && d >= Integer.MIN_VALUE){
                 if (d == 0){
                     System.out.println("Invalid input. Please enter a valid ID.");
-                    return false;
+                    return 0;
                 }
-                return true;
+                return 1;
             }
             System.out.println("Invalid input its over max int. Please enter a valid ID.");
-            return false;
+            return 0;
         }
         System.out.println("Invalid length of input. Please enter an integer as a valid ID.");
-        return false;
+        return 0;
     }
     // This method is used for testing the reader class.
     // It prints the orders, customers and operators in the arrays.
@@ -82,21 +82,22 @@ public class Test
             Customer [] customers = new Customer[100];
             Operator [] operators = new Operator[100];
             FileReader.fillData(dosya, orders, customers, operators);
+            //testReader(orders, customers, operators); // for testing the reader class
             Scanner scanner = new Scanner(System.in);
             System.out.print("Please enter your ID...: ");
             String input = scanner.nextLine();
-            if (!isValidInput(input)){
+            if (isValidInput(input) == 0){
                 return;
             }
             int ID = Integer.parseInt(input);
-            boolean found = false;
+            int found = 0;
             for (int i = 0; i < operators.length; i++)
             {
                 if (operators[i] == null)
                     break;
                 if (operators[i].getID() == ID)
                 {
-                    found = true;
+                    found = 1;
                     System.out.println("*** Operator Screen ***");
                     drawline();
                     Operator operator = operators[i];
@@ -111,7 +112,7 @@ public class Test
                     operator.print_customers();
                 }
             }
-            if (!found)
+            if (found == 0)
             {
                 for (int i = 0; i < customers.length; i++)
                 {
@@ -119,7 +120,7 @@ public class Test
                         break;
                     if (customers[i].getID() == ID)
                     {
-                        found = true;
+                        found = 1;
                         System.out.println("*** Customer Screen ***");
                         Customer customer = customers[i];
                         customer.print_customer();
@@ -127,7 +128,7 @@ public class Test
                     }
                 }
             }
-            if(!found)
+            if(found == 0)
                 System.out.println("No operator/customer was found with ID " + input + ". Please try again.");
 
         } catch (Exception e) { /* ... */ }

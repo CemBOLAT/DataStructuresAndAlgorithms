@@ -2,23 +2,20 @@ EXECUTABLE := Test.class
 SRC := *.java
 
 all : 
-	@echo 'make    run|clean|re|rerun'
+	@echo 'make    compile|run|clean|rerun'
 
 run : $(EXECUTABLE)
-	@echo "Running $(EXECUTABLE)..."
 	@java Test
 
+compile : $(EXECUTABLE)
+
 $(EXECUTABLE) : $(SRC)
-	@echo "Compiling source files..."
 	@javac $(SRC)
 
 clean:
-	@echo "Cleaning up..."
 	@rm -f $(EXECUTABLE)
 	@rm -f *.class
 
-re : clean all
-
 rerun : re run
 
-.PHONY: all clean re rerun run
+.PHONY: all clean re rerun

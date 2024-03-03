@@ -14,28 +14,28 @@ public class FileReader
     private static final int OPERATOR_SPLIT_LENGTH = 7; // operator;name;surname;address;phone;ID;wage
 
     // This method checks if the string is a valid unsigned integer.
-    // It takes a string as a parameter and returns true if the string is a valid unsigned integer, otherwise it returns false.
-    public static boolean isValidUIntAsString(String str)
+    // It takes a string as a parameter and returns 1 if the string is a valid unsigned integer, otherwise it returns 0.
+    public static int isValidUIntAsString(String str)
     {
         if (str.length() == 0 || str.length() > 10) // max int is 214 748 3647
-            return false;
+            return 0;
         for (int i = 0; i < str.length(); i++)
         {
             if (str.charAt(i) < '0' || str.charAt(i) > '9')
-                return false;
+                return 0;
         }
         long d = Long.parseLong(str); // it might be 10 digits but it can be over max int
         if (d <= Integer.MAX_VALUE && d > 0)
-            return true;
-        return false;
+            return 1;
+        return 0;
     }
     // This method checks if the order is in the correct format.
-    // It takes an array of strings as a parameter and returns true if the order is in the correct format, otherwise it returns false.
-    public static boolean isValidOrder(String [] order){
+    // It takes an array of strings as a parameter and returns 1 if the order is in the correct format, otherwise it returns 0.
+    public static int isValidOrder(String [] order){
         if (order.length != ORDER_SPLIT_LENGTH)
-            return false;
+            return 0;
         if (order[1].length() == 0 || order[2].length() == 0 || order[3].length() == 0 || order[4].length() == 0 || order[5].length() == 0)
-            return false;
+            return 0;
         for (int i = 2; i < ORDER_SPLIT_LENGTH; i++)
         {
             if (i == 4)
@@ -43,78 +43,78 @@ public class FileReader
                 if (order[i].equals("0") || order[i].equals("1") || order[i].equals("2") || order[i].equals("3")) // check if the status is valid (0, 1, 2, 3)
                     continue;
                 else
-                    return false;
+                    return 0;
             }
-            else if (!isValidUIntAsString(order[i]))
-                return false;
+            else if (isValidUIntAsString(order[i]) == 0)
+                return 0;
         }
-        return true;
+        return 1;
     }
 
     // This method checks if the retail customer is in the correct format.
-    // It takes an array of strings as a parameter and returns true if the retail customer is in the correct format, otherwise it returns false.
-    public static boolean isValidRetailCustomer(String [] retail_customer){
+    // It takes an array of strings as a parameter and returns 1 if the retail customer is in the correct format, otherwise it returns 0.
+    public static int isValidRetailCustomer(String [] retail_customer){
         if (retail_customer.length != RETAIL_CUSTOMER_SPLIT_LENGTH)
-            return false;
+            return 0;
         if (retail_customer[1].length() == 0 || retail_customer[2].length() == 0 || retail_customer[3].length() == 0 || retail_customer[4].length() == 0 || retail_customer[5].length() == 0 || retail_customer[6].length() == 0)
-            return false;
+            return 0;
         for (int i = 5; i < RETAIL_CUSTOMER_SPLIT_LENGTH; i++)
         {
-            if (!isValidUIntAsString(retail_customer[i]))
-                return false;
+            if (isValidUIntAsString(retail_customer[i]) == 0)
+                return 0;
         }
-        return true;
+        return 1;
     }
     // This method checks if the corporate customer is in the correct format.
-    // It takes an array of strings as a parameter and returns true if the corporate customer is in the correct format, otherwise it returns false.
-    public static boolean isValidCorporateCustomer(String [] corporate_customer){
+    // It takes an array of strings as a parameter and returns 1 if the corporate customer is in the correct format, otherwise it returns 0.
+    public static int isValidCorporateCustomer(String [] corporate_customer){
         if (corporate_customer.length != CORPORATE_CUSTOMER_SPLIT_LENGTH)
-            return false;
+            return 0;
         if (corporate_customer[1].length() == 0 || corporate_customer[2].length() == 0 || corporate_customer[3].length() == 0 || corporate_customer[4].length() == 0 || corporate_customer[5].length() == 0 || corporate_customer[6].length() == 0 || corporate_customer[7].length() == 0)
-            return false;
+            return 0;
         for (int i = 5; i < CORPORATE_CUSTOMER_SPLIT_LENGTH - 1; i++)
         {
-            if (!isValidUIntAsString(corporate_customer[i]))
-                return false;
+            if (isValidUIntAsString(corporate_customer[i]) == 0)
+                return 0;
         }
-        return true;
+        return 1;
     }
     // This method checks if the operator is in the correct format.
-    // It takes an array of strings as a parameter and returns true if the operator is in the correct format, otherwise it returns false.
-    public static boolean isValidOperator(String [] operator){
+    // It takes an array of strings as a parameter and returns 1 if the operator is in the correct format, otherwise it returns 0.
+    public static int isValidOperator(String [] operator){
         if (operator.length != OPERATOR_SPLIT_LENGTH)
-            return false;
+            return 0;
         if (operator[1].length() == 0 || operator[2].length() == 0 || operator[3].length() == 0 || operator[4].length() == 0 || operator[5].length() == 0 || operator[6].length() == 0)
-            return false;
+            return 0;
         for (int i = 5; i < OPERATOR_SPLIT_LENGTH; i++)
         {
-            if (!isValidUIntAsString(operator[i]))
-                return false;
+            if (isValidUIntAsString(operator[i]) == 0)
+                return 0;
         }
-        return true;
+        return 1;
     }
     /*
     * This method checks if the ID is unique.
     * It takes an ID and an array of customers and an array of operators as parameters.
-    * It returns true if the ID is unique, otherwise it returns false.
+    * It returns 1 if the ID is unique, otherwise it returns 0.
     */
-    public static boolean isUniqueID(int ID, Customer [] customer, Operator [] operators)
+    public static int isUniqueID(int ID, Customer [] customer, Operator [] operators)
     {
         for (int i = 0; i < customer.length; i++) // check if the ID is unique
         {
             if (customer[i] == null)
                 break;
             if (customer[i].getID() == ID)
-                return false;
+                return 0;
         }
         for (int i = 0; i < operators.length; i++)
         {
             if (operators[i] == null)
                 break;
             if (operators[i].getID() == ID)
-                return false;
+                return 0;
         }
-        return true;
+        return 1;
     }
     /*
     * This method fills the orders, customers and operators arrays with the data in the file.
@@ -135,7 +135,7 @@ public class FileReader
                 tokens = line.split(";");
                 if (tokens[0].equals("order"))
                 {
-                    if (isValidOrder(tokens) == false)
+                    if (isValidOrder(tokens) == 0)
                     {
                         continue; // ignore the line
                     }
@@ -145,11 +145,11 @@ public class FileReader
                 }
                 else if (tokens[0].equals("retail_customer"))
                 {
-                    if (isValidRetailCustomer(tokens) == false)
+                    if (isValidRetailCustomer(tokens) == 0)
                     {
                         continue; // ignore the line
                     }
-                    if (isUniqueID(Integer.parseInt(tokens[5]), customers, operators) == false)
+                    if (isUniqueID(Integer.parseInt(tokens[5]), customers, operators) == 0)
                     {
                         continue; // ignore the line
                     }
@@ -160,11 +160,11 @@ public class FileReader
                 }
                 else if (tokens[0].equals("corporate_customer"))
                 {
-                    if (isValidCorporateCustomer(tokens) == false)
+                    if (isValidCorporateCustomer(tokens) == 0)
                     {
                         continue; // ignore the line
                     }
-                    if (isUniqueID(Integer.parseInt(tokens[5]), customers, operators) == false)
+                    if (isUniqueID(Integer.parseInt(tokens[5]), customers, operators) == 0)
                     {
                         continue; // ignore the line
                     }
@@ -175,11 +175,11 @@ public class FileReader
                 }
                 else if (tokens[0].equals("operator"))
                 {
-                    if (isValidOperator(tokens) == false)
+                    if (isValidOperator(tokens) == 0)
                     {
                         continue; // ignore the line
                     }
-                    if (isUniqueID(Integer.parseInt(tokens[5]), customers, operators) == false)
+                    if (isUniqueID(Integer.parseInt(tokens[5]), customers, operators) == 0)
                     {
                         continue; // ignore the line
                     }
