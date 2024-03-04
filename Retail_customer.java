@@ -4,7 +4,7 @@
 */
 public class Retail_customer extends Customer
 {
-    public Retail_customer(String _name, String _surName, String _address, String _phoneNumber, int _ID, int _operator_ID)
+    public Retail_customer(String _name, String _surName, String _address, String _phoneNumber, int _ID, int _operator_ID) throws Exception
     {
         /*
             * This is the constructor of the Retail_customer class. It takes 6 parameters and calls the constructor of the Customer class with 6 parameters.

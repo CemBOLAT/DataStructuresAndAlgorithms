@@ -10,14 +10,14 @@ public class Person
     private String phoneNumber;
     private int ID;
 
-    public Person(String _name, String _surName, String _address, String _phoneNumber, int _ID)
+    public Person(String _name, String _surName, String _address, String _phoneNumber, int _ID) throws Exception
     {
         // no need for my own validation here becuase no valid input creates a person object
         // and it is not possible to create a person object without valid input
         // for modularity and reusability I will use the same validation method here
-        if (_name == null || _surName == null || _address == null || _phoneNumber == null || _ID <= 0)
+        if (_name.equals("") || _surName.equals("") || _address.equals("") || _phoneNumber.equals("") || _ID <= 0)
         {
-            return;
+            throw new Exception("Invalid input for person.");
         }
         this.name = _name;
         this.surName = _surName;

@@ -8,7 +8,8 @@ public class Corporate_customer extends Customer
 {
     private String company_name;
 
-    public Corporate_customer(String _name, String _surName, String _address, String _phoneNumber, int _ID, int _operator_ID, String _company_name)
+    public Corporate_customer(String _name, String _surName, String _address, String _phoneNumber,
+                                int _ID, int _operator_ID, String _company_name) throws Exception
     {
         /*
             * This is the constructor of the Corporate_customer class. It takes 7 parameters and calls the constructor of the Customer class with 6 parameters.
@@ -18,9 +19,9 @@ public class Corporate_customer extends Customer
         // no need for my own validation here becuase no valid input creates a corporate_customer object
         // and it is not possible to create a person object without valid input
         // for modularity and reusability I will use the same validation method here
-        if (_company_name == null)
+        if (_company_name.equals(""))
         {
-            return;
+            throw new Exception("Company name can't be empty.");
         }
         this.company_name = _company_name;
     }

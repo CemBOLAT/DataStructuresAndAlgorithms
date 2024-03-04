@@ -14,11 +14,11 @@ public class Order
 
     public static final String STATUS[] = {"Initialized", "Processing", "Completed", "Cancelled"};
 
-    public Order(String _product_name, int _count, int _total_price, int _status, int _customer_ID)
+    public Order(String _product_name, int _count, int _total_price, int _status, int _customer_ID) throws Exception
     {
-        if (_product_name == null || _count <= 0 || _total_price <= 0 || _status < 0 || _status > 3 || _customer_ID <= 0)
+        if (_product_name.equals("") || _count <= 0 || _total_price <= 0 || _status < 0 || _status > 3 || _customer_ID <= 0)
         {
-            return;
+            throw new Exception("Invalid input for order.");
         }
         this.product_name = _product_name;
         this.count = _count;

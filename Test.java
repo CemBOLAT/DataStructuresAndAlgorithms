@@ -3,13 +3,15 @@ import java.util.Scanner;
 
 public class Test
 {
-    // This method prints the orders in the array.
+    public static final int isReaderTest = 0; // 1 for testing the reader class, 0 for the main program handmade assert function
+    // This method prints the orders in the array after reading txt file.
     public static void printOrders(Order [] order){
         for (int i = 0; i < order.length; i++)
         {
             if (order[i] == null)
                 break;
             order[i].print_order();
+            drawline();
         }
     }
     // This method prints the customers in the array.
@@ -19,6 +21,7 @@ public class Test
             if (customer[i] == null)
                 break;
             customer[i].print_customer();
+            drawline();
         }
     }
     // This method prints the operators in the array.
@@ -28,6 +31,7 @@ public class Test
             if (operator[i] == null)
                 break;
             operator[i].print_operator();
+            drawline();
         }
     }
     public static void drawline()
@@ -63,12 +67,10 @@ public class Test
     // It prints the orders, customers and operators in the arrays.
     public static void testReader(Order [] orders, Customer [] customers, Operator [] operators) throws Exception
     {
+        drawline();
         printOrders(orders);
-        drawline();
         printCustomers(customers);
-        drawline();
         printOperators(operators);
-        drawline();
     }
     public static void main(String[] args)
     {
@@ -82,9 +84,12 @@ public class Test
             Customer [] customers = new Customer[100];
             Operator [] operators = new Operator[100];
             FileReader.fillData(dosya, orders, customers, operators);
-            //testReader(orders, customers, operators); // for testing the reader class
+            if (isReaderTest == 1){
+                testReader(orders, customers, operators); // for testing the reader class
+                return;
+            }
             Scanner scanner = new Scanner(System.in);
-            System.out.print("Please enter your ID...: ");
+            System.out.println("Please enter your ID...");
             String input = scanner.nextLine();
             if (isValidInput(input) == 0){
                 return;

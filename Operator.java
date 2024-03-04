@@ -7,7 +7,8 @@ public class Operator extends Person
     private int wage;
     private Customer [] customers;
     private int customerCount;
-    public Operator(String _name, String _surName, String _address, String _phoneNumber, int _ID, int _wage)
+    public Operator(String _name, String _surName, String _address,
+                    String _phoneNumber, int _ID, int _wage) throws Exception
     {
         // This is the constructor of the Operator class. It takes 6 parameters and calls the constructor of the Person class with 5 parameters.
         // It also initializes the wage attribute and creates an array of customers.
@@ -17,7 +18,7 @@ public class Operator extends Person
         // for modularity and reusability I will use the same validation method here
         if (_wage <= 0)
         {
-            return;
+            throw new Exception("Wage can't be less than or equal to 0.");
         }
         this.wage = _wage;
         this.customers = new Customer[100];

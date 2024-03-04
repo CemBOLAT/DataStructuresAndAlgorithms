@@ -10,7 +10,8 @@ public class Customer extends Person
     private int operator_ID;
     private int orderCount;
 
-    public Customer(String _name, String _surName, String _address, String _phoneNumber, int _ID, int _operator_ID)
+    public Customer(String _name, String _surName, String _address,
+                    String _phoneNumber, int _ID, int _operator_ID) throws Exception
     {
         /*
             * This is the constructor of the Customer class. It takes 6 parameters and calls the constructor of the Person class with 5 parameters.
@@ -22,7 +23,11 @@ public class Customer extends Person
         // for modularity and reusability I will use the same validation method here
         if (_operator_ID <= 0)
         {
-            return;
+            throw new Exception("Operator ID can't be less than or equal to 0.");
+        }
+        if (_ID == _operator_ID)
+        {
+            throw new Exception("Operator ID can't be the same as the customer ID.");
         }
         this.operator_ID = _operator_ID;
         this.orders = new Order[100];
