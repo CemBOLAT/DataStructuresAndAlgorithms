@@ -60,8 +60,8 @@ public class CBDlist<E> {
 			newNode.next = node;
 			node.prev.next = newNode;
 			node.prev = newNode;
+			size++;
 		}
-		size++;
 		return true;
 	}
 	public boolean remove(E el){
@@ -78,9 +78,9 @@ public class CBDlist<E> {
 				{
 					tmp.prev.next = tmp.next;
 					tmp.next.prev = tmp.prev;
+					size--;
 				}
 				isFound = true;
-				size--;
 				break;
 			}
 			tmp = tmp.next;

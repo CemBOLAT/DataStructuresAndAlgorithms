@@ -18,7 +18,7 @@ public class CBSlist<E> {
 		}
 		else{
 			Node<E>	lastElement = getLast();
-			lastElement.next = new Node(newADD, null);
+			lastElement.next = new Node<E>(newADD, null);
 		}
 		size++;
 		return true;
@@ -63,10 +63,11 @@ public class CBSlist<E> {
 				if (tmp == head){
 					removeHead();
 				}
-				else
+				else{
 					prev.next = tmp.next;
+					size--;
+				}
 				isFound = true;
-				size--;
 				break;
 			}
 			prev = tmp;
