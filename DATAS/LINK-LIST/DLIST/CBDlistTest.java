@@ -7,7 +7,7 @@ public class CBDlistTest{
 				myList.add(i,0);
 			myList.printList();
 			for (int i = 3; i < 7; i++)
-				myList.add(i, myList.Size());
+				myList.add(i, myList.Size() - 1);
 			myList.printList();
 			myList.remove(3);
 			myList.printList();
@@ -22,10 +22,12 @@ public class CBDlistTest{
 			myList.printList();
 			myList.removeHead();
 			myList.printList();
-			System.out.println(myList.getNode(0));
-			System.out.println(myList.getNode(1));
+			System.out.println(myList.getData(0));
+			System.out.println(myList.getData(1));
 			myList.add(66,1);
-			System.out.println(myList.getNode(2)); // Exception
+			myList.add(16,0);
+			myList.add(36,myList.Size() - 1);
+			System.out.println(myList.getData(2)); // Exception
 			myList.printList();
 		} catch(Exception e){
 			System.out.println(e);

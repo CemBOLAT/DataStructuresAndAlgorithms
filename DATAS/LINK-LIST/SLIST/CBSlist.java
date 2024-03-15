@@ -6,7 +6,7 @@ public class CBSlist<E> {
 		head = null;
 		size = 0;
 	}
-	public boolean addHead(E newADD){
+	public boolean addHead(E newADD){ // add to head
 		Node<E> newHead = new Node<E>(newADD, head);
 		head = newHead;
 		size++;
@@ -23,28 +23,12 @@ public class CBSlist<E> {
 		size++;
 		return true;
 	}
-	public boolean addTail(E newADD){
-		if (head == null){
-			head = new Node<E>(newADD);
-		}
-		else{
-			Node<E>	tmp = head;
-			while (tmp.next != null){
-				tmp = tmp.next;
-			}
-			tmp.next = new Node<E>(newADD);
-		}
-		size++;
-		return true;
-	}
 	public boolean add(E newADD, int index) throws Exception{
 		if (index < 0 || index > size)
 			throw new Exception("Out OF Bounds!");
 		if (index == 0){
 			addHead(newADD);
 		}
-		else if (index == size -1)
-			addTail(newADD);
 		else {
 			Node<E>	tmp = head;
 			Node<E>	prev = null;
@@ -58,8 +42,11 @@ public class CBSlist<E> {
 		}
 		return true;
 	}
-	public E	getNode(int index){
+	public E	getNode(int index) throws Exception{
 		Node<E>	temp = head;
+		if (index < 0 || index >= size){
+			throw new Exception("Out OF Bounds!");
+		}
 		for (int i = 0; i < index && temp != null; i++){
 			temp = temp.next;
 		}

@@ -9,63 +9,60 @@ public class CBDlist<E> {
 		size = 0;
 	}
 	public boolean addHead(E newADD){
-		Node<E> newHead = new Node<E>(newADD, head, null);
-		head = newHead;
-		if (size == 0)
-			tail = newHead;
+		Node<E>	newNode = new Node<E>(newADD);
+		if (size == 0){
+			head = newNode;
+			tail = newNode;
+		}
+		else {
+			head.prev = newNode;
+			newNode.next = head;
+			head = newNode;
+		}
 		size++;
 		return true;
 	}
 	public boolean add(E newADD){
+		Node<E>	newNode = new Node<E>(newADD);
 		if (size == 0){
-			head = new Node<E>(newADD);
+			head = newNode;
+			tail = newNode;
 		}
 		else{
-			tail.next = new Node<E>(newADD, null, tail);
+			tail.next = newNode;
+			newNode.prev = tail;
+			tail = newNode;
 		}
 		size++;
 		return true;
 	}
-	public boolean addTail(E newADD){
-		Node<E> nn = new Node<E>(newADD);
-		if (size == 0){
-			head = nn;
-			tail = nn;
-		}
-		else{
-			tail.next = nn;
-			tail = nn;
-		}
-		size++;
-		return true;
-	}
-	public boolean add(E newADD, int index) throws Exception{
-		if (index < 0 || index > size)
-			throw new Exception("Out OF Bounds!");
-		if (index == 0)
-			addHead(newADD);
-		else if (index == size)
-			addTail(newADD);
-		else {
-			Node<E>	tmp = head;
-			for (int i = 0; i < index; i++){
-				tmp = tmp.next;
-			}
-			Node<E>	newNode = new Node<E>(newADD,tmp, tmp.prev);
-			if (newNode.next == null)
-				tail = newNode;
-			if (newNode.prev == null)
-				head = newNode;
-			size++;
-		}
-		return true;
-	}
-	public E	getNode(int index){
+	public Node<E>	getNode(int index) throws Exception{
 		Node<E>	temp = head;
+		if (index < 0 || index >= size){
+			throw new Exception("Out OF Bounds!");
+		}
 		for (int i = 0; i < index && temp != null; i++){
 			temp = temp.next;
 		}
-		return temp.data;
+		return temp;
+	}
+	public boolean add(E newADD, int index) throws Exception {
+		if (index == 0){
+			addHead(newADD);
+		}
+		else if (index == size - 1){
+			add(newADD);
+		}
+		else {
+			Node<E>	node = getNode(index);
+			Node<E> newNode = new Node<E>(newADD);
+			newNode.prev = node.prev;
+			newNode.next = node;
+			node.prev.next = newNode;
+			node.prev = newNode;
+		}
+		size++;
+		return true;
 	}
 	public boolean remove(E el){
 		Node<E> tmp = head;
@@ -78,46 +75,17 @@ public class CBDlist<E> {
 					removeHead();
 				}
 				else
-					tmp.prev = tmp.next;
+				{
+					tmp.prev.next = tmp.next;
+					tmp.next.prev = tmp.prev;
+				}
 				isFound = true;
 				size--;
 				break;
 			}
-
 			tmp = tmp.next;
 		}
 		return isFound;
-	}
-	public boolean removeHead(){
-		if (head == null)
-			return false;
-		head = head.next;
-		head.prev = null;
-		size--;
-		return true;
-	}
-	public boolean clear(){
-		head = null;
-		size = 0;
-		return false;
-	}
-	public int Size(){
-		return size;
-	}
-	public void	printList(){
-		Node<E> temp = head;
-		while (temp != null){
-			System.out.print(temp.data + "-");
-			temp = temp.next;
-		}
-		System.out.println();
-	}
-	private Node<E> getLast(){
-		Node<E>	last = head;
-		while (last.next != null){
-			last = last.next;
-		}
-		return last;
 	}
 	private static class Node<E> {
 		private E	data;
@@ -135,5 +103,33 @@ public class CBDlist<E> {
 			next = newNext;
 			prev = newPrev;
 		}
+	}
+	public boolean clear(){
+		head = null;
+		tail = null;
+		size = 0;
+		return false;
+	}
+	public int Size(){
+		return size;
+	}
+	public boolean removeHead(){
+		if (head == null)
+			return false;
+		head = head.next;
+		head.prev = null;
+		size--;
+		return true;
+	}
+	public void	printList(){
+		Node<E> temp = head;
+		while (temp != null){
+			System.out.print(temp.data + "-");
+			temp = temp.next;
+		}
+		System.out.println();
+	}
+	public E	getData(int index) throws Exception{
+		return (getNode(index).data);
 	}
 }

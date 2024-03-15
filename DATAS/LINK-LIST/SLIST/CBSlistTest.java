@@ -25,6 +25,8 @@ public class CBSlistTest{
 			System.out.println(myList.getNode(0));
 			System.out.println(myList.getNode(1));
 			myList.add(66,1);
+			myList.add(16,0);
+			myList.add(36,myList.Size());
 			System.out.println(myList.getNode(2)); // Exception
 			myList.printList();
 		} catch(Exception e){
