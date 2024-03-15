@@ -105,6 +105,9 @@ public class CBSlist<E> {
 		}
 		return last;
 	}
+	public java.util.Iterator<E> iterator(){
+		return new iterator<E>(this);
+	}
 	private static class Node<E> {
 		private E	data;
 		private Node<E> next;
@@ -117,6 +120,24 @@ public class CBSlist<E> {
 		private Node(E stored, Node<E> newNext){
 			data = stored;
 			next = newNext;
+		}
+	}
+	public static class iterator<E> implements java.util.Iterator<E> {
+		private Node<E> current;
+
+		public iterator(CBSlist<E> list){
+			current = list.head;
+		}
+		public boolean hasNext(){
+			return (current != null);
+		}
+		public E next(){
+			E temp = current.data;
+			current = current.next;
+			return temp;
+		}
+		public void remove(){
+			throw new UnsupportedOperationException();
 		}
 	}
 }

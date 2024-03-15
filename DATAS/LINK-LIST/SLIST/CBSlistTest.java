@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 public class CBSlistTest{
 	public static void main(String[] args){
 
@@ -29,6 +31,12 @@ public class CBSlistTest{
 			myList.add(36,myList.Size());
 			System.out.println(myList.getNode(2)); // Exception
 			myList.printList();
+
+			Iterator<Integer> it = myList.iterator();
+			while(it.hasNext()){
+				System.out.print(it.next() + "-<>-");
+			}
+			System.out.println();
 		} catch(Exception e){
 			System.out.println(e);
 		}
