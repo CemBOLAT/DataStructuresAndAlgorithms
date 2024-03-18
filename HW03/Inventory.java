@@ -2,14 +2,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 public class Inventory {
     private ArrayList<ArrayList<Device>> devices;
+    private int totalDevices = 0;
     public final String[] categories = {"Laptop", "Tablet", "Tv"};
     public Inventory(){
         devices = new ArrayList<ArrayList<Device>>();
     }
-    public void addDevice(Device device){
-        if (device == null){
-            throw new IllegalArgumentException("Invalid device");
-        }
+    public void addDevice(Scanner scanner){
+        Device device = Inventory.takeDeviceInput(scanner);
         String category = device.getCategory();
         if (category == null){
             throw new IllegalArgumentException("Invalid category");
@@ -28,6 +27,7 @@ public class Inventory {
         } else {
             devices.get(index).add(device);
         }
+        totalDevices++;
         System.out.println(device.getCategory() + ", " + device.getName() + ", " + device.getPrice() + ", " + device.getQuantity() + " amount added.");
     }
     public void removeDevice(Scanner scanner){
@@ -43,10 +43,75 @@ public class Inventory {
             }
         }
         if (isRemoved){
-            System.out.println(name + " removed.");
+            printGreenn(name + " removed.");
+            totalDevices--;
         } else {
-            System.out.println(name + " not found.");
+            printRed(name + " not found.");
         }
+    }
+    public void restockDevice(Scanner scanner){
+        //String name = Inventory.getStringInput(scanner, "Enter name of device to restock: ");
+        //boolean isRestocked = false;
+        //for (int i = 0; i < devices.size(); i++){
+        //    for (int j = 0; j < devices.get(i).size(); j++){
+        //        if (devices.get(i).get(j).getName().equals(name)){
+        //            int quantity = Inventory.getIntInput(scanner, "Enter quantity to restock: ");
+        //            devices.get(i).get(j).setQuantity(devices.get(i).get(j).getQuantity() + quantity);
+        //            isRestocked = true;
+        //            break;
+        //        }
+        //    }
+        //}
+        //if (isRestocked){
+        //    System.out.println(name + " restocked.");
+        //} else {
+        //    System.out.println(name + " not found.");
+        //}
+    }
+    public void exportInventoryReport(){
+        System.out.println("Exporting inventory report...");
+    }
+    public void findCheapestDevice(){
+        double cheapestPrice = Double.MAX_VALUE;
+        Device cheapestDevice = null;
+        for (int i = 0; i < devices.size(); i++){
+            for (int j = 0; j < devices.get(i).size(); j++){
+                if (devices.get(i).get(j).getPrice() < cheapestPrice){
+                    cheapestPrice = devices.get(i).get(j).getPrice();
+                    cheapestDevice = devices.get(i).get(j);
+                }
+            }
+        }
+        if (cheapestDevice != null){
+            System.out.println("The cheapest device is:\n" + cheapestDevice);
+        } else {
+            printRed("No devices found.");
+        }
+    }
+    // add while loop to sort devices by price
+    public void sortDevicesByPrice(){
+        //ArrayList<Device> allDevices = new ArrayList<Device>();
+        //Device cheapestDevice = new Tv("Tv", "Tv", Double.MAX_VALUE, 2);
+        //for (int i = 0; i < totalDevices; i++){
+        //    cheapestDevice = new Tv("Tv", "Tv", Double.MAX_VALUE, 2);
+        //    for (int j = 0; j < devices.get(i).size(); j++){
+        //        for (int k = 0; k < devices.get(i).size(); k++){
+        //            if (devices.get(i).get(j).getPrice() < devices.get(i).get(k).getPrice()){
+        //                cheapestDevice = devices.get(i).get(j);
+        //            }
+        //        }
+        //    }
+        //    allDevices.add(cheapestDevice);
+        //}
+    }
+    public void calculateTotalValue(){
+        double totalValue = 0;
+        for (int i = 0; i < devices.size(); i++){
+            for (int j = 0; j < devices.get(i).size(); j++){
+                totalValue += devices.get(i).get(j).getPrice() * devices.get(i).get(j).getQuantity();
+            }
+        }
+        System.out.println("Total value of all devices: " + totalValue);
     }
     public void updateDevice(Scanner scanner){
         String name = Inventory.getStringInput(scanner, "Enter the name of the device to update: ");
@@ -58,18 +123,18 @@ public class Inventory {
                     if (!price.equals("")){
                         try {
                             devices.get(i).get(j).setPrice(Double.parseDouble(price));
-                            System.out.println("Price updated.");
+                            printGreen("Price updated.");
                         } catch (NumberFormatException e){
-                            System.out.println("Invalid price, not updated.");
+                            printRed("Invalid price, not updated.");
                         }
                     }
                     String quantity = Inventory.getStringInput(scanner, "Enter new quantity (leave blank to keep current quantity): ");
                     if (!quantity.equals("")){
                         try {
                             devices.get(i).get(j).setQuantity(Integer.parseInt(quantity));
-                            System.out.println("Quantity updated.");
+                            printGreen("Quantity updated.");
                         } catch (NumberFormatException e){
-                            System.out.println("Invalid quantity, not updated.");
+                            printRed("Invalid quantity, not updated.");
                         }
                     }
                     System.out.println(name + " details updated: Price - " + devices.get(i).get(j).getPrice() + ", Quantity - " + devices.get(i).get(j).getQuantity());
@@ -78,9 +143,9 @@ public class Inventory {
             }
         }
         if (isUpdated){
-            System.out.println(name + " updated.");
+            printGreen(name + " updated.");
         } else {
-            System.out.println(name + " not found.");
+            printRed(name + " not found.");
         }
     }
     public void listDevices(){
@@ -117,18 +182,18 @@ public class Inventory {
             throw new IllegalArgumentException("Invalid category");
         }
     }
-    public static String getStringInput(Scanner scanner, String message){
+    private static String getStringInput(Scanner scanner, String message){
         String result = "";
         do {
             System.out.print(message);
             result = scanner.nextLine();
             if (result.equals("")){
-                System.out.println("Invalid input, please try again.");
+                printRed("Invalid input, please try again.");
             }
         } while (result.equals(""));
         return result;
     }
-    public static double getDoubleInput(Scanner scanner, String message){
+    private static double getDoubleInput(Scanner scanner, String message){
         double result = -1;
         do {
             System.out.print(message);
@@ -136,15 +201,15 @@ public class Inventory {
             try {
                 result = Double.parseDouble(input);
             } catch (NumberFormatException e){
-                System.out.println("Invalid input, please try again.");
+                printRed("Invalid input, please try again.");
                 continue;
             }
             if (result < 0)
-                System.out.println("Invalid input, please try again.");
+                printRed("Invalid input, please try again.");
         } while (result < 0);
         return result;
     }
-    public static int getIntInput(Scanner scanner, String message){
+    private static int getIntInput(Scanner scanner, String message){
         int result = -1;
         do {
             System.out.print(message);
@@ -152,12 +217,18 @@ public class Inventory {
             try {
                 result = Integer.parseInt(input);
             } catch (NumberFormatException e){
-                System.out.println("Invalid input, please try again.");
+                printRed("Invalid input, please try again.");
                 continue;
             }
             if (result < 0)
-                System.out.println("Invalid input, please try again.");
+                printRed("Invalid input, please try again.");
         } while (result < 0);
         return result;
+    }
+    private static void printRed(String message){
+        System.out.println("\u001B[31m" + message + "\u001B[0m");
+    }
+    private static void printGreen(String message){
+        System.out.println("\u001B[32m" + message + "\u001B[0m");
     }
 }

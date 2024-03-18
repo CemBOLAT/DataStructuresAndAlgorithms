@@ -27,8 +27,7 @@ public class Test {
                 } while (option < 0 || option > 9);
                 switch(option){
                     case 1: 
-                        Device newDevice = Inventory.takeDeviceInput(scanner);
-                        inventory.addDevice(newDevice);
+                        inventory.addDevice(scanner);
                     break;
                     case 2: 
                         inventory.removeDevice(scanner);
@@ -41,6 +40,18 @@ public class Test {
                     break;
                     case 5:
                         inventory.findCheapestDevice();
+                    break;
+                    case 6:
+                        inventory.sortDevicesByPrice();
+                    break;
+                    case 7:
+                        inventory.calculateTotalValue();
+                    break;
+                    case 8:
+                        inventory.restockDevice(scanner);
+                    break;
+                    case 9:
+                        inventory.exportInventoryReport();
                     break;
                     case 0: 
                         isExit = true;
