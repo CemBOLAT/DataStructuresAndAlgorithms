@@ -6,16 +6,37 @@ import java.io.PrintWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+/**
+ * Inventory.java
+ * <br>
+ * Inventory represents a collection of devices.
+ * <br>
+ * It provides methods for adding, removing, restocking, and updating devices.
+ * <br>
+ * It also provides methods for exporting inventory report, finding the cheapest device, sorting devices by price, calculating total value of all devices, loading and saving inventory to a file, and listing all devices in the inventory.
+ */
 public class Inventory {
-    private ArrayList<ArrayList<Device>> devices;
+    private ArrayList<ArrayList<Device>> devices; // The list of devices
+    private int totalDevices = 0; // The total number of devices
+    private final String[] categories = {"Laptop", "Tablet", "Tv"}; // The list of categories
 
-    private int totalDevices = 0;
-    public final String[] categories = {"Laptop", "Tablet", "Tv"};
-
+    /**
+     * Inventory constructor
+     * <br>
+     * Time Complexity: O(1)
+     */
     public Inventory(){
         devices = new ArrayList<ArrayList<Device>>();
     }
-    public void addDevice(Scanner scanner){
+    /**
+     * Add a device to the inventory
+     * <br>
+     * Time Complexity: O(n) where n is the number of linked lists in the devices list
+     * 
+     * @param scanner The scanner object to take input from
+     * @throws IllegalArgumentException if the category is invalid
+     */
+    public void addDevice(Scanner scanner) throws IllegalArgumentException{
         Device device = Inventory.takeDeviceInput(scanner);
         String category = device.getCategory();
         if (category == null){
@@ -30,15 +51,24 @@ public class Inventory {
         }
         if (index == -1){
             ArrayList<Device> newCategory = new ArrayList<Device>();
-            newCategory.add(device);
-            devices.add(newCategory);
+            newCategory.add(device);   // Time Complexity: O(1)
+            devices.add(newCategory); // Time Complexity: O(1)
         } else {
-            devices.get(index).add(device);
+            devices.get(index).add(device); // Time Complexity: O(1)
         }
         totalDevices++;
         System.out.println(device.getCategory() + ", " + device.getName() + ", " + device.getPrice() + ", " + device.getQuantity() + " amount added.");
     }
-    private void addDevice(Device device){
+    /**
+     * Add a device to the inventory
+     * <br>
+     * Time Complexity: O(n) where n is the number of linked lists in the devices list
+     * It makes no sense to write javadoc for a private method but I did it for assignment.
+     * 
+     * @param device The device to add
+     * @throws IllegalArgumentException if the category is invalid
+     */
+    private void addDevice(Device device) throws IllegalArgumentException{
         String category = device.getCategory();
         if (category == null){
             throw new IllegalArgumentException("Invalid category");
@@ -59,13 +89,20 @@ public class Inventory {
         }
         totalDevices++;
     }
-
+    /**
+     * Remove a device from the inventory
+     * <br>
+     * Time Complexity: O(n) where n is the number of devices in the inventory
+     * 
+     * @param scanner The scanner object to take input from
+     */
     public void removeDevice(Scanner scanner){
         String name = Inventory.getStringInput(scanner, "Enter name of device to remove: ");
         boolean isRemoved = false;
-        for (int i = 0; i < devices.size(); i++){
-            for (int j = 0; j < devices.get(i).size(); j++){
-                if (devices.get(i).get(j).getName().equals(name)){
+        // Time Complexity: O(n) because number of nodes times number of devices in each node is n
+        for (int i = 0; i < devices.size(); i++){ // Time Complexity: O(n) where n is the number of linked lists in the devices list
+            for (int j = 0; j < devices.get(i).size(); j++){ // Time Complexity: O(n) where n is the number of devices in the node of the linked list
+                if (devices.get(i).get(j).getName().equals(name)){ // Time Complexity: O(1)
                     devices.get(i).remove(j);
                     isRemoved = true;
                     break;
@@ -79,6 +116,16 @@ public class Inventory {
             printRed(name + " not found.");
         }
     }
+    /**
+     * Take input from the user to determine if they want to add or remove stock
+     * <br>
+     * Time Complexity: O(1)
+     * <br>
+     * It makes no sense to write javadoc for a private method but I did it for assignment.
+     * 
+     * @param scanner The scanner object to take input from
+     * @return true if the user wants to add stock, false if the user wants to remove stock
+    */
     private static boolean isAddDevice(Scanner scanner){
         String input = "";
         do {
@@ -91,18 +138,26 @@ public class Inventory {
             }
         } while (true);
     }
+    /**
+     * Restock a device in the inventory
+     * <br>
+     * Time Complexity: O(n) where n is the number of devices in the inventory
+     * 
+     * @param scanner The scanner object to take input from
+     */
     public void restockDevice(Scanner scanner){
         String name = Inventory.getStringInput(scanner, "Enter name of device to restock: ");
         boolean isAdd = isAddDevice(scanner);
         boolean isRestocked = false;
+        // Time Complexity: O(n) because number of nodes times number of devices in each node is n
         for (int i = 0; i < devices.size(); i++){
             for (int j = 0; j < devices.get(i).size(); j++){
                 if (devices.get(i).get(j).getName().equals(name)){
                     int quantity = Inventory.getIntInput(scanner, (isAdd ? "Enter quantity to add: " : "Enter quantity to remove: "));
                     if (isAdd){
-                        devices.get(i).get(j).addStock(quantity);
+                        devices.get(i).get(j).addStock(quantity); // Time Complexity: O(1)
                     } else {
-                        devices.get(i).get(j).removeStock(quantity);
+                        devices.get(i).get(j).removeStock(quantity); // Time Complexity: O(1)
                     }
                     isRestocked = true;
                     break;
@@ -115,6 +170,12 @@ public class Inventory {
             System.out.println(name + " not found.");
         }
     }
+    /**
+     * Get the total value of all devices in the inventory
+     * <br>
+     * Time Complexity: O(n) where n is the number of devices in the inventory
+     * @return The total value of all devices in the inventory
+    */
     private double getTotalValue(){
         double totalValue = 0;
         for (int i = 0; i < devices.size(); i++){
@@ -124,17 +185,28 @@ public class Inventory {
         }
         return totalValue;
     }
+    /**
+     * Return the current date
+     * <br>
+     * Time Complexity: O(1)
+     * @return The current date
+    */
     private String returnDate(){
         LocalDate date = LocalDate.now();
         String month = date.getMonth().toString().substring(0, 1) + date.getMonth().toString().substring(1).toLowerCase();
-        String day = date.getDayOfMonth() + "th";
+        String day = date.getDayOfMonth() + (date.getDayOfMonth() % 10 == 1 ? "st" : (date.getDayOfMonth() % 10 == 2 ? "nd" : (date.getDayOfMonth() == 3 ? "rd" : "th")));
         int year = date.getYear();
         return day + " " + month + " " + year;
     }
+    /**
+     * Export an inventory report to the console with the details of all devices in the inventory
+     * <br>
+     * Time Complexity: O(n) where n is the number of devices in the inventory
+    */
     public void exportInventoryReport(){
         System.out.println("Electronics Shop Inventory Report");
         System.out.println("Generated on: " + returnDate());
-        System.out.println("| No. | Category | Name     | Price | Quantity |");
+        System.out.println("| No. | Category | Name | Price | Quantity |");
         drawLine();
         int index = 1;
         for (int i = 0; i < devices.size(); i++){
@@ -146,11 +218,15 @@ public class Inventory {
         drawLine();
         System.out.println("Summary: ");
         System.out.println("- Total Number of Devices: " + totalDevices);
-        System.out.println("- Total Inventory Value: " + "$" + getTotalValue());
+        System.out.println("- Total Inventory Value: " + "$" + getTotalValue()); // Time Complexity: O(n) where n is the number of devices in the inventory
         System.out.println("\nEnd of Report");
         drawLine();
     }
-
+    /**
+     * Find the cheapest device in the inventory and prints it to the console with its details
+     * <br>
+     * Time Complexity: O(n) where n is the number of devices in the inventory
+    */
     public void findCheapestDevice(){
         double cheapestPrice = Double.MAX_VALUE;
         Device cheapestDevice = null;
@@ -168,7 +244,11 @@ public class Inventory {
             printRed("No devices found.");
         }
     }
-    // add while loop to sort devices by price
+    /**
+     * Sort devices by price
+     * <br>
+     * Time Complexity: O(n^2) where n is the number of devices in the inventory
+    */
     public void sortDevicesByPrice(){
         ArrayList<Device> allDevices = new ArrayList<Device>();
         for (int i = 0; i < devices.size(); i++){
@@ -190,12 +270,24 @@ public class Inventory {
             System.out.println(allDevices.get(i));
         }
     }
+    /**
+     * Calculate the total value of all devices in the inventory
+     * <br>
+     * Time Complexity: O(n) where n is the number of devices in the inventory
+    */
     public void calculateTotalValue(){
-        double totalValue = getTotalValue();
+        double totalValue = getTotalValue(); // Time Complexity: O(n) where n is the number of devices in the inventory
         System.out.println("Total value of all devices: " + totalValue);
     }
-
-    public void updateDevice(Scanner scanner){
+    /**
+     * Update a device in the inventory
+     * <br>
+     * Time Complexity: O(n) where n is the number of devices in the inventory
+     * 
+     * @param scanner The scanner object to take input from
+     * @throws Exception if the device is not found
+    */
+    public void updateDevice(Scanner scanner) throws Exception{
         String name = Inventory.getStringInput(scanner, "Enter the name of the device to update: ");
         boolean isUpdated = false;
         for (int i = 0; i < devices.size(); i++){
@@ -231,10 +323,21 @@ public class Inventory {
             printRed(name + " not found.");
         }
     }
+    /**
+     * List all devices in the inventory
+     * <br>
+     * Time Complexity: O(n) where n is the number of devices in the inventory
+    */
     public void listDevices(){
         System.out.println("Device List:");
         System.out.print(this);
     }
+    /**
+     * Return the string representation of the inventory
+     * <br>
+     * Time Complexity: O(n) where n is the number of devices in the inventory
+     * @return The string representation of the inventory
+    */
     public String toString(){
         String result = "";
         int totalDevices = 1;
@@ -246,7 +349,17 @@ public class Inventory {
         }
         return result;
     }
-    public static Device takeDeviceInput(Scanner scanner){
+    /**
+     * Take input from the user to add a device to the inventory
+     * <br>
+     * Time Complexity: O(1)
+     * 
+     * @param scanner The scanner object to take input from
+     * @return The device to add
+     * @throws IllegalArgumentException if the scanner is invalid
+     * @throws IllegalArgumentException if the any of the inputs are invalid
+    */
+    public static Device takeDeviceInput(Scanner scanner) throws IllegalArgumentException{
         if (scanner == null){
             throw new IllegalArgumentException("Invalid scanner");
         }
@@ -265,8 +378,22 @@ public class Inventory {
             throw new IllegalArgumentException("Invalid category");
         }
     }
-    private static String getStringInput(Scanner scanner, String message){
+    /**
+     * Take String input from the user
+     * <br>
+     * Time Complexity: O(1)
+     * It makes no sense to write javadoc for a private method but I did it for assignment.
+     * 
+     * @param scanner The scanner object to take input from
+     * @param message The message to display to the user
+     * @return The string input from the user
+     * @throws IllegalArgumentException if the scanner is invalid
+    */
+    private static String getStringInput(Scanner scanner, String message) throws IllegalArgumentException{
         String result = "";
+        if (scanner == null){
+            throw new IllegalArgumentException("Invalid scanner");
+        }
         do {
             System.out.print(message);
             result = scanner.nextLine();
@@ -276,8 +403,22 @@ public class Inventory {
         } while (result.equals(""));
         return result;
     }
-    private static double getDoubleInput(Scanner scanner, String message){
+    /**
+     * Take double input from the user
+     * <br>
+     * Time Complexity: O(1)
+     * It makes no sense to write javadoc for a private method but I did it for assignment.
+     * 
+     * @param scanner The scanner object to take input from
+     * @param message The message to display to the user
+     * @return The double input from the user
+     * @throws IllegalArgumentException if the scanner is invalid
+    */
+    private static double getDoubleInput(Scanner scanner, String message) throws IllegalArgumentException{
         double result = -1;
+        if (scanner == null){
+            throw new IllegalArgumentException("Invalid scanner");
+        }
         do {
             System.out.print(message);
             String input = scanner.nextLine();
@@ -292,8 +433,22 @@ public class Inventory {
         } while (result < 0);
         return result;
     }
-    private static int getIntInput(Scanner scanner, String message){
+    /**
+     * Take integer input from the user
+     * <br>
+     * Time Complexity: O(1)
+     * It makes no sense to write javadoc for a private method but I did it for assignment.
+     * 
+     * @param scanner The scanner object to take input from
+     * @param message The message to display to the user
+     * @return The integer input from the user
+     * @throws IllegalArgumentException if the scanner is invalid
+    */
+    private static int getIntInput(Scanner scanner, String message) throws IllegalArgumentException{
         int result = -1;
+        if (scanner == null){
+            throw new IllegalArgumentException("Invalid scanner");
+        }
         do {
             System.out.print(message);
             String input = scanner.nextLine();
@@ -308,12 +463,36 @@ public class Inventory {
         } while (result < 0);
         return result;
     }
+    /**
+     * Print a message in red
+     * <br>
+     * Time Complexity: O(1)
+     * It makes no sense to write javadoc for a private method but I did it for assignment.
+     * 
+     * @param message The message to print
+    */
     private static void printRed(String message){
         System.out.println("\u001B[31m" + message + "\u001B[0m");
     }
+    /**
+     * Print a message in green
+     * <br>
+     * Time Complexity: O(1)
+     * It makes no sense to write javadoc for a private method but I did it for assignment.
+     * 
+     * @param message The message to print
+    */
     private static void printGreen(String message){
         System.out.println("\u001B[32m" + message + "\u001B[0m");
     }
+    /**
+     * Load inventory from a file
+     * <br>
+     * Time Complexity: O(k * n) where k is the number of nodes in the devices list and n is the number of devices in the text file
+     * 
+     * @param str The file name to load from
+     * @throws IllegalArgumentException if the file format is invalid
+    */
     public void loadFromFile(String str){
         System.out.println("Loading from file...");
         try {
@@ -328,8 +507,7 @@ public class Inventory {
                 double price = Double.parseDouble(parts[6].substring(0, parts[6].length() - 1));
                 int quantity = Integer.parseInt(parts[8]);
                 if (category.equals("Laptop")){
-                    addDevice(new Laptop(category, name, price, quantity));
-
+                    addDevice(new Laptop(category, name, price, quantity)); // Time Complexity: O(k) where k is the number of nodes in the devices list
                 } else if (category.equals("Tablet")){
                     addDevice(new Tablet(category, name, price, quantity));
                 } else if (category.equals("Tv")){
@@ -343,6 +521,13 @@ public class Inventory {
             System.err.println("Error loading from file: " + e.getMessage());
         }
     }
+    /**
+     * Save inventory to a file
+     * <br>
+     * Time Complexity: O(n) where n is the number of devices in the inventory
+     * 
+     * @param str The file name to save to
+    */
     public void saveToFile(String str){
         System.out.println("Saving to file...");
         try {
