@@ -11,4 +11,7 @@ public interface Device {
     public      void setPrice(double price);
     public      void setQuantity(int quantity);
     public      String toString();
+    public      void addStock(int stock);
+    public      void removeStock(int stock);
+    public      void exportPrint(int index);
 }

@@ -10,59 +10,63 @@ public class Test {
             Scanner scanner = new Scanner(System.in);
             boolean     isExit = false;
             int option = -1;
-
-            System.out.println(inventory);
+            
+            inventory.loadFromFile("inventory.txt");
             while (!isExit){
-                do {
-                    printMenu();
-                    String input = scanner.nextLine();
-                    try {
-                        option = Integer.parseInt(input);
-                    } catch (NumberFormatException e){
-                        System.out.println("Invalid option, please try again.");
-                        continue;
+                try {
+                    do {
+                        printMenu();
+                        String input = scanner.nextLine();
+                        try {
+                            option = Integer.parseInt(input);
+                        } catch (NumberFormatException e){
+                            System.out.println("Invalid option, please try again.");
+                            continue;
+                        }
+                        if (option < 0 || option > 9)
+                            System.out.println("Invalid option, please try again.");
+                    } while (option < 0 || option > 9);
+                    switch(option){
+                        case 1: 
+                            inventory.addDevice(scanner);
+                        break;
+                        case 2: 
+                            inventory.removeDevice(scanner);
+                        break;
+                        case 3:
+                            inventory.updateDevice(scanner);
+                        break;
+                        case 4:
+                            inventory.listDevices();
+                        break;
+                        case 5:
+                            inventory.findCheapestDevice();
+                        break;
+                        case 6:
+                            inventory.sortDevicesByPrice();
+                        break;
+                        case 7:
+                            inventory.calculateTotalValue();
+                        break;
+                        case 8:
+                            inventory.restockDevice(scanner);
+                        break;
+                        case 9:
+                            inventory.exportInventoryReport();
+                        break;
+                        case 0: 
+                            isExit = true;
+                            inventory.saveToFile("inventory.txt");
+                            System.out.println("Goodbye!");
+                        break;
                     }
-                    if (option < 0 || option > 9)
-                        System.out.println("Invalid option, please try again.");
-                } while (option < 0 || option > 9);
-                switch(option){
-                    case 1: 
-                        inventory.addDevice(scanner);
-                    break;
-                    case 2: 
-                        inventory.removeDevice(scanner);
-                    break;
-                    case 3:
-                        inventory.updateDevice(scanner);
-                    break;
-                    case 4:
-                        inventory.listDevices();
-                    break;
-                    case 5:
-                        inventory.findCheapestDevice();
-                    break;
-                    case 6:
-                        inventory.sortDevicesByPrice();
-                    break;
-                    case 7:
-                        inventory.calculateTotalValue();
-                    break;
-                    case 8:
-                        inventory.restockDevice(scanner);
-                    break;
-                    case 9:
-                        inventory.exportInventoryReport();
-                    break;
-                    case 0: 
-                        isExit = true;
-                        System.out.println("Goodbye!");
-                    break;
+                } catch (Exception e){
+                    System.out.println(e);
                 }
-//
             }
         } catch (Exception e){
             System.out.println(e);
-            saveToFile(inventory);
+            inventory.saveToFile("inventory.txt");
         }
     }
 
@@ -84,16 +88,6 @@ public class Test {
         System.out.print("Your Choice >> ");
     }
 
-    private static void saveToFile(Inventory inventory){
-        System.out.println("Saving to file...");
-        try {
-            PrintWriter writer = new PrintWriter(new FileWriter("inventory.txt"));
-            writer.println(inventory.toString());
-            writer.close();
-        } catch (IOException e) {
-            System.err.println("Error saving to file: " + e.getMessage());
-        }
-    }
     private static void drawLine(){
         System.out.println("-------------------------------------------------");
     }

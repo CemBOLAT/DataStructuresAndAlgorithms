@@ -1,21 +1,29 @@
-EXECUTABLE := Test.class
-SRC := *.java
+JFLAGS := -classpath .
+JD := javadoc
+JDOCFLAGS := -protected -splitindex -use -author -version -d ./javadoc
 
-all : 
-	@echo 'make    compile|run|clean|rerun'
+SRC := $(wildcard *.java)
+CLASSES := $(SRC:.java=.class)
 
-run : $(EXECUTABLE)
-	@java Test
+all: $(CLASSES)
 
-compile : $(EXECUTABLE)
+run : $(CLASSES)
+	java $(JFLAGS) Test
 
-$(EXECUTABLE) : $(SRC)
-	@javac $(SRC)
+%.class : %.java
+	javac $(JFLAGS) $<
+
+doc : $(SRC)
+	javadoc $(JDOCFLAGS) $(SRC)
 
 clean:
-	@rm -f $(EXECUTABLE)
-	@rm -f *.class
+	rm -f $(CLASSES)
 
-rerun : re run
+cleandoc:
+	rm -rf ./javadoc
 
-.PHONY: all clean re rerun
+re: clean all
+
+redoc: cleandoc doc
+
+.PHONY: all run doc clean cleandoc re redoc

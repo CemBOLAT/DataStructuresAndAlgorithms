@@ -1,0 +1,12 @@
+1. Category: Tablet, Name: Dremer, Price: 4.0, Quantity: 15
+2. Category: Tablet, Name: DingO, Price: 14.0, Quantity: 562
+3. Category: Tablet, Name: Samsung, Price: 94.0, Quantity: 35
+4. Category: Tablet, Name: Sempa, Price: 114.0, Quantity: 65
+5. Category: Tablet, Name: Vp, Price: 244.0, Quantity: 35
+6. Category: Tablet, Name: Dell, Price: 444.0, Quantity: 25
+7. Category: Tv, Name: Sweeter, Price: 544.0, Quantity: 51
+8. Category: Tv, Name: Cantona, Price: 644.0, Quantity: 55
+9. Category: Tv, Name: Collar, Price: 244.0, Quantity: 55
+10. Category: Tv, Name: Lg, Price: 222.0, Quantity: 4
+11. Category: Laptop, Name: Cem, Price: 66.0, Quantity: 22
+12. Category: Laptop, Name: Tabbledot, Price: 55.0, Quantity: 33
