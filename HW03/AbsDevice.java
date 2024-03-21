@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 /**
  * AbsDevice.java
  * AbsDevice represents an abstract implementation of a device.
@@ -173,7 +175,7 @@ public class AbsDevice implements Device {
         * @return String - the device
     */
     public String toString(){
-        return "Category: " + category + ", Name: " + name + ", Price: " + price + ", Quantity: " + quantity;
+        return String.format("Category: %s, Name: %s, Price: %.2f$, Quantity: %d", category, name, price, quantity);
     }
     /**
         * This method is used to print the device information for the export format
@@ -183,6 +185,18 @@ public class AbsDevice implements Device {
         * @param int - index of the device
     */
     public      void exportPrint(int index){
-        System.out.println("| " + index + " | " + category + " | " + name + " | $" + price + " | " + quantity + " |");
+        System.out.printf("| %-4d | %.10s | %s | %.2f$ | %d |\n", index, category, name, price, quantity);
+    }
+    /**
+        * This method is used to print the device information for the export format
+        * <br>
+        * Time Complexity: O(1)
+        * 
+        * @param int - index of the device
+        * @param FileWriter - fileWriter to write to the file
+        * @throws IOException - if the fileWriter is not valid
+    */
+    public      void exportFilePrint(int index, FileWriter fileWriter) throws IOException{
+        fileWriter.write(String.format("| %-4d | %.10s | %.10s | %.2f$ | %d |\n", index, category, name, price, quantity));
     }
 }

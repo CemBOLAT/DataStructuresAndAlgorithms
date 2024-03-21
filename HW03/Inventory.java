@@ -18,9 +18,9 @@ import java.time.LocalDate;
 public class Inventory {
     private ArrayList<ArrayList<Device>> devices; // The list of devices
     private int totalDevices = 0; // The total number of devices
-    private final String[] categories = {"Laptop", "Tablet", "Tv"}; // The list of categories
-    private final exportFile = "export.txt"; // The file to export to
-    public static inportFile = "inventory.txt"; // The file to import from
+    private final String[] categories = {"Laptop", "Tablet", "Tv", "Headphones", "Printer"}; // The list of categories
+    private final String exportFile = "export.txt"; // The file to export to
+    public static String importFile = "inventory.txt"; // The file to import from
     /**
      * Inventory constructor
      * <br>
@@ -45,7 +45,7 @@ public class Inventory {
         }
         int index = -1;
         for (int i = 0; i < devices.size(); i++){
-            if (devices.get(i).get(0).getCategory().equals(category)){
+            if (devices.get(i).size() > 0 && devices.get(i).get(0).getCategory().equals(category)){
                 index = i;
                 break;
             }
@@ -58,7 +58,7 @@ public class Inventory {
             devices.get(index).add(device); // Time Complexity: O(1)
         }
         totalDevices++;
-        System.out.println(device.getCategory() + ", " + device.getName() + ", " + device.getPrice() + ", " + device.getQuantity() + " amount added.");
+        System.out.printf("%s, %s, %.2f$, %d amount added...\n", device.getCategory(), device.getName(), device.getPrice(), device.getQuantity()); // Time Complexity: O(1)
     }
     /**
      * Add a device to the inventory
@@ -203,34 +203,36 @@ public class Inventory {
      * Export an inventory report to the console with the details of all devices in the inventory
      * <br>
      * Time Complexity: O(n) where n is the number of devices in the inventory
+     * @throws IOException if the file is the export file is invalid
     */
-    public void exportInventoryReport(){
+    public void exportInventoryReport() throws IOException{
         FileWriter writer = new FileWriter(exportFile);
         System.out.println("Electronics Shop Inventory Report");
         writer.write("Electronics Shop Inventory Report\n");
         System.out.println("Generated on: " + returnDate() + "\n");
         writer.write("Generated on: " + returnDate() + "\n\n");
-        System.out.println("| No. | Category | Name | Price | Quantity |");
-        writer.write("| No. | Category | Name | Price | Quantity |\n");
+        //System.out.println("| No. | Category | Name | Price | Quantity |");
+        System.out.printf("| %-4s | %-9s | %-4s | %-5s | %-8s |\n", "No.", "Category", "Name", "Price", "Quantity");
+        writer.write(String.format("| %-4s | %-9s | %-4s | %-5s | %-8s |\n", "No.", "Category", "Name", "Price", "Quantity"));
         drawLine();
         int index = 1;
         for (int i = 0; i < devices.size(); i++){
             for (int j = 0; j < devices.get(i).size(); j++){
                 devices.get(i).get(j).exportPrint(index);
-                writer.write(devices.get(i).get(j).exportString(index));
+                devices.get(i).get(j).exportFilePrint(index, writer);
                 index++;
             }
         }
         drawLine();
-        System.out.println("Summary: ");
-        writer.write("Summary: \n");
+        System.out.println("\nSummary: ");
+        writer.write("\nSummary: \n");
         System.out.println("- Total Number of Devices: " + totalDevices);
         writer.write("- Total Number of Devices: " + totalDevices + "\n");
-        System.out.println("- Total Inventory Value: " + "$" + getTotalValue()); // Time Complexity: O(n) where n is the number of devices in the inventory
-        writer.write("- Total Inventory Value: " + "$" + getTotalValue() + "\n");
+        System.out.printf("- Total Inventory Value: %.2f$\n", getTotalValue()); // Time Complexity: O(n) where n is the number of devices in the inventory
+        writer.write(String.format("- Total Inventory Value: %.2f$\n", getTotalValue()));
         System.out.println("\nEnd of Report");
-        writer.write("\nEnd of Report");
-        write.write("-----------------------------\n");;
+        writer.write("\nEnd of Report\n");
+        writer.write("-----------------------------\n");;
         drawLine();
         writer.close();
 
@@ -290,7 +292,18 @@ public class Inventory {
     */
     public void calculateTotalValue(){
         double totalValue = getTotalValue(); // Time Complexity: O(n) where n is the number of devices in the inventory
-        System.out.println("Total value of all devices: " + totalValue);
+        System.out.printf("Total value of all devices: %.2f$\n", totalValue);
+    }
+    /**
+     * Check if a string is blank
+     * <br>
+     * 
+     * Time Complexity: O(N) where N is the length of the string
+     * @param str The string to check
+     * @return true if the string is blank, false otherwise
+     */
+    private static boolean isStringBlank(String str){
+        return str == null || str.trim().isEmpty();
     }
     /**
      * Update a device in the inventory
@@ -306,8 +319,9 @@ public class Inventory {
         for (int i = 0; i < devices.size(); i++){
             for (int j = 0; j < devices.get(i).size(); j++){
                 if (devices.get(i).get(j).getName().equals(name)){
-                    String price = Inventory.getStringInput(scanner, "Enter new price (leave blank to keep current price): ");
-                    if (!price.equals("")){
+                    System.out.print("Enter new price (leave blank to keep current price): ");
+                    String price = scanner.nextLine();
+                    if (!isStringBlank(price)){
                         try {
                             devices.get(i).get(j).setPrice(Double.parseDouble(price));
                             printGreen("Price updated.");
@@ -315,8 +329,9 @@ public class Inventory {
                             printRed("Invalid price, not updated.");
                         }
                     }
-                    String quantity = Inventory.getStringInput(scanner, "Enter new quantity (leave blank to keep current quantity): ");
-                    if (!quantity.equals("")){
+                    System.out.print("Enter new quantity (leave blank to keep current quantity): ");
+                    String quantity = scanner.nextLine();
+                    if (!isStringBlank(quantity)){
                         try {
                             devices.get(i).get(j).setQuantity(Integer.parseInt(quantity));
                             printGreen("Quantity updated.");
@@ -325,7 +340,7 @@ public class Inventory {
                         }
                     }
                     isUpdated = true;
-                    System.out.println(name + " details updated: Price - " + devices.get(i).get(j).getPrice() + ", Quantity - " + devices.get(i).get(j).getQuantity());
+                    System.out.printf("%s details updated: Price - %.2f$, Quantity - %d\n", name, devices.get(i).get(j).getPrice(), devices.get(i).get(j).getQuantity());
                     break;
                 }
             }
@@ -387,6 +402,10 @@ public class Inventory {
             return new Tablet(category, name, price, quantity);
         } else if (category.equals("Tv")){
             return new Tv(category, name, price, quantity);
+        } else if (category.equals("Headphones")){
+            return new Headphones(category, name, price, quantity);
+        } else if (category.equals("Printer")){
+            return new Printer(category, name, price, quantity);
         } else {
             throw new IllegalArgumentException("Invalid category");
         }
@@ -512,19 +531,23 @@ public class Inventory {
             Scanner scanner = new Scanner(new File(str));
             while (scanner.hasNextLine()){
                 String line = scanner.nextLine();
-                String[] parts = line.split(" ");
-                if (parts.length != 9)
+                String[] parts = line.split(",");
+                if (parts.length != 4)
                     throw new IllegalArgumentException("Invalid file format");
-                String category = parts[2].substring(0, parts[2].length() - 1);
-                String name = parts[4].substring(0, parts[4].length() - 1);
-                double price = Double.parseDouble(parts[6].substring(0, parts[6].length() - 1));
-                int quantity = Integer.parseInt(parts[8]);
+                String category = parts[0];
+                String name = parts[1];
+                double price = Double.parseDouble(parts[2]);
+                int quantity = Integer.parseInt(parts[3]);
                 if (category.equals("Laptop")){
                     addDevice(new Laptop(category, name, price, quantity)); // Time Complexity: O(k) where k is the number of nodes in the devices list
                 } else if (category.equals("Tablet")){
                     addDevice(new Tablet(category, name, price, quantity));
                 } else if (category.equals("Tv")){
                     addDevice(new Tv(category, name, price, quantity));
+                } else if (category.equals("Headphones")){
+                    addDevice(new Headphones(category, name, price, quantity));
+                } else if (category.equals("Printer")){
+                    addDevice(new Printer(category, name, price, quantity));
                 } else {
                     throw new IllegalArgumentException("Invalid category");
                 }
@@ -545,7 +568,14 @@ public class Inventory {
         System.out.println("Saving to file...");
         try {
             PrintWriter writer = new PrintWriter(new FileWriter(str));
-            writer.print(this.toString());
+            for (int i = 0; i < devices.size(); i++){
+                for (int j = 0; j < devices.get(i).size(); j++){
+                    writer.print(String.format("%s,%s,%f,%d\n", devices.get(i).get(j).getCategory()
+                                                            ,devices.get(i).get(j).getName() 
+                                                            ,devices.get(i).get(j).getPrice() 
+                                                            ,devices.get(i).get(j).getQuantity()));
+                }
+            }
             writer.close();
         } catch (IOException e) {
             System.err.println("Error saving to file: " + e.getMessage());

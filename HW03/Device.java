@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 /**
  * This interface is used to define the methods that are used in any device
  * @author - Cemal BOLAT
@@ -74,4 +76,16 @@ public interface Device {
         * @param int - index of the device
     */
     public      void exportPrint(int index);
+
+    /**
+        * This method is used to print the device information for the export format
+        * <br>
+        * Time Complexity: O(1)
+        * 
+        * @param int - index of the device
+        * @param FileWriter - fileWriter to write to the file
+        * @throws IOException - if the fileWriter is not valid
+    */
+    public      void exportFilePrint(int index, FileWriter fileWriter) throws IOException;
+
 }
