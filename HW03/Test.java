@@ -11,7 +11,7 @@ public class Test {
             boolean     isExit = false;
             int option = -1;
             
-            inventory.loadFromFile("inventory.txt");
+            inventory.loadFromFile(inventory.importFile);
             while (!isExit){
                 try {
                     do {
@@ -56,7 +56,7 @@ public class Test {
                         break;
                         case 0: 
                             isExit = true;
-                            inventory.saveToFile("inventory.txt");
+                            inventory.saveToFile(inventory.importFile);
                             System.out.println("Goodbye!");
                         break;
                     }
@@ -66,7 +66,7 @@ public class Test {
             }
         } catch (Exception e){
             System.out.println(e);
-            inventory.saveToFile("inventory.txt");
+            inventory.saveToFile(inventory.importFile);
         }
     }
 

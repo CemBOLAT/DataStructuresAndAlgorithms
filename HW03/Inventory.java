@@ -19,7 +19,8 @@ public class Inventory {
     private ArrayList<ArrayList<Device>> devices; // The list of devices
     private int totalDevices = 0; // The total number of devices
     private final String[] categories = {"Laptop", "Tablet", "Tv"}; // The list of categories
-
+    private final exportFile = "export.txt"; // The file to export to
+    public static inportFile = "inventory.txt"; // The file to import from
     /**
      * Inventory constructor
      * <br>
@@ -204,23 +205,35 @@ public class Inventory {
      * Time Complexity: O(n) where n is the number of devices in the inventory
     */
     public void exportInventoryReport(){
+        FileWriter writer = new FileWriter(exportFile);
         System.out.println("Electronics Shop Inventory Report");
-        System.out.println("Generated on: " + returnDate());
+        writer.write("Electronics Shop Inventory Report\n");
+        System.out.println("Generated on: " + returnDate() + "\n");
+        writer.write("Generated on: " + returnDate() + "\n\n");
         System.out.println("| No. | Category | Name | Price | Quantity |");
+        writer.write("| No. | Category | Name | Price | Quantity |\n");
         drawLine();
         int index = 1;
         for (int i = 0; i < devices.size(); i++){
             for (int j = 0; j < devices.get(i).size(); j++){
                 devices.get(i).get(j).exportPrint(index);
+                writer.write(devices.get(i).get(j).exportString(index));
                 index++;
             }
         }
         drawLine();
         System.out.println("Summary: ");
+        writer.write("Summary: \n");
         System.out.println("- Total Number of Devices: " + totalDevices);
+        writer.write("- Total Number of Devices: " + totalDevices + "\n");
         System.out.println("- Total Inventory Value: " + "$" + getTotalValue()); // Time Complexity: O(n) where n is the number of devices in the inventory
+        writer.write("- Total Inventory Value: " + "$" + getTotalValue() + "\n");
         System.out.println("\nEnd of Report");
+        writer.write("\nEnd of Report");
+        write.write("-----------------------------\n");;
         drawLine();
+        writer.close();
+
     }
     /**
      * Find the cheapest device in the inventory and prints it to the console with its details
