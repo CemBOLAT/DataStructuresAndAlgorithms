@@ -17,7 +17,7 @@ public class AbsDevice implements Device {
      * Constructor for AbsDevice
      * <br>
      * Time Complexity: O(1)
-     
+
      * @param category The category of the device
      * @param name The name of the device
      * @param price The price of the device
@@ -25,10 +25,10 @@ public class AbsDevice implements Device {
      * @throws IllegalArgumentException if any of the parameters are invalid
      */
     public AbsDevice(String category, String name, double price, int quantity) throws IllegalArgumentException {
-        if (category == null || category.equals("")){
+        if (category == null || category.isEmpty()){
             throw new IllegalArgumentException("Invalid category");
         }
-        if (name == null || name.equals("")){
+        if (name == null || name.isEmpty()){
             throw new IllegalArgumentException("Invalid name");
         }
         if (price < 0){
@@ -46,7 +46,7 @@ public class AbsDevice implements Device {
         * This method is used to get the category of the device
         * <br>
         * Time Complexity: O(1)
-        * 
+        *
         * @return String - category of the device
     */
     public String getCategory(){
@@ -83,12 +83,12 @@ public class AbsDevice implements Device {
         * This method is used to set the category of the device
         * <br>
         * Time Complexity: O(1)
-        * 
-        * @param String - category of the device
+        *
+        * @param string - category of the device
         * @throws IllegalArgumentException - if the category is not valid
     */
-    public void setCategory(String category) throws IllegalArgumentException {
-        if (category == null || category.equals("")){
+    public void setCategory(String category) throws Exception {
+        if (category == null || category.isEmpty()){
             throw new IllegalArgumentException("Invalid category");
         }
         this.category = category;
@@ -97,7 +97,7 @@ public class AbsDevice implements Device {
         * This method is used to set the name of the device
         * <br>
         * Time Complexity: O(1)
-        * 
+        *
         * @param String - name of the device
         * @throws IllegalArgumentException - if the name is not valid
     */
@@ -111,7 +111,7 @@ public class AbsDevice implements Device {
         * This method is used to set the price of the device
         * <br>
         * Time Complexity: O(1)
-        * 
+        *
         * @param double - price of the device
         * @throws IllegalArgumentException - if the price is not valid
     */
@@ -125,7 +125,7 @@ public class AbsDevice implements Device {
         * This method is used to set the quantity of the device
         * <br>
         * Time Complexity: O(1)
-        * 
+        *
         * @param int - quantity of the device
         * @throws IllegalArgumentException - if the quantity is not valid
     */
@@ -139,7 +139,7 @@ public class AbsDevice implements Device {
         * This method is used to increase the quantity of the device
         * <br>
         * Time Complexity: O(1)
-        * 
+        *
         * @param int - stock to be added
     */
     public void addStock(int stock){
@@ -153,7 +153,7 @@ public class AbsDevice implements Device {
         * This method is used to decrease the quantity of the device
         * <br>
         * Time Complexity: O(1)
-        * 
+        *
         * @param int - stock to be removed
     */
     public void removeStock(int stock){
@@ -163,7 +163,7 @@ public class AbsDevice implements Device {
         if (stock > quantity){
             quantity = 0;
         }
-        else 
+        else
             quantity -= stock;
         System.out.println(name + " reduced. New quantity: " + quantity);
     }
@@ -171,7 +171,7 @@ public class AbsDevice implements Device {
         * This method is used to print the device
         * <br>
         * Time Complexity: O(1)
-        * 
+        *
         * @return String - the device
     */
     public String toString(){
@@ -181,22 +181,22 @@ public class AbsDevice implements Device {
         * This method is used to print the device information for the export format
         * <br>
         * Time Complexity: O(1)
-        * 
+        *
         * @param int - index of the device
     */
     public      void exportPrint(int index){
-        System.out.printf("| %-4d | %.10s | %s | %.2f$ | %d |\n", index, category, name, price, quantity);
+        System.out.printf("| %-3d | %-10s | %s | %.2f$ | %d |\n", index, category, name, price, quantity);
     }
     /**
         * This method is used to print the device information for the export format
         * <br>
         * Time Complexity: O(1)
-        * 
+        *
         * @param int - index of the device
         * @param FileWriter - fileWriter to write to the file
         * @throws IOException - if the fileWriter is not valid
     */
     public      void exportFilePrint(int index, FileWriter fileWriter) throws IOException{
-        fileWriter.write(String.format("| %-4d | %.10s | %.10s | %.2f$ | %d |\n", index, category, name, price, quantity));
+        fileWriter.write(String.format("| %-3d | %-10s | %10s | %.2f$ | %d |\n", index, category, name, price, quantity));
     }
 }

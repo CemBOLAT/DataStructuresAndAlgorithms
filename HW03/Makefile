@@ -8,7 +8,7 @@ CLASSES := $(SRC:.java=.class)
 all: $(CLASSES)
 
 run : $(CLASSES)
-	java $(JFLAGS) Test
+	java $(JFLAGS) Main
 
 %.class : %.java
 	javac $(JFLAGS) $<
@@ -22,8 +22,10 @@ clean:
 cleandoc:
 	rm -rf ./javadoc
 
+fclean: clean cleandoc
+
 re: clean all
 
 redoc: cleandoc doc
 
-.PHONY: all run doc clean cleandoc re redoc
+.PHONY: all run doc clean cleandoc re redoc fclean

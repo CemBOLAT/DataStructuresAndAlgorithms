@@ -1,7 +1,7 @@
-Laptop,Asus TUF GAMING,500.000000,10
-Laptop,Lenovo İdeapad 3,400.250000,3
-Laptop,Xiaomi Redmi Book 15E,200.000000,1
-Tv,LG,60.250000,100
-Tv,Samsung,100.880000,3
-Printer,Canon,60.550000,20
-Tv,ViewerPoint,10.000000,10
+Laptop,Asus TUF GAMING,500.00,10
+Laptop,Lenovo İdeapad 3,400.25,3
+Laptop,Xiaomi Redmi Book 15E,200.00,1
+Tv,LG,60.25,100
+Tv,Samsung,100.88,3
+Tv,ViewerPoint,10.00,10
+Printer,Canon,60.55,20
