@@ -1,13 +1,30 @@
 import java.util.Scanner;
-
+/**
+ * Main.java
+ * <br>
+ * Main class for the Electronics Inventory Management System.
+ * <br>
+ * This class contains the main method which is used to run the Electronics Inventory Management System.
+ * <br>
+ * The main method contains a loop which will keep running until the user chooses to exit the program.
+ * <br>
+ * The user can choose from a list of options to add, remove, update, list, find the cheapest, sort by price, calculate total value, restock, and export the inventory.
+ * <br>
+ * The user can also choose to exit the program.
+ */
 public class Main {
+    /**
+     * Main method for the Electronics Inventory Management System.
+     * <br>
+     * @param args Command line arguments
+     */
     public static void main(String[] args) {
         Inventory inventory = new Inventory();
         try{
             Scanner scanner = new Scanner(System.in);
             boolean     isExit = false;
             int option = -1;
-            
+
             inventory.loadFromFile(Inventory.importFile);
             while (!isExit){
                 try {
@@ -24,10 +41,10 @@ public class Main {
                             System.out.println("Invalid option, please try again.");
                     } while (option < 0 || option > 9);
                     switch(option){
-                        case 1: 
+                        case 1:
                             inventory.addDevice(scanner);
                         break;
-                        case 2: 
+                        case 2:
                             inventory.removeDevice(scanner);
                         break;
                         case 3:
@@ -51,7 +68,7 @@ public class Main {
                         case 9:
                             inventory.exportInventoryReport();
                         break;
-                        case 0: 
+                        case 0:
                             isExit = true;
                             inventory.saveToFile(Inventory.importFile);
                             System.out.println("Goodbye!");

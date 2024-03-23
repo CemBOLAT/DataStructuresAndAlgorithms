@@ -2,6 +2,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 /**
  * AbsDevice.java
+ * <br>
  * AbsDevice represents an abstract implementation of a device.
  * <br>
  * It implements the Device interface providing basic functionalities
@@ -49,6 +50,7 @@ public class AbsDevice implements Device {
         *
         * @return String - category of the device
     */
+    @Override
     public String getCategory(){
         return category;
     }
@@ -58,6 +60,7 @@ public class AbsDevice implements Device {
         * Time Complexity: O(1)
         * @return String - name of the device
     */
+    @Override
     public String getName(){
         return name;
     }
@@ -67,6 +70,7 @@ public class AbsDevice implements Device {
         * Time Complexity: O(1)
         * @return double - price of the device
     */
+    @Override
     public double getPrice(){
         return price;
     }
@@ -76,6 +80,7 @@ public class AbsDevice implements Device {
         * Time Complexity: O(1)
         * @return int - quantity of the device
     */
+    @Override
     public int getQuantity(){
         return quantity;
     }
@@ -84,9 +89,10 @@ public class AbsDevice implements Device {
         * <br>
         * Time Complexity: O(1)
         *
-        * @param string - category of the device
+        * @param category - category of the device
         * @throws IllegalArgumentException - if the category is not valid
     */
+    @Override
     public void setCategory(String category) throws Exception {
         if (category == null || category.isEmpty()){
             throw new IllegalArgumentException("Invalid category");
@@ -98,9 +104,10 @@ public class AbsDevice implements Device {
         * <br>
         * Time Complexity: O(1)
         *
-        * @param String - name of the device
+        * @param name - name of the device
         * @throws IllegalArgumentException - if the name is not valid
     */
+    @Override
     public void setName(String name) throws IllegalArgumentException {
         if (name == null || name.equals("")){
             throw new IllegalArgumentException("Invalid name");
@@ -112,11 +119,12 @@ public class AbsDevice implements Device {
         * <br>
         * Time Complexity: O(1)
         *
-        * @param double - price of the device
+        * @param price - price of the device
         * @throws IllegalArgumentException - if the price is not valid
     */
+    @Override
     public void setPrice(double price) throws IllegalArgumentException{
-        if (price < 0){
+        if (price <= 0){
             throw new IllegalArgumentException("Invalid price");
         }
         this.price = price;
@@ -126,11 +134,12 @@ public class AbsDevice implements Device {
         * <br>
         * Time Complexity: O(1)
         *
-        * @param int - quantity of the device
+        * @param quantity - quantity of the device
         * @throws IllegalArgumentException - if the quantity is not valid
     */
+    @Override
     public void setQuantity(int quantity) throws IllegalArgumentException{
-        if (quantity < 0){
+        if (quantity <= 0){
             throw new IllegalArgumentException("Invalid quantity");
         }
         this.quantity = quantity;
@@ -140,8 +149,10 @@ public class AbsDevice implements Device {
         * <br>
         * Time Complexity: O(1)
         *
-        * @param int - stock to be added
+        * @param stock - stock to be added
+        * @throws IllegalArgumentException - if the stock is not valid
     */
+    @Override
     public void addStock(int stock){
         if (stock < 0){
             throw new IllegalArgumentException("Invalid stock");
@@ -154,14 +165,17 @@ public class AbsDevice implements Device {
         * <br>
         * Time Complexity: O(1)
         *
-        * @param int - stock to be removed
+        * @param stock - stock to be removed
+        * @throws IllegalArgumentException - if the stock is not valid
+        * @throws IllegalArgumentException - if the stock is more than the quantity
     */
+    @Override
     public void removeStock(int stock){
         if (stock < 0){
             throw new IllegalArgumentException("Invalid stock");
         }
         if (stock > quantity){
-            quantity = 0;
+            throw new IllegalArgumentException("Not enough stock");
         }
         else
             quantity -= stock;
@@ -174,6 +188,7 @@ public class AbsDevice implements Device {
         *
         * @return String - the device
     */
+    @Override
     public String toString(){
         return String.format("Category: %s, Name: %s, Price: %.2f$, Quantity: %d", category, name, price, quantity);
     }
@@ -182,8 +197,9 @@ public class AbsDevice implements Device {
         * <br>
         * Time Complexity: O(1)
         *
-        * @param int - index of the device
+        * @param index - index of the device
     */
+    @Override
     public      void exportPrint(int index){
         System.out.printf("| %-3d | %-10s | %s | %.2f$ | %d |\n", index, category, name, price, quantity);
     }
@@ -192,10 +208,11 @@ public class AbsDevice implements Device {
         * <br>
         * Time Complexity: O(1)
         *
-        * @param int - index of the device
-        * @param FileWriter - fileWriter to write to the file
+        * @param index - index of the device
+        * @param fileWriter - fileWriter to write to the file
         * @throws IOException - if the fileWriter is not valid
     */
+    @Override
     public      void exportFilePrint(int index, FileWriter fileWriter) throws IOException{
         fileWriter.write(String.format("| %-3d | %-10s | %10s | %.2f$ | %d |\n", index, category, name, price, quantity));
     }

@@ -23,7 +23,10 @@ public class Inventory {
     private int totalDevices = 0; // The total number of devices
     private final String[] categories = {"Laptop", "Tablet", "Tv", "Headphones", "Printer"}; // The list of categories
     private final String exportFile = "export.txt"; // The file to export to
-    public static String importFile = "inventory.txt"; // The file to import from
+    /**
+     * The file to import from
+     */
+    public static final String importFile = "inventory.txt";
     /**
      * Inventory constructor
      * <br>
@@ -35,9 +38,9 @@ public class Inventory {
     /**
      * Add a device to the inventory
      * <br>
-     * After taking input from the user, it adds the device to the inventory.
-     * <br>
      * Time Complexity: O(n) where n is the number of linked lists in the devices list
+     * <br>
+     * After taking input from the user, it adds the device to the inventory.
      *
      * @param scanner The scanner object to take input from
      * @throws IllegalArgumentException if the category is invalid
@@ -158,12 +161,12 @@ public class Inventory {
      */
     public void restockDevice(Scanner scanner){
         String name = Inventory.getStringInput(scanner, "Enter name of device to restock: ");
-        boolean isAdd = isAddDevice(scanner);
         boolean isRestocked = false;
         // Time Complexity: O(n) because number of nodes times number of devices in each node is n
         for (var device : devices) {
             for (var value : device) {
                 if (value.getName().equals(name)) {
+                    boolean isAdd = isAddDevice(scanner);
                     int quantity = Inventory.getIntInput(scanner, (isAdd ? "Enter quantity to add: " : "Enter quantity to remove: "));
                     if (isAdd) {
                         value.addStock(quantity); // Time Complexity: O(1)
@@ -176,9 +179,9 @@ public class Inventory {
             }
         }
         if (isRestocked){
-            System.out.println(name + " restocked.");
+            printGreen(name + " restocked.");
         } else {
-            System.out.println(name + " not found.");
+            printRed(name + " not found.");
         }
     }
     /**
@@ -247,7 +250,12 @@ public class Inventory {
         }
         writeFileAndPrint(writer, "\nSummary: \n");
         writeFileAndPrint(writer, "- Total Number of Devices: " + totalDevices + "\n");
-        writeFileAndPrint(writer, String.format("- Total Inventory Value: %.2f$\n", getTotalValue()));
+
+        double totalValue = getTotalValue(); // Time Complexity: O(n) where n is the number of devices in the inventory
+        DecimalFormat df = new DecimalFormat("#,###,###.##");
+        String str = df.format(totalValue);
+
+        writeFileAndPrint(writer, String.format("- Total Inventory Value: %s$\n", str));
         writeFileAndPrint(writer, "\nEnd of Report\n");
         writeFileAndPrint(writer, "-----------------------------\n");
         writer.close();
@@ -281,6 +289,7 @@ public class Inventory {
     */
     public void sortDevicesByPrice(){
         ArrayList<Device> allDevices = new ArrayList<Device>();
+        int index = 1;
         for (var device : devices) {
             allDevices.addAll(device);
         }
@@ -295,7 +304,8 @@ public class Inventory {
         }
         System.out.println("Devices sorted by price:");
         for (var allDevice : allDevices) {
-            System.out.println(allDevice);
+            System.out.println(index + ". " + allDevice);
+            index++;
         }
     }
     /**
@@ -386,7 +396,7 @@ public class Inventory {
         int totalDevices = 1;
         for (var device : devices) {
             for (var value : device) {
-                result.append(". ").append(value.toString()).append("\n");
+                result.append(totalDevices).append(". ").append(value).append("\n");
                 totalDevices++;
             }
         }
