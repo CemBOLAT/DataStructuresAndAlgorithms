@@ -296,6 +296,8 @@ public class Inventory {
      * Sort devices by price
      * <br>
      * Time Complexity: O(n^2) where n is the number of devices in the inventory
+     * <br>
+     * I used bubble sort to sort the devices by price.
     */
     public void sortDevicesByPrice(){
         ArrayList<Device> allDevices = new ArrayList<Device>();
