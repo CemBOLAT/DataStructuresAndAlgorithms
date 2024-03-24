@@ -136,7 +136,7 @@ public class AbsDevice implements Device {
     */
     @Override
     public void setPrice(double price) throws IllegalArgumentException{
-        if (price <= 0){
+        if (price < 0){
             throw new IllegalArgumentException("Invalid price");
         }
         this.price = price;
@@ -152,7 +152,7 @@ public class AbsDevice implements Device {
     */
     @Override
     public void setQuantity(int quantity) throws IllegalArgumentException{
-        if (quantity <= 0){
+        if (quantity < 0){
             throw new IllegalArgumentException("Invalid quantity");
         }
         this.quantity = quantity;
@@ -218,7 +218,7 @@ public class AbsDevice implements Device {
     */
     @Override
     public      void exportPrint(int index){
-        System.out.printf("| %-3d | %-10s | %s | %.2f$ | %d |\n", index, category, name, price, quantity);
+        System.out.printf("| %-3d | %-10s | %s | $%.2f | %d |\n", index, category, name, price, quantity);
     }
     /**
         * This method is used to print the device information for the export format
@@ -232,6 +232,6 @@ public class AbsDevice implements Device {
     */
     @Override
     public      void exportFilePrint(int index, FileWriter fileWriter) throws IOException{
-        fileWriter.write(String.format("| %-3d | %-10s | %s | %.2f$ | %d |\n", index, category, name, price, quantity));
+        fileWriter.write(String.format("| %-3d | %-10s | %s | $%.2f | %d |\n", index, category, name, price, quantity));
     }
 }
