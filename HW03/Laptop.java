@@ -11,7 +11,9 @@ public class Laptop extends AbsDevice {
      * Constructor for Laptop class
      * <br>
      * Time Complexity: O(1)
-     *
+     * <br>
+     * Because the constructor has constant time complexity
+     * 
      * @param category The category of the device
      * @param name The name of the device
      * @param price The price of the device

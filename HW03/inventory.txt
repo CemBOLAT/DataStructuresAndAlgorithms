@@ -2,12 +2,15 @@ Laptop,Asus TUF GAMING,500.00,10
 Laptop,Lenovo İdeapad 3,400.00,5
 Laptop,Xiaomi Redmi Book 15E,200.00,1
 Laptop,Dell XPS 13,1200.00,600
+Laptop,Vestel,400.00,20
 Tv,LG,60.00,100
-Tv,Samsung,100.00,33
+Tv,Samsung,100.00,93
 Tv,ViewerPoint,10.00,10
 Tv,LG OLED55,800.00,30
+Tv,Samsung S21,1201.22,10
 Printer,Canon,55.00,10
 Printer,Drücker,5.20,20
 Printer,Trücker,5.20,2
+Printer,ABS,400.00,1
 Tablet,Samsung S21 Black,600.00,100
 Headphones,Sony wH-1000XM4,250.00,100

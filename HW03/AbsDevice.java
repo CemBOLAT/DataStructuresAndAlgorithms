@@ -18,7 +18,8 @@ public class AbsDevice implements Device {
      * Constructor for AbsDevice
      * <br>
      * Time Complexity: O(1)
-
+     * <br>
+     * Because the constructor has constant time complexity
      * @param category The category of the device
      * @param name The name of the device
      * @param price The price of the device
@@ -47,6 +48,8 @@ public class AbsDevice implements Device {
         * This method is used to get the category of the device
         * <br>
         * Time Complexity: O(1)
+        * <br>
+        * Because getting the category has constant time complexity
         *
         * @return String - category of the device
     */
@@ -58,6 +61,7 @@ public class AbsDevice implements Device {
         * This method is used to get the name of the device
         * <br>
         * Time Complexity: O(1)
+        * Because getting the name has constant time complexity
         * @return String - name of the device
     */
     @Override
@@ -68,6 +72,8 @@ public class AbsDevice implements Device {
         * This method is used to get the price of the device
         * <br>
         * Time Complexity: O(1)
+        * <br>
+        * Because getting the price has constant time complexity
         * @return double - price of the device
     */
     @Override
@@ -78,6 +84,9 @@ public class AbsDevice implements Device {
         * This method is used to get the quantity of the device
         * <br>
         * Time Complexity: O(1)
+        * <br>
+        * Because getting the quantity has constant time complexity
+        *
         * @return int - quantity of the device
     */
     @Override
@@ -88,7 +97,8 @@ public class AbsDevice implements Device {
         * This method is used to set the category of the device
         * <br>
         * Time Complexity: O(1)
-        *
+        * <br>
+        * Because setting the category has constant time complexity
         * @param category - category of the device
         * @throws IllegalArgumentException - if the category is not valid
     */
@@ -103,13 +113,14 @@ public class AbsDevice implements Device {
         * This method is used to set the name of the device
         * <br>
         * Time Complexity: O(1)
-        *
+        * <br>
+        * Because setting the name has constant time complexity
         * @param name - name of the device
         * @throws IllegalArgumentException - if the name is not valid
     */
     @Override
     public void setName(String name) throws IllegalArgumentException {
-        if (name == null || name.equals("")){
+        if (name == null || name.isEmpty()){
             throw new IllegalArgumentException("Invalid name");
         }
         this.name = name;
@@ -118,7 +129,8 @@ public class AbsDevice implements Device {
         * This method is used to set the price of the device
         * <br>
         * Time Complexity: O(1)
-        *
+        * <br>
+        * Because setting the price has constant time complexity
         * @param price - price of the device
         * @throws IllegalArgumentException - if the price is not valid
     */
@@ -133,7 +145,8 @@ public class AbsDevice implements Device {
         * This method is used to set the quantity of the device
         * <br>
         * Time Complexity: O(1)
-        *
+        * <br>
+        * Because setting the quantity has constant time complexity
         * @param quantity - quantity of the device
         * @throws IllegalArgumentException - if the quantity is not valid
     */
@@ -148,7 +161,8 @@ public class AbsDevice implements Device {
         * This method is used to increase the quantity of the device
         * <br>
         * Time Complexity: O(1)
-        *
+        * <br>
+        * Because increasing the quantity has constant time complexity
         * @param stock - stock to be added
         * @throws IllegalArgumentException - if the stock is not valid
     */
@@ -164,7 +178,8 @@ public class AbsDevice implements Device {
         * This method is used to decrease the quantity of the device
         * <br>
         * Time Complexity: O(1)
-        *
+        * <br>
+        * Because decreasing the quantity has constant time complexity
         * @param stock - stock to be removed
         * @throws IllegalArgumentException - if the stock is not valid
         * @throws IllegalArgumentException - if the stock is more than the quantity
@@ -185,7 +200,8 @@ public class AbsDevice implements Device {
         * This method is used to print the device
         * <br>
         * Time Complexity: O(1)
-        *
+        * <br>
+        * Because printing the device information has constant time complexity
         * @return String - the device
     */
     @Override
@@ -196,7 +212,8 @@ public class AbsDevice implements Device {
         * This method is used to print the device information for the export format
         * <br>
         * Time Complexity: O(1)
-        *
+        * <br>
+        * Because printing the device information has constant time complexity
         * @param index - index of the device
     */
     @Override
@@ -207,13 +224,14 @@ public class AbsDevice implements Device {
         * This method is used to print the device information for the export format
         * <br>
         * Time Complexity: O(1)
-        *
+        * <br>
+        * Because writing the device information to the file has constant time complexity
         * @param index - index of the device
         * @param fileWriter - fileWriter to write to the file
         * @throws IOException - if the fileWriter is not valid
     */
     @Override
     public      void exportFilePrint(int index, FileWriter fileWriter) throws IOException{
-        fileWriter.write(String.format("| %-3d | %-10s | %10s | %.2f$ | %d |\n", index, category, name, price, quantity));
+        fileWriter.write(String.format("| %-3d | %-10s | %s | %.2f$ | %d |\n", index, category, name, price, quantity));
     }
 }

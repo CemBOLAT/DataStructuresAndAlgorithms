@@ -20,6 +20,7 @@ public class Main {
      */
     public static void main(String[] args) {
         Inventory inventory = new Inventory();
+        System.out.println("Welcome to the Electronics Inventory Management System!\n");
         try{
             Scanner scanner = new Scanner(System.in);
             boolean     isExit = false;
@@ -86,7 +87,6 @@ public class Main {
 
     private static void printMenu(){
         drawLine();
-        System.out.println("Welcome to the Electronics Inventory Management System!\n");
         System.out.println("Please select an option:");
         System.out.println("1. Add a new device");
         System.out.println("2. Remove a device");

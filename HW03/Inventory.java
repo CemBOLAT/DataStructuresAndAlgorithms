@@ -31,6 +31,8 @@ public class Inventory {
      * Inventory constructor
      * <br>
      * Time Complexity: O(1)
+     * <br>
+     * Initializes the devices list has constant time complexity
      */
     public Inventory(){
         devices = new ArrayList<ArrayList<Device>>();
@@ -38,7 +40,11 @@ public class Inventory {
     /**
      * Add a device to the inventory
      * <br>
-     * Time Complexity: O(n) where n is the number of linked lists in the devices list
+     * Average Time Complexity: O(n) where n is the number of linked lists in the devices list
+     * <br>
+     * Worst Time Complextity: O(n * k) where n is the number of linked lists in the devices list and k is the number of devices in the linked list
+     * <br>
+     * It iterates through the devices list to find the category of the device. If the category is not found, it creates a new category and adds the device to it. Otherwise, it adds the device to the existing category.
      * <br>
      * After taking input from the user, it adds the device to the inventory.
      *
@@ -60,10 +66,10 @@ public class Inventory {
         }
         if (index == -1){
             ArrayList<Device> newCategory = new ArrayList<>();
-            newCategory.add(device);   // Time Complexity: O(1)
-            devices.add(newCategory); // Time Complexity: O(1)
+            newCategory.add(device);
+            devices.add(newCategory);
         } else {
-            devices.get(index).add(device); // Time Complexity: O(1)
+            devices.get(index).add(device);
         }
         totalDevices++;
         System.out.printf("%s, %s, %.2f$, %d amount added...\n", device.getCategory(), device.getName(), device.getPrice(), device.getQuantity()); // Time Complexity: O(1)
@@ -71,7 +77,9 @@ public class Inventory {
     /**
      * Add a device to the inventory
      * <br>
-     * Time Complexity: O(n) where n is the number of linked lists in the devices list
+     * Average Time Complexity: O(n) where n is the number of linked lists in the devices list
+     * <br>
+     * Worst Time Complextity: O(n * k) where n is the number of linked lists in the devices list and k is the number of devices in the linked list
      * It makes no sense to write javadoc for a private method, but I did it for assignment.
      * Using this method to add devices from a file.
      *
@@ -102,7 +110,7 @@ public class Inventory {
     /**
      * Remove a device from the inventory
      * <br>
-     * Time Complexity: O(n) where n is the number of devices in the inventory
+     * Time Complexity: O(n * m) where n is the number of devices in the inventory, and m is the number of devices in that category.
      * <br>
      * After taking input from the user, it removes the device from the inventory.
      *
@@ -115,7 +123,7 @@ public class Inventory {
         for (var device : devices) { // Time Complexity: O(n) where n is the number of linked lists in the devices list
             for (int j = 0; j < device.size(); j++) { // Time Complexity: O(n) where n is the number of devices in the node of the linked list
                 if (device.get(j).getName().equals(name)) { // Time Complexity: O(1)
-                    device.remove(j);
+                    device.remove(j); // Time complexity is O(n)
                     isRemoved = true;
                     break;
                 }
@@ -133,6 +141,7 @@ public class Inventory {
      * <br>
      * Time Complexity: O(1)
      * <br>
+     * Function
      * It makes no sense to write javadoc for a private method, but I did it for assignment.
      *
      * @param scanner The scanner object to take input from
@@ -232,6 +241,7 @@ public class Inventory {
      * Export an inventory report to the console with the details of all devices in the inventory
      * <br>
      * Time Complexity: O(n) where n is the number of devices in the inventory
+     * <br>
      * @throws IOException if the file is the export file is invalid
     */
     public void exportInventoryReport() throws IOException{
@@ -317,7 +327,7 @@ public class Inventory {
         double totalValue = getTotalValue(); // Time Complexity: O(n) where n is the number of devices in the inventory
         DecimalFormat df = new DecimalFormat("#,###,###.##");
         String str = df.format(totalValue);
-        System.out.printf("Total value of all devices: %s$\n", str);
+        System.out.printf("Total value of all devices: $%s\n", str);
     }
     /**
      * Check if a string is blank

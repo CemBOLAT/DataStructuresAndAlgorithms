@@ -10,7 +10,8 @@ public class Tablet extends AbsDevice {
      * Constructor for Tablet class
      * <br>
      * Time Complexity: O(1)
-     * 
+     * <br>
+     * Because the constructor has constant time complexity
      * @param category The category of the device
      * @param name The name of the device
      * @param price The price of the device
@@ -19,6 +20,6 @@ public class Tablet extends AbsDevice {
      */
     public Tablet(String category, String name, double price, int quantity) throws IllegalArgumentException{
         super(category, name, price, quantity);
-    }  
+    }
 
 }

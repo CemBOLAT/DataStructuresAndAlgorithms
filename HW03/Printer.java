@@ -10,6 +10,8 @@ public class Printer extends AbsDevice {
      * Constructor for Printer class
      * <br>
      * Time Complexity: O(1)
+     * <br>
+     * Because the constructor has constant time complexity
      * 
      * @param category The category of the device
      * @param name The name of the device
@@ -19,6 +21,6 @@ public class Printer extends AbsDevice {
     */
     public Printer(String category, String name, double price, int quantity) throws IllegalArgumentException{
         super(category, name, price, quantity);
-    }  
+    }
 
 }

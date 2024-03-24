@@ -7,19 +7,22 @@ Generated on: 24th March 2024
 | 2   | Laptop     | Lenovo İdeapad 3 | 400,00$ | 5 |
 | 3   | Laptop     | Xiaomi Redmi Book 15E | 200,00$ | 1 |
 | 4   | Laptop     | Dell XPS 13 | 1200,00$ | 600 |
-| 5   | Tv         |         LG | 60,00$ | 100 |
-| 6   | Tv         |    Samsung | 100,00$ | 43 |
-| 7   | Tv         | ViewerPoint | 10,00$ | 10 |
-| 8   | Tv         |  LG OLED55 | 800,00$ | 30 |
-| 9   | Printer    |      Canon | 55,00$ | 10 |
-| 10  | Printer    |    Drücker | 5,20$ | 20 |
-| 11  | Printer    |    Trücker | 5,20$ | 2 |
-| 12  | Tablet     | Samsung S21 Black | 600,00$ | 100 |
-| 13  | Headphones | Sony wH-1000XM4 | 250,00$ | 100 |
+| 5   | Laptop     | Vestel | 400,00$ | 20 |
+| 6   | Tv         | LG | 60,00$ | 100 |
+| 7   | Tv         | Samsung | 100,00$ | 93 |
+| 8   | Tv         | ViewerPoint | 10,00$ | 10 |
+| 9   | Tv         | LG OLED55 | 800,00$ | 30 |
+| 10  | Tv         | Samsung S21 | 1201,22$ | 10 |
+| 11  | Printer    | Canon | 55,00$ | 10 |
+| 12  | Printer    | Drücker | 5,20$ | 20 |
+| 13  | Printer    | Trücker | 5,20$ | 2 |
+| 14  | Printer    | ABS | 400,00$ | 1 |
+| 15  | Tablet     | Samsung S21 Black | 600,00$ | 100 |
+| 16  | Headphones | Sony wH-1000XM4 | 250,00$ | 100 |
 
 Summary: 
-- Total Number of Devices: 13
-- Total Inventory Value: 847.264,4$
+- Total Number of Devices: 16
+- Total Inventory Value: 872.676,6$
 
 End of Report
 -----------------------------
