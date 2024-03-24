@@ -17,11 +17,12 @@ Generated on: 24th March 2024
 | 12  | Headphones | Apple Airpods 3 | $1500.00 | 20 |
 | 13  | Headphones | Apple Airpod max | $1200.00 | 5 |
 | 14  | Printer    | HP | $50.00 | 20 |
-| 15  | Printer    | DMP | $125.00 | 8 |
+| 15  | Printer    | DMP | $125.00 | 0 |
+| 16  | Printer    | PAC2 | $500.00 | 20 |
 
 Summary: 
-- Total Number of Devices: 15
-- Total Inventory Value: 89,846.65$
+- Total Number of Devices: 16
+- Total Inventory Value:  $98,846.65
 
 End of Report
 -----------------------------

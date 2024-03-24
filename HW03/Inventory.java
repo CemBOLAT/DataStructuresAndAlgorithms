@@ -229,10 +229,9 @@ public class Inventory {
      * @param writer The file writer object to write to
      * @param message The message to write and print
      */
-    private void writeFileAndPrint(FileWriter writer, String message){
+    private void writeFile(FileWriter writer, String message){
         try {
             writer.write(message);
-            System.out.print(message);
         } catch (IOException e) {
             System.err.println("Error writing to file: " + e.getMessage());
         }
@@ -246,28 +245,27 @@ public class Inventory {
     */
     public void exportInventoryReport() throws IOException{
         FileWriter writer = new FileWriter(exportFile);
-        writeFileAndPrint(writer, "Electronics Shop Inventory Report\n");
-        writeFileAndPrint(writer, "Generated on: " + returnDate() + "\n\n");
-        writeFileAndPrint(writer, String.format("| %-3s | %-10s | %-4s | %-5s | %-8s |\n", "No.", "Category", "Name", "Price", "Quantity"));
-        writeFileAndPrint(writer, "-------------------------------------------------\n");
+        writeFile(writer, "Electronics Shop Inventory Report\n");
+        writeFile(writer, "Generated on: " + returnDate() + "\n\n");
+        writeFile(writer, String.format("| %-3s | %-10s | %-4s | %-5s | %-8s |\n", "No.", "Category", "Name", "Price", "Quantity"));
+        writeFile(writer, "-------------------------------------------------\n");
         int index = 1;
         for (var device : devices) {
             for (var value : device) {
-                value.exportPrint(index);
                 value.exportFilePrint(index, writer);
                 index++;
             }
         }
-        writeFileAndPrint(writer, "\nSummary: \n");
-        writeFileAndPrint(writer, "- Total Number of Devices: " + totalDevices + "\n");
+        writeFile(writer, "\nSummary: \n");
+        writeFile(writer, "- Total Number of Devices: " + totalDevices + "\n");
 
         double totalValue = getTotalValue(); // Time Complexity: O(n) where n is the number of devices in the inventory
         DecimalFormat df = new DecimalFormat("#,###,###.##");
         String str = df.format(totalValue);
 
-        writeFileAndPrint(writer, String.format("- Total Inventory Value: %s$\n", str));
-        writeFileAndPrint(writer, "\nEnd of Report\n");
-        writeFileAndPrint(writer, "-----------------------------\n");
+        writeFile(writer, String.format("- Total Inventory Value:  $%s\n", str));
+        writeFile(writer, "\nEnd of Report\n");
+        writeFile(writer, "-----------------------------\n");
         writer.close();
     }
     /**

@@ -213,18 +213,6 @@ public class AbsDevice implements Device {
         * <br>
         * Time Complexity: O(1)
         * <br>
-        * Because printing the device information has constant time complexity
-        * @param index - index of the device
-    */
-    @Override
-    public      void exportPrint(int index){
-        System.out.printf("| %-3d | %-10s | %s | $%.2f | %d |\n", index, category, name, price, quantity);
-    }
-    /**
-        * This method is used to print the device information for the export format
-        * <br>
-        * Time Complexity: O(1)
-        * <br>
         * Because writing the device information to the file has constant time complexity
         * @param index - index of the device
         * @param fileWriter - fileWriter to write to the file

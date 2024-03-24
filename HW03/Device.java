@@ -74,13 +74,6 @@ public interface Device {
         * This method is used to print the device information for the export format
         *
         * @param index - index of the device
-    */
-    void exportPrint(int index);
-
-    /**
-        * This method is used to print the device information for the export format
-        *
-        * @param index - index of the device
         * @param fileWriter - fileWriter to write to the file
         * @throws IOException - if the fileWriter is not valid
     */
