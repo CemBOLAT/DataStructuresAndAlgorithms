@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,7 +20,7 @@ import java.text.DecimalFormat;
  * It also provides methods for exporting inventory report, finding the cheapest device, sorting devices by price, calculating total value of all devices, loading and saving inventory to a file, and listing all devices in the inventory.
  */
 public class Inventory {
-    private ArrayList<ArrayList<Device>> devices; // The list of devices
+    private LinkedList<ArrayList<Device>> devices; // The list of devices
     private int totalDevices = 0; // The total number of devices
     private final String[] categories = {"Laptop", "Tablet", "Tv", "Headphones", "Printer"}; // The list of categories
     private final String exportFile = "export.txt"; // The file to export to
@@ -35,14 +36,14 @@ public class Inventory {
      * Initializes the devices list has constant time complexity
      */
     public Inventory(){
-        devices = new ArrayList<ArrayList<Device>>();
+        devices = new LinkedList<>();
     }
     /**
      * Add a device to the inventory
      * <br>
-     * Average Time Complexity: O(n) where n is the number of linked lists in the devices list
+     * Average Time Complexity: O(n) where n is the number of categories
      * <br>
-     * Worst Time Complextity: O(n * k) where n is the number of linked lists in the devices list and k is the number of devices in the linked list
+     * Worst Time Complextity: O(n * k) where n is the number of categories and k is the number of devices in the category
      * <br>
      * It iterates through the devices list to find the category of the device. If the category is not found, it creates a new category and adds the device to it. Otherwise, it adds the device to the existing category.
      * <br>
@@ -77,9 +78,10 @@ public class Inventory {
     /**
      * Add a device to the inventory
      * <br>
-     * Average Time Complexity: O(n) where n is the number of linked lists in the devices list
+     * Average Time Complexity: O(n) where n is the number of categories
      * <br>
-     * Worst Time Complextity: O(n * k) where n is the number of linked lists in the devices list and k is the number of devices in the linked list
+     * Worst Time Complextity: O(n * k) where n is the number of categories and k is the number of devices in the category
+     * <br>
      * It makes no sense to write javadoc for a private method, but I did it for assignment.
      * Using this method to add devices from a file.
      *
@@ -110,7 +112,7 @@ public class Inventory {
     /**
      * Remove a device from the inventory
      * <br>
-     * Time Complexity: O(n * m) where n is the number of devices in the inventory, and m is the number of devices in that category.
+     * Time Complexity: O(n^2) which one n comes from the number of devices in the inventory and the other n comes fron remove method of the linked list
      * <br>
      * After taking input from the user, it removes the device from the inventory.
      *
@@ -123,7 +125,7 @@ public class Inventory {
         for (var device : devices) { // Time Complexity: O(n) where n is the number of linked lists in the devices list
             for (int j = 0; j < device.size(); j++) { // Time Complexity: O(n) where n is the number of devices in the node of the linked list
                 if (device.get(j).getName().equals(name)) { // Time Complexity: O(1)
-                    device.remove(j); // Time complexity is O(n)
+                    device.remove(j); // Time complexity is O(n) because it shifts all the elements after the removed element
                     isRemoved = true;
                     break;
                 }
@@ -139,9 +141,8 @@ public class Inventory {
     /**
      * Take input from the user to determine if they want to add or remove stock
      * <br>
-     * Time Complexity: O(1)
+     * Time Complexity: O(1) because it takes input from the user and returns true or false.
      * <br>
-     * Function
      * It makes no sense to write javadoc for a private method, but I did it for assignment.
      *
      * @param scanner The scanner object to take input from
@@ -162,9 +163,11 @@ public class Inventory {
     /**
      * Restock a device in the inventory
      * <br>
+     * Time Complexity: O(n) where n is the number of devices in the inventory
+     * <br>
      * After taking input from the user, it restocks the device in the inventory.
      * <br>
-     * Time Complexity: O(n) where n is the number of devices in the inventory
+     * Method lineer time complexity because it iterates through the devices list to find the device to restock.
      *
      * @param scanner The scanner object to take input from
      */
@@ -196,7 +199,9 @@ public class Inventory {
     /**
      * Return the current date
      * <br>
-     * Time Complexity: O(1)
+     * Time Complexity: O(1) because it gets the current date and formats it to a string has constant time complexity
+     * It makes no sense to write javadoc for a private method, but I did it for assignment.
+     *
      * @return The current date
     */
     private String returnDate(){
@@ -210,6 +215,11 @@ public class Inventory {
      * Get the total value of all devices in the inventory
      * <br>
      * Time Complexity: O(n) where n is the number of devices in the inventory
+     * <br>
+     * Method lineer time complexity because it iterates through the devices list to find the total value of all devices.
+     * <br>
+     * It makes no sense to write javadoc for a private method, but I did it for assignment.
+     *
      * @return The total value of all devices in the inventory
     */
     private double getTotalValue(){
@@ -225,6 +235,7 @@ public class Inventory {
      * Write a message to a file and print it to the console
      * <br>
      * Time Complexity: O(1)
+     * Method has constant time complexity because it writes a message to a file.
      * It makes no sense to write javadoc for a private method, but I did it for assignment.
      * @param writer The file writer object to write to
      * @param message The message to write and print
@@ -241,6 +252,7 @@ public class Inventory {
      * <br>
      * Time Complexity: O(n) where n is the number of devices in the inventory
      * <br>
+     * Method lineer time complexity because it iterates through the devices list to print the details of all devices.
      * @throws IOException if the file is the export file is invalid
     */
     public void exportInventoryReport() throws IOException{
@@ -272,6 +284,8 @@ public class Inventory {
      * Find the cheapest device in the inventory and prints it to the console with its details
      * <br>
      * Time Complexity: O(n) where n is the number of devices in the inventory
+     * <br>
+     * Method lineer time complexity because it iterates through the devices list to find the cheapest device.
     */
     public void findCheapestDevice(){
         double cheapestPrice = Double.MAX_VALUE;
@@ -295,7 +309,7 @@ public class Inventory {
      * <br>
      * Time Complexity: O(n^2) where n is the number of devices in the inventory
      * <br>
-     * I used bubble sort to sort the devices by price.
+     * Method has quadratic time complexity because it implements bubble sort to sort the devices by price.
     */
     public void sortDevicesByPrice(){
         ArrayList<Device> allDevices = new ArrayList<Device>();
@@ -322,6 +336,8 @@ public class Inventory {
      * Calculate the total value of all devices in the inventory
      * <br>
      * Time Complexity: O(n) where n is the number of devices in the inventory
+     * <br>
+     * Method lineer time complexity because it calculates the total value of all devices in the inventory.
     */
     public void calculateTotalValue(){
         double totalValue = getTotalValue(); // Time Complexity: O(n) where n is the number of devices in the inventory
@@ -333,7 +349,7 @@ public class Inventory {
      * Check if a string is blank
      * <br>
      *
-     * Time Complexity: O(1)
+     * Time Complexity: O(1) because it checks if the string is null or empty and trims the string if it is not null
      * @param str The string to check
      * @return true if the string is blank, false otherwise
      */
@@ -344,7 +360,8 @@ public class Inventory {
      * Update a device in the inventory
      * <br>
      * Time Complexity: O(n) where n is the number of devices in the inventory
-     *
+     * <br>
+     * Method lineer time complexity because it iterates through the devices list to find the device to update.
      * @param scanner The scanner object to take input from
      * @throws Exception if the device is not found
     */
@@ -390,6 +407,8 @@ public class Inventory {
      * List all devices in the inventory
      * <br>
      * Time Complexity: O(n) where n is the number of devices in the inventory
+     * <br>
+     * Method lineer time complexity because it iterates through the devices list to print the details of all devices.
     */
     public void listDevices(){
         System.out.println("Device List:");
@@ -417,7 +436,8 @@ public class Inventory {
      * <br>
      * Time Complexity: O(1)
      * It makes no sense to write javadoc for a private method, but I did it for assignment.
-     *
+     * <br>
+     * Method has constant time complexity because it takes input from the user and returns it.
      * @param scanner The scanner object to take input from
      * @param message The message to display to the user
      * @return The string input from the user
@@ -442,6 +462,8 @@ public class Inventory {
      * <br>
      * Time Complexity: O(1)
      * It makes no sense to write javadoc for a private method, but I did it for assignment.
+     * <br>
+     * Method has constant time complexity because it takes input from the user and returns it.
      *
      * @param scanner The scanner object to take input from
      * @param message The message to display to the user
@@ -472,7 +494,8 @@ public class Inventory {
      * <br>
      * Time Complexity: O(1)
      * It makes no sense to write javadoc for a private method, but I did it for assignment.
-     *
+     * <br>
+     * Method has constant time complexity because it takes input from the user and returns it.
      * @param scanner The scanner object to take input from
      * @param message The message to display to the user
      * @return The integer input from the user
@@ -502,7 +525,7 @@ public class Inventory {
      * <br>
      * Time Complexity: O(1)
      * It makes no sense to write javadoc for a private method, but I did it for assignment.
-     *
+     * Method has constant time complexity because it prints a message in red.
      * @param message The message to print
     */
     private static void printRed(String message){
@@ -513,7 +536,7 @@ public class Inventory {
      * <br>
      * Time Complexity: O(1)
      * It makes no sense to write javadoc for a private method, but I did it for assignment.
-     *
+     * Method has constant time complexity because it prints a message in green.
      * @param message The message to print
     */
     private static void printGreen(String message){
@@ -522,8 +545,11 @@ public class Inventory {
     /**
      * Load inventory from a file
      * <br>
-     * Time Complexity: O(k * n) where k is the number of nodes in the devices list and n is the number of devices in the text file
-     *
+     * Time Complexity: O(n ^ 2) where n is the number of devices in the inventory
+     * <br>
+     * Method has quadratic time complexity because it reads the file line by line and splits the line by comma to get the category, name, price, and quantity of the device.
+     * <br>
+     * The method then adds the device to the inventory. The addDevice method has average time complexity of O(n) where n is the number of devices in the inventory.
      * @param str The file name to load from
      * @throws IllegalArgumentException if the file format is invalid
     */
@@ -569,6 +595,8 @@ public class Inventory {
      * Save inventory to a file
      * <br>
      * Time Complexity: O(n) where n is the number of devices in the inventory
+     * <br>
+     * Method has linear time complexity because it iterates through the devices list to save the details of all devices to a file.
      *
      * @param str The file name to save to
     */
@@ -590,6 +618,13 @@ public class Inventory {
             System.err.println("Error saving to file: " + e.getMessage());
         }
     }
+    /**
+     * Print a line
+     * <br>
+     * Time Complexity: O(1)
+     * It makes no sense to write javadoc for a private method, but I did it for assignment.
+     * Method has constant time complexity because it prints a line.
+    */
     private static void drawLine(){
         System.out.println("-------------------------------------------------");
     }
@@ -597,6 +632,8 @@ public class Inventory {
      * Take category input from the user
      * <br>
      * Time Complexity: O(n) where n is the number of categories
+     * <br>
+     * Method has linear time complexity because it iterates through the categories list to find the category input from the user.
      * It makes no sense to write javadoc for a private method, but I did it for assignment.
      * @param scanner The scanner object to take input from
      * @return The category input from the user
@@ -623,7 +660,9 @@ public class Inventory {
      * Take input from the user to add a device to the inventory
      * <br>
      * Time Complexity: O(1)
-     *
+     * It makes no sense to write javadoc for a private method, but I did it for assignment.
+     * <br>
+     * The method takes input from the user and returns the device to add for the addDevice method.
      * @param scanner The scanner object to take input from
      * @return The device to add
      * @throws IllegalArgumentException if the scanner is invalid

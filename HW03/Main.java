@@ -16,6 +16,11 @@ public class Main {
     /**
      * Main method for the Electronics Inventory Management System.
      * <br>
+     * This method contains a loop which will keep running until the user chooses to exit the program.
+     * <br>
+     * The user can choose from a list of options to add, remove, update, list, find the cheapest, sort by price, calculate total value, restock, and export the inventory.
+     * <br>
+     * Time Complexity: O(n ^ 2) (worst case) where n is the number of devices in the inventory
      * @param args Command line arguments
      */
     public static void main(String[] args) {
@@ -28,6 +33,7 @@ public class Main {
 
             inventory.loadFromFile(Inventory.importFile);
             while (!isExit){
+                option = -1;
                 try {
                     do {
                         printMenu();
@@ -84,7 +90,13 @@ public class Main {
             inventory.saveToFile(Inventory.importFile);
         }
     }
-
+    /**
+     * This method is used to print the menu options
+     * <br>
+     * Time Complexity: O(1)
+     * <br>
+     * Because printing the menu options has constant time complexity
+     */
     private static void printMenu(){
         drawLine();
         System.out.println("Please select an option:");
@@ -101,7 +113,13 @@ public class Main {
         drawLine();
         System.out.print("Your Choice >> ");
     }
-
+    /**
+     * This method is used to draw a line
+     * <br>
+     * Time Complexity: O(1)
+     * <br>
+     * Because drawing a line has constant time complexity
+     */
     private static void drawLine(){
         System.out.println("-------------------------------------------------");
     }
