@@ -3,7 +3,6 @@ import java.util.Comparator;
 public class BinaryTree<E extends Comparable<E>> {
 	private Node<E> root;
 
-
 	public BinaryTree() {
 		root = null;
 	}
@@ -118,6 +117,62 @@ public class BinaryTree<E extends Comparable<E>> {
 			add(data, root);
 		}
 	}
+
+	public void preOrderTre(){
+		StringBuilder sb = new StringBuilder();
+		if (root == null){
+			return;
+		}
+		preOrderTreRec(root, sb);
+		System.out.println("Preorder: " + sb.toString());
+	}
+
+	private void preOrderTreRec(Node<E> root, StringBuilder sb){
+		if (root == null){
+			return;
+		}
+		sb.append(root.data.toString() + " ");
+		preOrderTreRec(root.left, sb);
+		preOrderTreRec(root.right, sb);
+	}
+
+
+	public void inOrderTre(){
+		StringBuilder sb = new StringBuilder();
+		if (root == null){
+			return;
+		}
+		inOrderTreRec(root, sb);
+		System.out.println("Inorder: " + sb.toString());
+	}
+
+	private void inOrderTreRec(Node<E> root, StringBuilder sb){
+		if (root == null){
+			return;
+		}
+		inOrderTreRec(root.left, sb);
+		sb.append(root.data.toString() + " ");
+		inOrderTreRec(root.right, sb);
+	}
+
+	public void postOrderTre(){
+		StringBuilder sb = new StringBuilder();
+		if (root == null){
+			return;
+		}
+		postOrderTreRec(root, sb);
+		System.out.println("PostOrder: " + sb.toString());
+	}
+
+	private void postOrderTreRec(Node<E> root, StringBuilder sb){
+		if (root == null){
+			return;
+		}
+		postOrderTreRec(root.left, sb);
+		postOrderTreRec(root.right, sb);
+		sb.append(root.data.toString() + " ");
+	}
+
 
 	private void add(E data, Node<E> node) {
 		if (data.compareTo(node.data) < 0) {
