@@ -77,13 +77,15 @@ public class DoubleLinkedList<E> implements Iterable<E> {
         } else {
             Node<E> newNode = new Node<>(element);
             Node<E> tmp = head;
+            Node<E> prev = head;
             for (int i = 0; i < index - 1; i++) {
+                prev = tmp;
                 tmp = tmp.next;
             }
-            newNode.next = tmp.next;
-            tmp.next.prev = newNode;
-            tmp.next = newNode;
-            newNode.prev = tmp;
+            prev.next = newNode;
+            newNode.prev = prev;
+            newNode.next = tmp;
+            tmp.prev = newNode;
             size++;
         }
     }
@@ -92,9 +94,14 @@ public class DoubleLinkedList<E> implements Iterable<E> {
         if (isEmpty())
             throw new IndexOutOfBoundsException("Empty list");
         E data = head.data;
-        head = head.next;
-        if (head != null)
+        if (size == 1) {
+            head = null;
+            tail = null;
+        }
+        else {
+            head = head.next;
             head.prev = null;
+        }
         size--;
         return data;
     }
@@ -103,9 +110,14 @@ public class DoubleLinkedList<E> implements Iterable<E> {
         if (isEmpty())
             throw new IndexOutOfBoundsException("Empty list");
         E data = tail.data;
-        tail = tail.prev;
-        if (tail != null)
+        if (size == 1) {
+            head = null;
+            tail = null;
+        }
+        else {
+            tail = tail.prev;
             tail.next = null;
+        }
         size--;
         return data;
     }
@@ -119,12 +131,14 @@ public class DoubleLinkedList<E> implements Iterable<E> {
             return removeLast();
         } else {
             Node<E> tmp = head;
+            Node<E> prev = head;
             for (int i = 0; i < index - 1; i++) {
+                prev = tmp;
                 tmp = tmp.next;
             }
-            E data = tmp.next.data;
-            tmp.next = tmp.next.next;
-            tmp.next.prev = tmp;
+            E data = tmp.data;
+            prev.next = tmp.next;
+            tmp.next.prev = prev;
             size--;
             return data;
         }
@@ -204,12 +218,16 @@ public class DoubleLinkedList<E> implements Iterable<E> {
         }
 
         public E next() {
+            if (current == null)
+                current = head;
             E data = current.data;
             current = current.next;
             return data;
         }
 
         public E previous() {
+            if (current == null)
+                current = tail;
             E data = current.data;
             current = current.prev;
             return data;
@@ -231,5 +249,5 @@ public class DoubleLinkedList<E> implements Iterable<E> {
             current.data = element;
         }
     }
-    
+
 }

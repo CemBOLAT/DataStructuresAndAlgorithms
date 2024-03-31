@@ -24,5 +24,10 @@ public class Main{
         System.out.println(deque); // 4 2 1 0 0 1 2 3 4
         System.out.println(deque.removeLastOccurence(2)); // true
         System.out.println(deque); // 4 2 1 0 0 1 3 4
+        for (int i = 0; i < 10; i++){
+            deque.offerLast(i);
+        }
+        System.out.println(deque); // 4 2 1 0 0 1 3 4
+
     }
 }

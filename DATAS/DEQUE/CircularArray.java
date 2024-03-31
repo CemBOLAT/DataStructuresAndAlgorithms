@@ -49,7 +49,7 @@ public class CircularArray<E extends Object>{
             realloc();
         }
         if (size == 0){
-            data[size] = element; 
+            data[size] = element;
         }
         else {
             rear = (rear + 1) % cap;
@@ -106,7 +106,7 @@ public class CircularArray<E extends Object>{
             realloc();
         }
         if (size == 0){
-            data[size] = element; 
+            data[size] = element;
         }
         else {
             front = (front == 0) ? (front = cap - 1) :  (front - 1);
@@ -143,11 +143,14 @@ public class CircularArray<E extends Object>{
         return (data[rear]);
     }
     public boolean removeFirstOccurence(E element){
+        if (size == 0)
+            return false;
         for (int i = 0; i < size; i++){
-            if (data[(front + i) % cap].equals(element)){
-                for (int j = i; j < size - 1; j++){
-                    data[(front + j) % cap] = data[(front + j + 1) % cap];
+            if (data[(i + front) % cap].equals(element)){
+                for (int j = i; j > 0; j--){
+                    data[(j + front) % cap] = data[(j + front - 1) % cap];
                 }
+                front = (front + 1) % cap;
                 size--;
                 return true;
             }
@@ -161,6 +164,7 @@ public class CircularArray<E extends Object>{
                 for (int j = i; j < size - 1; j++){
                     data[(front + j) % cap] = data[(front + j + 1) % cap];
                 }
+                rear = (rear - 1 == -1) ? (cap - 1) : (rear - 1);
                 size--;
                 return true;
             }
