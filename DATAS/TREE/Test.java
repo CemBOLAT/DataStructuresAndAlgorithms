@@ -29,5 +29,6 @@ public class Test {
 		tree.postOrderTre(); // 2 1 4 3 6 8 7 9 11 13 12 10 5
 		tree.inOrderTre(); // 1 2 3 4 5 6 7 8 9 10 11 12 13 (sorted)
 		tree.preOrderTre(); // 5 3 1 2 4 7 6 8 10 9 12 11 13
+		System.out.println(tree);
 	}
 }

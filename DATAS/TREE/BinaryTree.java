@@ -211,4 +211,24 @@ public class BinaryTree<E extends Comparable<E>> {
 			this.right = right;
 		}
 	}
+
+	private void toString(Node<E> root, int d, StringBuilder sb){
+		for (int i = 0; i < d + 2; i++){
+			sb.append(" ");
+		}
+		if (root == null){
+			sb.append("null\n");
+			return;
+		}
+		sb.append(root.data + "\n");
+		toString(root.left, d + 1, sb);
+		toString(root.right, d + 1, sb);
+	}
+
+	@Override
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		toString(root, 0, sb);
+		return sb.toString();
+	}
 }

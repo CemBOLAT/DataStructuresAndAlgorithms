@@ -200,7 +200,7 @@ public class DoubleLinkedList<E> implements Iterable<E> {
         }
 
         public boolean hasPrevious() {
-            return current != null;
+            return current != null && current.prev != null;
         }
 
         public E next() {

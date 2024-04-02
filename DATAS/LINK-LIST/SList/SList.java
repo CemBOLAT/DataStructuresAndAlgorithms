@@ -126,4 +126,65 @@ public class SList<E> {
             next = n;
         }
     }
+    public ListIterator iterator(){
+        return new ListIterator();
+    }
+
+    private class ListIterator {
+        Node<E> current;
+
+        public ListIterator() {
+            current = head;
+        }
+
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        public E next() {
+            E data = current.data;
+            current = current.next;
+            return data;
+        }
+    }
+
+
+    private boolean rec(Node<E> h1, Node<E> h2){
+        if (h1 == null && h2 == null){
+            return true;
+        }
+        if (h1 == null || h2 == null){
+            return false;
+        }
+        return h1.data == h2.data && rec(h1.next, h2.next);
+    }
+
+    public boolean recEquals(SList<E> list){
+        if (list == null){
+            return false;
+        }
+        Node h1 = head;
+        Node h2 = list.head;
+        
+        return rec(h1,h2);
+    }
+
+    private boolean recIter(ListIterator h1, ListIterator h2){
+        if (h1.hasNext() == false && h2.hasNext() == false)
+            return true;
+        if (h1.hasNext() == false || h2.hasNext() == false)
+            return false;
+        
+        return h1.next() == h2.next() && recIter(h1, h2);
+    }
+
+    public boolean recEqualsIter(SList<E> list){
+        if (list == null){
+            return false;
+        }
+        ListIterator h1 = iterator();
+        ListIterator h2 = list.iterator();
+        
+        return recIter(h1,h2);
+    }
 }
