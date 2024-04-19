@@ -1,5 +1,6 @@
 import java.sql.Timestamp;
 
+import java.io.PrintWriter;
 
 public class FileSystemElement {
     private final String        name;
@@ -35,5 +36,18 @@ public class FileSystemElement {
     }
     public void setParent(FileSystemElement parent) {
         this.parent = parent;
+    }
+
+    public void saveElement(PrintWriter writer) {
+        writer.print(getName() + " ");
+        writer.print(getDateCreated().getTime() + " " );
+        if (this instanceof Directory) {
+            writer.println(getPath());
+            for (var child : ((Directory) this).getChildren()) {
+                child.saveElement(writer);
+            }
+        } else {
+            writer.println(getPath());
+        }
     }
 }

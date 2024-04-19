@@ -6,7 +6,7 @@ public class Directory extends FileSystemElement {
 	private List<FileSystemElement> children;
 
 	public Directory(String name, Timestamp dateCreated, FileSystemElement parent) {
-		super(name, dateCreated, parent, (parent != null ? parent.getPath() + "/" + name : "/"));
+		super(name, dateCreated, parent, (parent == null) ? "/" : parent.getPath() + name + "/");
 		children = new LinkedList<>();
 	}
 

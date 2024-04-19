@@ -21,7 +21,7 @@ public class FileSystem {
 		this.currentDirectory = currentDirectory;
 	}
 
-	private Directory findDirectory(Directory directory, String path) {
+	public Directory findDirectory(Directory directory, String path) {
 		if (directory.getPath().equals(path)) {
 			return directory;
 		}
@@ -36,9 +36,9 @@ public class FileSystem {
 		return null;
 	}
 
-	public void changeDirectory(){
+	public void changeDirectory() throws IllegalArgumentException {
 		printCurrentDirectory();
-		String absolutePath = getStringUntil("Enter new directory path: ");
+		String absolutePath = getString("Enter new directory path: ");
 		if (absolutePath.equals("..")) {
 			if (currentDirectory.getParent() != null) {
 				currentDirectory = (Directory)currentDirectory.getParent();
@@ -46,6 +46,7 @@ public class FileSystem {
 			}
 		} else if (absolutePath.equals("/")) {
 			currentDirectory = root;
+			System.out.println("Directory changed to: /");
 		} else if (!absolutePath.equals(".")){
 			Directory newDirectory = findDirectory(root, absolutePath);
 			if (newDirectory != null) {
@@ -57,24 +58,19 @@ public class FileSystem {
 		}
 	}
 
-	public void createFileOrDirectory(){
+	public void createFileOrDirectory() throws IllegalArgumentException {
 		printCurrentDirectory();
-		String option;
-		do {
-			System.out.print("Create file or directory (f/d): ");
-			option = System.console().readLine();
-			if (option.equals("f") && option.equals("d")) {
-				System.out.println("Invalid option. Please enter 'f' or 'd'.");
-			}
+		String option = getString("Create file or directory (f/d): ");
+		if (option.isEmpty() || option.length() > 1 || (!option.equals("f") && !option.equals("d"))){
+			throw new IllegalArgumentException("Invalid option.");
 		}
-		while (!option.equals("f") && !option.equals("d"));
 		FileSystemElement fileSystemElement = null;
 		if (option.equals("f")) {
-			String name = getStringUntil("Enter name for new file: ");
+			String name = getString("Enter name for new file: ");
 			fileSystemElement = new File(name, new Timestamp(System.currentTimeMillis()), currentDirectory);
 			System.out.println("File created: " + fileSystemElement.getName());
 		} else {
-			String name = getStringUntil("Enter name for new directory: ");
+			String name = getString("Enter name for new directory: ");
 			fileSystemElement = new Directory(name, new Timestamp(System.currentTimeMillis()), currentDirectory);
 			System.out.println("Directory created: " + fileSystemElement.getName() + "/" );
 		}
@@ -88,9 +84,9 @@ public class FileSystem {
 		}
 	}
 
-	public void deleteFileOrDirectory(){
+	public void deleteFileOrDirectory() throws IllegalArgumentException {
 		printCurrentDirectory();
-		String name = getStringUntil("Enter name of file or directory to delete: ");
+		String name = getString("Enter name of file or directory to delete: ");
 		FileSystemElement element = currentDirectory.getChild(name);
 		if (element == null) {
 			System.out.println("File or directory not found.");
@@ -102,21 +98,42 @@ public class FileSystem {
 				System.out.println("Directory deleted: " + element.getName() + "/");
 			}
 		}
+	}
 
+	private Integer search(Directory directory, String query) {
+		Integer found = 0;
+		for (var element : directory.getChildren()) {
+			// We can use equals() for exact match but the variable name is query so I assume partial match is way better
+			if (element.getName().contains(query)) {
+				System.out.println("Found: " + element.getPath());
+				found++;
+			}
+			if (element instanceof Directory) {
+				found += search((Directory)element, query);
+			}
+		}
+		return found;
+	}
+
+	public void searchFileOrDirectory() throws IllegalArgumentException {
+		String query = getString("Search query: ");
+		System.out.println("Searching from root...");
+		Integer found = search(currentDirectory, query);
+		if (found == 0) {
+			System.out.println("No files or directories found.");
+		}
 	}
 
 	private void printCurrentDirectory(){
 		System.out.println("Current directory: " + currentDirectory.getPath());
 	}
-	private String getStringUntil(String message){
-		do {
-			System.out.print(message);
-			String input = System.console().readLine();
-			if (input.isEmpty()) {
-				System.out.println("Invalid input. Please try again.");
-			} else {
-				return input;
-			}
-		} while (true);
+	private String getString(String message) throws IllegalArgumentException {
+		System.out.print(message);
+		String input = System.console().readLine();
+		if (input.isEmpty()) {
+			throw new IllegalArgumentException("Input cannot be empty.");
+		} else {
+			return input;
+		}
 	}
 }

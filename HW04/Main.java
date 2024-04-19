@@ -1,10 +1,17 @@
-
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.Scanner;
+import java.sql.Timestamp;
 
 public class Main {
+
+	private static final String FILE_SYSTEM_FILE = "filesystem.txt";
+
 	public static void main(String[] args){
 		Main main = new Main();
 
 		FileSystem fileSystem = new FileSystem();
+		main.loadFileSystem(fileSystem);
 		boolean exit = false;
 		while (!exit){
 			main.printMenu();
@@ -27,7 +34,7 @@ public class Main {
 						//main.moveFileOrDirectory(fileSystem);
 						break;
 					case 6:
-						//main.searchFileOrDirectory(fileSystem);
+						fileSystem.searchFileOrDirectory();
 						break;
 					case 7:
 						//main.printDirectoryTree(fileSystem);
@@ -37,6 +44,8 @@ public class Main {
 						break;
 					case 9:
 						exit = true;
+						main.savetheFileSystem(fileSystem);
+						System.out.println("Saving and Exiting...");
 						break;
 					default:
 						System.out.println("Invalid option. Please try again.");
@@ -44,8 +53,50 @@ public class Main {
 			} catch (NumberFormatException e){
 				System.out.println("Invalid option. Please try again.");
 			} catch (Exception e){
-				System.out.println(e.getMessage());
+				/* Handle exception */
 			}
+		}
+	}
+
+	public static void savetheFileSystem(FileSystem fileSystem){
+		try{
+			//PrintWriter writer = new PrintWriter(FILE_SYSTEM_FILE);
+			PrintWriter writer = new PrintWriter(new FileWriter(FILE_SYSTEM_FILE));
+			for (var element : fileSystem.getRoot().getChildren()){
+				element.saveElement(writer);
+			}
+			writer.close();
+		} catch (Exception e){
+			System.out.println("Error saving file system.");
+			/* Handle exception */
+		}
+	}
+	public static void loadFileSystem(FileSystem fileSystem){
+		try {
+			Scanner scanner = new Scanner(new java.io.File(FILE_SYSTEM_FILE)); // new File(FILE_SYSTEM_FILE)
+			while (scanner.hasNext()){
+				String name = scanner.next();
+				Timestamp dateCreated = new Timestamp(scanner.nextLong());
+				String path = scanner.next().trim();
+				if (path.endsWith("/")){
+					path = path.substring(0, path.length() - (1 + name.length()));
+					Directory parent = fileSystem.findDirectory(fileSystem.getRoot(), path);
+					Directory directory = new Directory(name, dateCreated, parent);
+					directory.setPath(path + name + "/");
+					parent.add(directory);
+				} else {
+					path = path.substring(0, path.length() - name.length());
+					Directory parent = fileSystem.findDirectory(fileSystem.getRoot(), path);
+					File file = new File(name, dateCreated, parent);
+					file.setPath(path + name);
+					parent.add(file);
+				}
+			}
+			scanner.close();
+		} catch (Exception e){
+			System.out.println("Error loading file system.");
+			System.out.println(e);
+			/* Handle exception */
 		}
 	}
 
