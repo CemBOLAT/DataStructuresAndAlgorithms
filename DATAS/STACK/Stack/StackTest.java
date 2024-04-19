@@ -16,9 +16,9 @@ public class StackTest {
     private static int evaluatePostfix(String[] str) throws Exception {
         Stack<Integer> stack = new Stack<>();
         Stack<String>  stringStack = new Stack<>();
-        
+
         int     res = 0;
-        
+
         for (int i = 0; i < str.length; i++){
             if (isOperation(str[i])){
                 if (stack.size() < 2){
@@ -28,7 +28,7 @@ public class StackTest {
                 int s = stack.pop();
                 String fs = stringStack.pop();
                 String ss = stringStack.pop();
-                
+
                 if (str[i].equals("+")){
                     stack.push(f + s);
                 }
@@ -74,10 +74,10 @@ public class StackTest {
 
         for (int i = 0; i < str.length; i++){
             if (!isOperation(str[i]) && !isP(str[i])){
-                sb.append(str[i] + " "); 
+                sb.append(str[i] + " ");
             }
             else if (isOP(str[i])){
-                stack.push(str[i]); 
+                stack.push(str[i]);
             }
             else if (isCP(str[i])){
                 while (!isOP(stack.peek())){
@@ -101,11 +101,9 @@ public class StackTest {
         while (!stack.isEmpty()){
             sb.append(stack.pop() + " ");
         }
-
         return sb.toString();
-        
     }
-    
+
     public static void main(String[] args) {
         String postfix = "4 7 + 8 5 3 * - +";
         String infix = "( ( 4 + 7 ) + ( 8 - ( 5 * 3 ) ) )";

@@ -20,7 +20,10 @@ import java.text.DecimalFormat;
  * It also provides methods for exporting inventory report, finding the cheapest device, sorting devices by price, calculating total value of all devices, loading and saving inventory to a file, and listing all devices in the inventory.
  */
 public class Inventory {
-    private LinkedList<ArrayList<Device>> devices; // The list of devices
+    /**
+     * The list of devices
+     */
+    public LinkedList<ArrayList<Device>> devices;
     private int totalDevices = 0; // The total number of devices
     private final String[] categories = {"Laptop", "Tablet", "Tv", "Headphones", "Printer"}; // The list of categories
     private final String exportFile = "export.txt"; // The file to export to

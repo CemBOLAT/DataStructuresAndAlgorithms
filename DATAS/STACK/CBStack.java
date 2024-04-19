@@ -1,4 +1,3 @@
-import java.util.Stack;
 import java.util.Vector;
 
 public class CBStack<E> extends Vector<E> {
@@ -9,10 +8,9 @@ public class CBStack<E> extends Vector<E> {
         head = null;
         size = 0;
     }
-    public boolean push(E data){
-        head = new Node<E>(data, head);
+    public void push(E data){
+        head = new Node<>(data, head);
         size++;
-        return true;
     }
     public E pop(){
         if (head == null)
@@ -45,9 +43,9 @@ public class CBStack<E> extends Vector<E> {
         }
         System.out.println();
     }
-    private class Node<E> {
-        private E data;
-        private Node<E> next;
+    private static class Node<E> {
+        private final E data;
+        private final Node<E> next;
 
         private Node(E stored){
             data = stored;
