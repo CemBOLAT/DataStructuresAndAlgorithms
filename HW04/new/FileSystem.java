@@ -22,12 +22,20 @@ public class FileSystem {
 		parent.add(directory);
 		directory.print("Directory created: ");
 	}
-	public void deleteFile(File file){
-		// Delete a file
-	}
-
-	public void deleteDirectory(Directory directory){
-		// Delete a directory
+	public void deleteFileOrDirectory(String name, Directory parent){
+		// Delete a element
+		for (var element : parent.getChildren()){
+			if (element.getName().equals(name)){
+				parent.remove(element);
+				if (element instanceof Directory){
+					element.print("Directory deleted: ");
+				}
+				else{
+					element.print("File deleted: ");
+				}
+				return;
+			}
+		}
 	}
 
 	public void moveElement(String name, Directory newParent){
@@ -53,25 +61,28 @@ public class FileSystem {
 		// Sort the contents of a directory by date
 	}
 
+	private String getCurrentPathRecursively(Directory directory, String path){
+		// Get the current path of a directory recursively
+		if (directory.getParent() == null){
+			return "/" + path;
+		}
+		return getCurrentPathRecursively((Directory)directory.getParent(), directory.getName() + "/" + path);
+	}
+
 	public String getCurrentPath(Directory directory){
-		// Get the full path of an element
-		return null;
+		// Get the current path of a directory recursively
+		return getCurrentPathRecursively(directory, "");
 	}
 
 	public Directory changeDirectory(Directory directory , String path){
-		System.out.println("****" + path);
 		// Change the current directory to a new directory based on the path make it recursive
-		String[] pathParts = path.split("/", 2);
-		System.out.println("****" + pathParts[0]);
-		System.out.println("****" + path);
-
-		if (pathParts.length == 0){
-			return directory;
-		}
-		for (var element : directory.getChildren()){
-			if (element.getName().equals(pathParts[0])){
-				if (element instanceof Directory){
-					return changeDirectory((Directory) element, path.substring(pathParts[0].length() + 1));
+		String[] paths = path.split("/");
+		for (var element : directory.getChildren()) {
+			if (element.getName().equals(paths[0])) {
+				if (paths.length == 1) {
+					return (Directory)element;
+				} else {
+					return changeDirectory((Directory)element, path.substring(paths[0].length() + 1));
 				}
 			}
 		}
