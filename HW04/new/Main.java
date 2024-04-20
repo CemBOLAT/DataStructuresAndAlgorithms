@@ -169,6 +169,9 @@ public class Main {
 					System.out.println("Error loading file system.");
 					return;
 				}
+				if (parts[2].charAt(0) == '/' && parts[2].length() > 1){
+					parts[2] = parts[2].substring(1);
+				}
 				if (parts[0].charAt(0) == (char)ASCII_ACK){
 					Directory parent = fileSystem.changeDirectory(fileSystem.getRoot(), parts[2]);
 					if (parent != null){
