@@ -6,6 +6,10 @@ public class File extends FileSystemElement {
 		super(name, parent);
 	}
 
+	public File(String name, FileSystemElement parent, Timestamp dateCreated) {
+		super(name, parent, dateCreated);
+	}
+
 	@Override
 	public String toString(){
 		return String.format("%-15s", getName());
@@ -14,5 +18,10 @@ public class File extends FileSystemElement {
 	@Override
 	public void print(String prefix) {
 		System.out.println(prefix + getName());
+	}
+
+	@Override
+	public void saveElement(PrintWriter writer) {
+		writer.println(getName() + " " + getDateCreated().getTime() + " " + getParent().getFullPath());
 	}
 }

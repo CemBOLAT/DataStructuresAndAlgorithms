@@ -12,6 +12,12 @@ public abstract class FileSystemElement {
         this.parent = parent;
     }
 
+    public FileSystemElement(String name, FileSystemElement parent, Timestamp dateCreated) {
+        this.name = name;
+        this.dateCreated = dateCreated;
+        this.parent = parent;
+    }
+
     public String getName() {
         return name;
     }
@@ -28,5 +34,21 @@ public abstract class FileSystemElement {
         this.parent = parent;
     }
 
+    private String getPathRecursive() {
+        if (getParent() == null) {
+            return "";
+        }
+        return getParent().getPathRecursive() + "/" + getName();
+    }
+
+	public String getFullPath() {
+		if (getParent() == null) {
+			return "/";
+		}
+        return getPathRecursive();
+	}
+
+
     public abstract void print(String prefix);
+    public abstract void saveElement(PrintWriter writer);
 }

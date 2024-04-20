@@ -38,17 +38,73 @@ public class FileSystem {
 		}
 	}
 
-	public void moveElement(String name, Directory newParent){
+	public void moveElement(String name, String path, Directory parent){
 		// Move an element to a new parent
+		FileSystemElement moved = searchElement(parent, name);
+		if (moved == null){
+			System.out.println("Element not found.");
+			return;
+		}
+		FileSystemElement newParent = searchElement(parent, path);
+		if (newParent == null || !(newParent instanceof Directory)){
+			System.out.println("New parent not found.");
+			return;
+		}
+
+		parent.remove(moved);
+		((Directory)newParent).add(moved);
+		if (moved instanceof Directory){
+			moved.print("Directory moved " + name + " to " + path + ": ");
+		}
+		else{
+			moved.print("File moved " + name + " to " + path + ": ");
+		}
 	}
 
+	private int searchRec(Directory directory, String name, int result){
+		// Search for an element recursively
+		for (var element : directory.getChildren()){
+			if (element.getName().equals(name)){
+				result += 1;
+				if (element instanceof File)
+					System.out.println("Found: " + getCurrentPath(directory) + name);
+				else
+					System.out.println("Found: " + getCurrentPath(directory) + name + "/");
+			}
+			if (element instanceof Directory){
+				result = searchRec((Directory)element, name, result);
+			}
+		}
+		return result;
+	}
 	public boolean search(String name){
-		// Search for an element
-		return false;
+		int result = searchRec(root, name, 0);
+		return result != 0;
 	}
+	public void printDirectoryTree(Directory directory){
+		String path = getCurrentPath(directory);
 
-	public void printDirectoryTree(){
-		// Print the directory tree
+		int nbrOfSpace = 0;
+		if (!path.equals("/")){
+			String[] token = path.split("/");
+			for (int j = 0; j < token.length - 1; j++){
+				for (int i = 0; i < nbrOfSpace; i++){
+					System.out.print(" ");
+				}
+				System.out.println("* " + token[j] + "/");
+				nbrOfSpace += 2;
+			}
+		}
+		for (int i = 0; i < nbrOfSpace; i++){
+			System.out.print(" ");
+		}
+		System.out.println((directory.getParent() == null) ? ("* / (Current Directory)") : ("* " + directory.getName() + "/ (Current Directory)"));
+		for (var t : directory.getChildren()){
+			for (int i = 0; i < nbrOfSpace + 2; i++){
+				System.out.print(" ");
+			}
+			System.out.println(t);
+		}
 	}
 
 	public void listContents(Directory directory){
@@ -59,6 +115,10 @@ public class FileSystem {
 	}
 	public void sortDirectoryByDate(Directory directory){
 		// Sort the contents of a directory by date
+		directory.sortByDateCreated(); // its change the list !
+		for (var element : directory.getChildren()){
+			System.out.println(element + " (" + element.getDateCreated() + ")");
+		}
 	}
 
 	private String getCurrentPathRecursively(Directory directory, String path){
@@ -76,13 +136,33 @@ public class FileSystem {
 
 	public Directory changeDirectory(Directory directory , String path){
 		// Change the current directory to a new directory based on the path make it recursive
-		String[] paths = path.split("/");
+		if (path.equals("/")){
+			return root;
+		}
+		else if (path.equals("..")){
+			return (directory.getParent() == null) ? directory : (Directory)directory.getParent();
+		}
+		else{
+			FileSystemElement el  = searchElement(directory, path);
+			if (el != null && el instanceof Directory){
+				return (Directory)el;
+			}
+		}
+		return null;
+	}
+
+	private FileSystemElement searchElement(Directory directory, String absolutePath){
+		// Search for an element recursively
+		if (absolutePath.equals("/")){
+			return root;
+		}
+		String[] paths = absolutePath.split("/");
 		for (var element : directory.getChildren()) {
 			if (element.getName().equals(paths[0])) {
 				if (paths.length == 1) {
-					return (Directory)element;
+					return element;
 				} else {
-					return changeDirectory((Directory)element, path.substring(paths[0].length() + 1));
+					return changeDirectory((Directory)element, absolutePath.substring(paths[0].length() + 1));
 				}
 			}
 		}

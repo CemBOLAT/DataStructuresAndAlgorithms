@@ -5,9 +5,15 @@ import java.io.PrintWriter;
 
 public class Directory extends FileSystemElement {
 	private List<FileSystemElement> children;
+	private static final int ASCII_ACK = 6;
 
 	public Directory(String name, Directory parent) {
 		super(name, parent);
+		children = new LinkedList<FileSystemElement>();
+	}
+
+	public Directory(String name, Directory parent, Timestamp dateCreated) {
+		super(name, parent, dateCreated);
 		children = new LinkedList<FileSystemElement>();
 	}
 
@@ -36,5 +42,19 @@ public class Directory extends FileSystemElement {
 
 	public List<FileSystemElement> getChildren() {
 		return children;
+	}
+
+	public void sortByDateCreated() {
+		children.sort((a, b) -> a.getDateCreated().compareTo(b.getDateCreated()));
+	}
+
+	@Override
+	public void saveElement(PrintWriter writer) {
+		if (getParent() != null) {
+			writer.println((char)ASCII_ACK + getName() + " " + getDateCreated().getTime() + " " + getParent().getFullPath());
+		}
+		for (var child : children) {
+			child.saveElement(writer);
+		}
 	}
 }

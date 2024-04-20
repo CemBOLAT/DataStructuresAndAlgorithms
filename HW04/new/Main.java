@@ -6,15 +6,16 @@ import java.sql.Timestamp;
 @SuppressWarnings("ThrowablePrintedToSystemOut")
 public class Main {
 
-	//private static final String FILE_SYSTEM_FILE = "filesystem.txt";
+	private static final String FILE_SYSTEM_FILE = "filesystem.txt";
 	private static Directory currentDirectory;
 	private static FileSystem fileSystem = new FileSystem();
+	private static final int ASCII_ACK = 6;
 
 	public static void main(String[] args){
 		Main main = new Main();
 
 		currentDirectory = fileSystem.getRoot();
-		//loadFileSystem(fileSystem);
+		loadFileSystem(fileSystem);
 		boolean exit = false;
 		while (!exit){
 			main.printMenu();
@@ -33,21 +34,21 @@ public class Main {
 					case 4:
 						deleteFileOrDirectory();
 						break;
-					// case 5:
-					// 	fileSystem.moveFileOrDirectory();
-					// 	break;
-					// case 6:
-					// 	fileSystem.searchFileOrDirectory();
-					// 	break;
-					// case 7:
-					// 	fileSystem.printDirectoryTree();
-					// 	break;
-					// case 8:
-					// 	fileSystem.sortContentsByDateCreated();
-					// 	break;
+					case 5:
+						moveFileOrDirectory();
+						break;
+					case 6:
+						searchFileOrDirectory();
+						break;
+					case 7:
+						printDirectoryTree();
+						break;
+					case 8:
+						sortContentsByDateCreated();
+						break;
 					case 9:
 						exit = true;
-						//saverFileSystem(fileSystem);
+						saverFileSystem();
 						System.out.println("Saving and Exiting...");
 						break;
 					default:
@@ -72,6 +73,11 @@ public class Main {
 		}
 	}
 
+	private static void printDirectoryTree(){
+		System.out.println("Path to current directory from root: ");
+		fileSystem.printDirectoryTree(currentDirectory);
+	}
+
 	private static void changeDirectory(){
 		System.out.println("Current directory: " + fileSystem.getCurrentPath(currentDirectory));
 		String path = getString("Enter new directory path: ");
@@ -89,6 +95,14 @@ public class Main {
 			System.out.println("Directory changed to " + fileSystem.getCurrentPath(currentDirectory));
 		} else {
 			System.out.println("Directory not found.");
+		}
+	}
+
+	private static void searchFileOrDirectory(){
+		String name = getString("Search query: ");
+		Integer found = 0;
+		if (fileSystem.search(name) == false){
+			System.out.println("File/directory not found.");
 		}
 	}
 
@@ -119,47 +133,62 @@ public class Main {
 		fileSystem.deleteFileOrDirectory(option, currentDirectory);
 	}
 
-	// public static void saverFileSystem(FileSystem fileSystem){
-	// 	try{
-	// 		//PrintWriter writer = new PrintWriter(FILE_SYSTEM_FILE);
-	// 		PrintWriter writer = new PrintWriter(new FileWriter(FILE_SYSTEM_FILE));
-	// 		for (var element : fileSystem.getRoot().getChildren()){
-	// 			element.saveElement(writer);
-	// 		}
-	// 		writer.close();
-	// 	} catch (Exception e){
-	// 		System.out.println("Error saving file system.");
-	// 		/* Handle exception */
-	// 	}
-	// }
-	// public static void loadFileSystem(FileSystem fileSystem){
-	// 	try {
-	// 		Scanner scanner = new Scanner(new java.io.File(FILE_SYSTEM_FILE)); // new File(FILE_SYSTEM_FILE)
-	// 		while (scanner.hasNext()){
-	// 			String name = scanner.next();
-	// 			Timestamp dateCreated = new Timestamp(scanner.nextLong());
-	// 			String path = scanner.next().trim();
-	// 			if (path.endsWith("/")){
-	// 				path = path.substring(0, path.length() - (1 + name.length()));
-	// 				Directory parent = fileSystem.findDirectory(fileSystem.getRoot(), path);
-	// 				Directory directory = new Directory(name, dateCreated, parent);
-	// 				directory.setPath(path + name + "/");
-	// 				parent.add(directory);
-	// 			} else {
-	// 				path = path.substring(0, path.length() - name.length());
-	// 				Directory parent = fileSystem.findDirectory(fileSystem.getRoot(), path);
-	// 				File file = new File(name, dateCreated, parent);
-	// 				file.setPath(path + name);
-	// 				parent.add(file);
-	// 			}
-	// 		}
-	// 		scanner.close();
-	// 	} catch (Exception e){
-	// 		System.out.println("Error loading file system.");
-	// 		System.out.println(e);
-	// 		/* Handle exception */
-	// 	}
-	// }
+	private static void sortContentsByDateCreated(){
+		System.out.println("Sorting contents of " + fileSystem.getCurrentPath(currentDirectory) + " by date created:");
+		fileSystem.sortDirectoryByDate(currentDirectory);
+	}
+
+	private static void moveFileOrDirectory(){
+		System.out.println("Current directory: " + fileSystem.getCurrentPath(currentDirectory));
+		String name = getString("Enter name of file/directory to move: ");
+		String path = getString("Enter new directory path:");
+		fileSystem.moveElement(name, path, currentDirectory);
+	}
+
+	private static void saverFileSystem(){
+		try{
+			PrintWriter writer = new PrintWriter(new FileWriter(FILE_SYSTEM_FILE));
+			Directory root = fileSystem.getRoot();
+			root.saveElement(writer);
+			writer.close();
+		} catch (Exception e){
+			System.out.println("Error saving file system.");
+			/* Handle exception */
+		}
+	}
+
+	private static void loadFileSystem(FileSystem fileSystem){
+		try {
+			Scanner scanner = new Scanner(new java.io.File(FILE_SYSTEM_FILE));
+			String line;
+			while (scanner.hasNextLine()){
+				line = scanner.nextLine();
+				System.out.println(line);
+				String[] parts = line.split(" ");
+				if (parts.length != 3){
+					System.out.println("Error loading file system.");
+					return;
+				}
+				if (parts[0].charAt(0) == (char)ASCII_ACK){
+					Directory parent = fileSystem.changeDirectory(fileSystem.getRoot(), parts[2]);
+					if (parent != null){
+						Directory newDirectory = new Directory(parts[0].substring(1), parent, new Timestamp(Long.parseLong(parts[1])));
+						parent.add(newDirectory);
+					}
+				} else {
+					Directory parent = fileSystem.changeDirectory(fileSystem.getRoot(), parts[2]);
+					if (parent != null){
+						File newFile = new File(parts[0], parent, new Timestamp(Long.parseLong(parts[1])));
+						parent.add(newFile);
+					}
+				}
+			}
+			scanner.close();
+		} catch (Exception e){
+			System.out.println("Error loading file system.");
+			/* Handle exception */
+		}
+	}
 
 	public void printMenu(){
 		System.out.println("===== File System Management Menu =====");
