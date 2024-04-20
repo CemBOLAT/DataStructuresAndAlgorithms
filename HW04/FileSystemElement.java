@@ -1,8 +1,7 @@
 import java.sql.Timestamp;
-
 import java.io.PrintWriter;
 
-public class FileSystemElement {
+public abstract class FileSystemElement {
     private final String        name;
     private final Timestamp     dateCreated;
     private FileSystemElement   parent;
@@ -38,16 +37,6 @@ public class FileSystemElement {
         this.parent = parent;
     }
 
-    public void saveElement(PrintWriter writer) {
-        writer.print(getName() + " ");
-        writer.print(getDateCreated().getTime() + " " );
-        if (this instanceof Directory) {
-            writer.println(getPath());
-            for (var child : ((Directory) this).getChildren()) {
-                child.saveElement(writer);
-            }
-        } else {
-            writer.println(getPath());
-        }
-    }
+    public abstract void saveElement(PrintWriter writer);
+    public abstract void updatePathAtMove(String path);
 }

@@ -7,7 +7,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 
 # This program built for i386-apple-darwin11.3.0
 
-# Make data base, printed on Sat Apr 20 00:18:20 2024
+# Make data base, printed on Sat Apr 20 18:40:24 2024
 
 # Variables
 
@@ -30,7 +30,7 @@ CURDIR := /Users/cembolat/Desktop/JavaC/HW04
 # makefile
 SHELL = /bin/sh
 # environment
-VSCODE_NLS_CONFIG = {"locale":"tr","osLocale":"tr-tr","availableLanguages":{"*":"tr"},"_languagePackId":"fb39b03a49dcbb6a695c2ef603228cb9.tr","_translationsConfigFile":"/Users/cembolat/Library/Application Support/Code/clp/fb39b03a49dcbb6a695c2ef603228cb9.tr/tcf.json","_cacheRoot":"/Users/cembolat/Library/Application Support/Code/clp/fb39b03a49dcbb6a695c2ef603228cb9.tr","_resolvedLanguagePackCoreLocation":"/Users/cembolat/Library/Application Support/Code/clp/fb39b03a49dcbb6a695c2ef603228cb9.tr/5c3e652f63e798a5ac2f31ffd0d863669328dc4c","_corruptedFile":"/Users/cembolat/Library/Application Support/Code/clp/fb39b03a49dcbb6a695c2ef603228cb9.tr/corrupted.info","_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"tr","osLocale":"tr-tr","availableLanguages":{"*":"tr"},"_languagePackId":"fb39b03a49dcbb6a695c2ef603228cb9.tr","_translationsConfigFile":"/Users/cembolat/Library/Application Support/Code/clp/fb39b03a49dcbb6a695c2ef603228cb9.tr/tcf.json","_cacheRoot":"/Users/cembolat/Library/Application Support/Code/clp/fb39b03a49dcbb6a695c2ef603228cb9.tr","_resolvedLanguagePackCoreLocation":"/Users/cembolat/Library/Application Support/Code/clp/fb39b03a49dcbb6a695c2ef603228cb9.tr/e170252f762678dec6ca2cc69aba1570769a5d39","_corruptedFile":"/Users/cembolat/Library/Application Support/Code/clp/fb39b03a49dcbb6a695c2ef603228cb9.tr/corrupted.info","_languagePackSupport":true}
 # environment
 _ = /usr/bin/make
 # makefile (from `Makefile', line 1)
@@ -70,7 +70,7 @@ HOME = /Users/cembolat
 # default
 MAKEFILEPATH := /Applications/Xcode.app/Contents/Developer/Makefiles
 # environment
-VSCODE_CODE_CACHE_PATH = /Users/cembolat/Library/Application Support/Code/CachedData/5c3e652f63e798a5ac2f31ffd0d863669328dc4c
+VSCODE_CODE_CACHE_PATH = /Users/cembolat/Library/Application Support/Code/CachedData/e170252f762678dec6ca2cc69aba1570769a5d39
 # environment
 LOGNAME = cembolat
 # environment
@@ -118,7 +118,7 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.23185287.23185293
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.24037569.24037575
 # environment
 HOMEBREW_PREFIX = /opt/homebrew
 # automatic
@@ -152,9 +152,9 @@ CLICOLOR = 1
 # environment
 LANG = C
 # environment
-VSCODE_PID = 93177
+VSCODE_PID = 24676
 # variable set hash-table stats:
-# Load=71/1024=7%, Rehash=0, Collisions=2/101=2%
+# Load=71/1024=7%, Rehash=0, Collisions=2/102=2%
 
 # Pattern-specific Variable Values
 
@@ -162,9 +162,9 @@ VSCODE_PID = 93177
 
 # Directories
 
-# . (device 16777232, inode 23955625): 17 files, no impossibilities.
+# . (device 16777232, inode 23955625): 18 files, no impossibilities.
 
-# 17 files, no impossibilities in 1 directories.
+# 18 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -180,7 +180,7 @@ VSCODE_PID = 93177
 Directory.class: Directory.java
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `Directory'
-#  Last modified 2024-04-19 20:53:02
+#  Last modified 2024-04-20 16:38:40
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -196,32 +196,14 @@ redoc: cleandoc doc
 #  File has not been updated.
 
 all: Directory.class File.class FileSystem.class FileSystemElement.class Main.class
- 
 #  Phony target (prerequisite of .PHONY).
 #  Command-line target.
 #  Implicit rule search has not been done.
-#  Implicit/static pattern stem: `'
 #  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
-# automatic
-# @ := all
-# automatic
-# % := 
-# automatic
-# * := 
-# automatic
-# + := Directory.class File.class FileSystem.class FileSystemElement.class Main.class
-# automatic
-# | := 
-# automatic
-# < := Directory.class
-# automatic
-# ^ := Directory.class File.class FileSystem.class FileSystemElement.class Main.class
-# automatic
-# ? := Directory.class File.class FileSystem.class FileSystemElement.class Main.class
 # variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/10=10%
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
 #  commands to execute (from `Makefile', line 9):
 	@echo "\033[0;32mThe Inventory Management System has been created by Cemal BOLAT.\nStudent No: 210104004010\033[0m"
 	@echo "\033[0;33mmake | run | doc | clean | cleandoc | re | redoc | fclean | readme\033[0m"
@@ -235,7 +217,7 @@ all: Directory.class File.class FileSystem.class FileSystemElement.class Main.cl
 # Not a target:
 Main.java:
 #  Implicit rule search has been done.
-#  Last modified 2024-04-19 20:50:32
+#  Last modified 2024-04-20 18:40:14
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -260,7 +242,7 @@ cleandoc:
 FileSystemElement.class: FileSystemElement.java
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `FileSystemElement'
-#  Last modified 2024-04-19 20:44:06
+#  Last modified 2024-04-20 16:26:59
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -281,7 +263,8 @@ Makefile:
 # Not a target:
 Directory.java:
 #  Implicit rule search has been done.
-#  Last modified 2024-04-19 20:52:54
+ 
+#  Last modified 2024-04-20 16:38:35
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -290,7 +273,7 @@ Directory.java:
 FileSystem.class: FileSystem.java
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `FileSystem'
-#  Last modified 2024-04-19 20:47:49
+#  Last modified 2024-04-20 17:04:06
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -308,7 +291,7 @@ fclean: clean cleandoc
 # Not a target:
 FileSystemElement.java:
 #  Implicit rule search has been done.
-#  Last modified 2024-04-19 20:42:51
+#  Last modified 2024-04-20 16:18:13
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -323,7 +306,7 @@ FileSystemElement.java:
 # Not a target:
 FileSystem.java:
 #  Implicit rule search has been done.
-#  Last modified 2024-04-19 20:47:46
+#  Last modified 2024-04-20 17:04:03
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -358,7 +341,7 @@ clean:
 File.class: File.java
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `File'
-#  Last modified 2024-04-19 20:44:07
+#  Last modified 2024-04-20 16:37:02
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -386,7 +369,7 @@ doc: Directory.java File.java FileSystem.java FileSystemElement.java Main.java
 # Not a target:
 File.java:
 #  Implicit rule search has been done.
-#  Last modified 2024-04-19 20:43:20
+#  Last modified 2024-04-20 16:36:56
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -395,17 +378,33 @@ File.java:
 Main.class: Main.java
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `Main'
-#  Last modified 2024-04-19 20:50:59
+#  Last modified 2024-04-20 16:44:13
 #  File has been updated.
-#  Successfully updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := Main.class
+# automatic
+# % := 
+# automatic
+# * := Main
+# automatic
+# + := Main.java
+# automatic
+# | := 
+# automatic
+# < := Main.java
+# automatic
+# ^ := Main.java
+# automatic
+# ? := Main.java
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+# Load=8/32=25%, Rehash=0, Collisions=1/12=8%
 #  commands to execute (from `Makefile', line 17):
 	@javac $(JFLAGS) $<
 	
 
 # files hash-table stats:
-# Load=23/1024=2%, Rehash=0, Collisions=0/82=0%
+# Load=23/1024=2%, Rehash=0, Collisions=0/81=0%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -417,6 +416,6 @@ Main.class: Main.java
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Sat Apr 20 00:18:20 2024
+# Finished Make data base on Sat Apr 20 18:40:24 2024
 
  

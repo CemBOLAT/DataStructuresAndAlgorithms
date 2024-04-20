@@ -3,6 +3,7 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 import java.sql.Timestamp;
 
+@SuppressWarnings("ThrowablePrintedToSystemOut")
 public class Main {
 
 	private static final String FILE_SYSTEM_FILE = "filesystem.txt";
@@ -11,7 +12,7 @@ public class Main {
 		Main main = new Main();
 
 		FileSystem fileSystem = new FileSystem();
-		main.loadFileSystem(fileSystem);
+		loadFileSystem(fileSystem);
 		boolean exit = false;
 		while (!exit){
 			main.printMenu();
@@ -31,20 +32,20 @@ public class Main {
 						fileSystem.deleteFileOrDirectory();
 						break;
 					case 5:
-						//main.moveFileOrDirectory(fileSystem);
+						fileSystem.moveFileOrDirectory();
 						break;
 					case 6:
 						fileSystem.searchFileOrDirectory();
 						break;
 					case 7:
-						//main.printDirectoryTree(fileSystem);
+						fileSystem.printDirectoryTree();
 						break;
 					case 8:
-						//main.sortContentsByDateCreated(fileSystem);
+						fileSystem.sortContentsByDateCreated();
 						break;
 					case 9:
 						exit = true;
-						main.savetheFileSystem(fileSystem);
+						saverFileSystem(fileSystem);
 						System.out.println("Saving and Exiting...");
 						break;
 					default:
@@ -58,7 +59,7 @@ public class Main {
 		}
 	}
 
-	public static void savetheFileSystem(FileSystem fileSystem){
+	public static void saverFileSystem(FileSystem fileSystem){
 		try{
 			//PrintWriter writer = new PrintWriter(FILE_SYSTEM_FILE);
 			PrintWriter writer = new PrintWriter(new FileWriter(FILE_SYSTEM_FILE));
@@ -112,8 +113,5 @@ public class Main {
 		System.out.println("8. Sort contents by date created");
 		System.out.println("9. Exit");
 		System.out.print("Please select an option: ");
-	}
-	public void printLine(){
-		System.out.println("======================================");
 	}
 }

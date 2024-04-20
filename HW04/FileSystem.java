@@ -1,26 +1,46 @@
 import java.sql.Timestamp;
 
 public class FileSystem {
-	private Directory root;
-	private Directory currentDirectory;
+	private final Directory	root;
+	private Directory		currentDirectory;
 
+	/**
+	 * Creates a new file system.
+	 */
 	public FileSystem() {
 		root = new Directory("/", new Timestamp(System.currentTimeMillis()), null);
 		currentDirectory = root;
 	}
 
+	/**
+	 * Returns the root directory.
+	 * @return the root directory
+	 */
 	public Directory getRoot() {
 		return root;
 	}
 
+	/**
+	 * Returns the current directory.
+	 * @return the current directory
+	 */
 	public Directory getCurrentDirectory() {
 		return currentDirectory;
 	}
 
+	/**
+	 * Sets the current directory.
+	 * @param currentDirectory the current directory
+	 */
 	public void setCurrentDirectory(Directory currentDirectory) {
 		this.currentDirectory = currentDirectory;
 	}
-
+	/**
+	 * Finds a directory with the specified path.
+	 * @param directory the directory to search
+	 * @param path the path of the directory to find
+	 * @return the directory with the specified path or null if not found
+	 */
 	public Directory findDirectory(Directory directory, String path) {
 		if (directory.getPath().equals(path)) {
 			return directory;
@@ -35,7 +55,13 @@ public class FileSystem {
 		}
 		return null;
 	}
-
+	/**
+	 * <p>Changes the current directory.</p>
+	 * <p>When the user enters "..", the current directory is changed to the parent directory.</p>
+	 * <p>When the user enters "/", the current directory is changed to the root directory.</p>
+	 * <p>The operation only works for absolute paths.</p>
+	 * @throws IllegalArgumentException if the directory does not exist
+	 */
 	public void changeDirectory() throws IllegalArgumentException {
 		printCurrentDirectory();
 		String absolutePath = getString("Enter new directory path: ");
@@ -61,10 +87,10 @@ public class FileSystem {
 	public void createFileOrDirectory() throws IllegalArgumentException {
 		printCurrentDirectory();
 		String option = getString("Create file or directory (f/d): ");
-		if (option.isEmpty() || option.length() > 1 || (!option.equals("f") && !option.equals("d"))){
+		if (option.length() != 1 || (!option.equals("f") && !option.equals("d"))){
 			throw new IllegalArgumentException("Invalid option.");
 		}
-		FileSystemElement fileSystemElement = null;
+		FileSystemElement fileSystemElement;
 		if (option.equals("f")) {
 			String name = getString("Enter name for new file: ");
 			fileSystemElement = new File(name, new Timestamp(System.currentTimeMillis()), currentDirectory);
@@ -103,7 +129,7 @@ public class FileSystem {
 	private Integer search(Directory directory, String query) {
 		Integer found = 0;
 		for (var element : directory.getChildren()) {
-			// We can use equals() for exact match but the variable name is query so I assume partial match is way better
+			// We can use equals() for exact match but the variable name is query, so I assume partial match is way better
 			if (element.getName().contains(query)) {
 				System.out.println("Found: " + element.getPath());
 				found++;
@@ -118,7 +144,7 @@ public class FileSystem {
 	public void searchFileOrDirectory() throws IllegalArgumentException {
 		String query = getString("Search query: ");
 		System.out.println("Searching from root...");
-		Integer found = search(currentDirectory, query);
+		Integer found = search(root, query);
 		if (found == 0) {
 			System.out.println("No files or directories found.");
 		}
@@ -134,6 +160,55 @@ public class FileSystem {
 			throw new IllegalArgumentException("Input cannot be empty.");
 		} else {
 			return input;
+		}
+	}
+	public void moveFileOrDirectory(){
+		printCurrentDirectory();
+		String name = getString("Enter the name of file/directory to move: ");
+		FileSystemElement element = currentDirectory.getChild(name);
+		if (element == null) {
+			System.out.println("File or directory not found.");
+		} else {
+			String newPath = getString("Enter new directory path: ");
+			Directory newDirectory = findDirectory(root, newPath);
+			if (newDirectory != null) {
+				currentDirectory.remove(element);
+				newDirectory.add(element);
+				element.updatePathAtMove(newDirectory.getPath());
+			} else {
+				System.out.println("Directory not found.");
+			}
+		}
+
+	}
+
+	public void sortContentsByDateCreated(){
+		System.out.println("Sorted contents of " + currentDirectory.getPath() + " by date created:");
+		currentDirectory.sortChildrenByDateCreated();
+		currentDirectory.printChildrenToDate();
+	}
+	public void printDirectoryTree() {
+		System.out.println("Path to current directory from root: ");
+		int		nbrOfSpace = 0;
+		if (!currentDirectory.getPath().equals("/")){
+			String[] token = currentDirectory.getPath().split("/");
+			for (int j = 0; j < token.length - 1; j++){
+				for (int i = 0; i < nbrOfSpace; i++){
+					System.out.print(" ");
+				}
+				System.out.println("* " + token[j] + "/");
+				nbrOfSpace += 2;
+			}
+		}
+		for (int i = 0; i < nbrOfSpace; i++){
+			System.out.print(" ");
+		}
+		System.out.println((currentDirectory.getParent() == null) ? ("* / (Current Directory)") : (currentDirectory + " (Current Directory)"));
+		for (var t : currentDirectory.getChildren()){
+			for (int i = 0; i < nbrOfSpace + 2; i++){
+				System.out.print(" ");
+			}
+			System.out.println(t);
 		}
 	}
 }
