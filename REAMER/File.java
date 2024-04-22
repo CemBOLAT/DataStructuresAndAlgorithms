@@ -1,9 +1,22 @@
 import java.sql.Timestamp;
 import java.io.PrintWriter;
 
-public class File extends FileSystemElement {
+/**
+ * A class representing a file in a file system.
+ * <p> This class is used to represent a file in a file system. </p>
+ * <p> It extends the FileSystemElement class. </p>
+ * 
+ * <p> The class has the following methods: </p>
+ * <ul>
+ *  <li> {@link #File(String, FileSystemElement)}: Creates a new file with a name and a parent directory. </li>
+ * 	<li> {@link #File(String, FileSystemElement, Timestamp)}: Creates a new file with a name, a parent directory, and a creation date. </li>
+ *  <li> {@link #toString()}: Wanted format for printing the file. </li>
+ *	<li> {@link #print(String)}: Prints the file with a prefix. </li>
+ *	<li> {@link #saveElement(PrintWriter)}: Saves the file to a file. </li>
+ * </ul>
+ */
 
-	private static final int ASCII_ACK = 6;
+public class File extends FileSystemElement {
 
 	/**
 	 * Creates a new file with a name and a parent directory.
@@ -14,7 +27,6 @@ public class File extends FileSystemElement {
 	public File(String name, FileSystemElement parent) {
 		super(name, parent);
 	}
-
 
 	/**
 	 * Creates a new file with a name, a parent directory, and a creation date.
@@ -28,9 +40,9 @@ public class File extends FileSystemElement {
 	}
 
 	/**
-	 * Returns the name of the file.
-	 *
-	 * @return the name of the file
+	 * Wanted format for printing the file.
+	 * 
+	 * @return the formatted string
 	 */
 	@Override
 	public String toString(){

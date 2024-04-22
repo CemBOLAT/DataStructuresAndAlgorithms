@@ -4,16 +4,31 @@ import java.util.LinkedList;
 import java.io.PrintWriter;
 
 /**
- * Directory class represents a directory in the file system.
- * <p> A directory can contain other directories and files. </p>
- *
- * <p> A directory can be created with a name and a parent directory. </p>
+ * A class representing a directory in a file system.
+ * <p> This class is used to represent a directory in a file system. </p>
+ * <p> It contains a list of children elements, which can be either files or directories. </p>
+ * <p> It also contains methods for adding and removing children, as well as sorting them. </p>
+ * <p> It extends the FileSystemElement class. </p>
+ * 
+ * <p> The class has the following methods: </p>
+ * <ul>
+ * 	<li> {@link #Directory(String, Directory)}: Creates a new directory with a name and a parent directory. </li>
+ * 	<li> {@link #Directory(String, Directory, Timestamp)}: Creates a new directory with a name, a parent directory, and a creation date. </li>
+ * 	<li> {@link #add(FileSystemElement)}: Adds a child element to the directory. </li>
+ * 	<li> {@link #remove(FileSystemElement)}: Removes a child element from the directory. </li>
+ * 	<li> {@link #removeRef(FileSystemElement)}: Removes a single child element from the directory. </li>
+ * 	<li> {@link #toString()}: Wanted format for printing the directory with '*' and '/'. </li>
+ * 	<li> {@link #print(String)}: Prints the directorys full path to the console. </li>
+ * 	<li> {@link #sortByDate()}: Sorts the children of the directory by name. </li>
+ * 	<li> {@link #getChildren()}: Returns the children of the directory. </li>
+ * 	<li> {@link #saveElement(PrintWriter)}: Saves the directory and its children to a file. </li>
+ * 	<li> {@link #getChild(String)}: Returns the child element with the given name. </li>
+ * </ul>
  */
 
 public class Directory extends FileSystemElement {
-	private List<FileSystemElement> children;
-	private static final int ASCII_ACK = 6;
-
+	private List<FileSystemElement> children; // The children of the directory
+	private static final int ASCII_ACK = 6; // ASCII value for ACK character (used for saving)
 
 	/**
 	 * Creates a new directory with a name and a parent directory.
@@ -50,6 +65,7 @@ public class Directory extends FileSystemElement {
 
 	/**
 	 * Removes a child element from the directory recursively.
+	 * <p> This method is used to remove a directory and all its children. and its helper method for remove(FileSystemElement child) </p>
 	 *
 	 * @param child the child element to remove
 	 */
@@ -67,7 +83,8 @@ public class Directory extends FileSystemElement {
 
 	/**
 	 * Removes a child element from the directory.
-	 *
+	 * <p> This method is used in deleting part of the file system. </p>
+	 * 
 	 * @param child the child element to remove
 	 */
 	public void remove(FileSystemElement child) {
@@ -81,18 +98,19 @@ public class Directory extends FileSystemElement {
 
 	/**
 	 * Removes a single child element from the directory.
-	 *
+	 * <p> This method is used in moving part of the file system. </p>
+	 * 
 	 * @param child the child element to remove
 	 */
-	public void singleRemove(FileSystemElement child) {
+	public void removeRef(FileSystemElement child) {
 		children.remove(child);
 		child.setParent(null);
 	}
 
 	/**
-	 * Returns the name of the directory.
-	 *
-	 * @return the name of the directory
+	 * Wanted format for printing the directory with '*' and '/'
+	 * 
+	 * @return the formatted string
 	 */
 	@Override
 	public String toString(){
@@ -100,7 +118,7 @@ public class Directory extends FileSystemElement {
 	}
 
 	/**
-	 * Prints the directory and its children.
+	 * Prints the directorys full path to the console.
 	 *
 	 * @param prefix the prefix to print before the directory
 	 */
@@ -111,6 +129,10 @@ public class Directory extends FileSystemElement {
 
 	/**
 	 * Sorts the children of the directory by name.
+	 * 
+	 * <p> This method is used in sorting the children of the directory. </p>
+	 * <br>
+	 * postcondition: the children of the directory are sorted by name
 	 */
 	public void sortByDate() {
 		children.sort((a, b) -> a.getDateCreated().compareTo(b.getDateCreated()));
@@ -127,16 +149,35 @@ public class Directory extends FileSystemElement {
 
 	/**
 	 * Saves the directory and its children to a file.
-	 *
+	 * 
+	 * <p> This method is externalized to the file system. </p>
+	 * <p> I used the ASCII value of ACK character to understand the format of element. </p>
+	 * <p> I add deleting and loading from the file system to make control of the file system. <like a tester> </p>
+	 * 
 	 * @param writer the PrintWriter to write to the file
 	 */
 	@Override
 	public void saveElement(PrintWriter writer) {
-		if (getParent() != null) {
+		if (getParent() != null) { // ignore root directory
 			writer.println((char)ASCII_ACK + getName() + " " + getDateCreated().getTime() + " " + getParent().getFullPath());
 		}
 		for (var child : children) {
 			child.saveElement(writer);
 		}
+	}
+
+	/**
+	 * Returns the child element with the given name.
+	 * 
+	 * @param name the name of the child element
+	 * @return the child element with the given name, or null if it does not exist
+	 */
+	public FileSystemElement getChild(String name){
+		for (var e : children){
+			if (e.getName().equals(name)){
+				return e;
+			}
+		}
+		return null;
 	}
 }

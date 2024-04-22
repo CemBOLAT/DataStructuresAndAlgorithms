@@ -1,14 +1,39 @@
 import java.sql.Timestamp;
 import java.io.PrintWriter;
 
+/**
+ * A class representing a file system.
+ * <p> This class is used to represent a file system. </p>
+ * <p> It contains a root directory. </p>
+ * <p> It contains methods for creating, deleting, moving, and searching for files and directories. </p>
+ * <p> It also contains methods for printing the directory tree, listing the contents of a directory, and sorting the contents of a directory by date created. </p>
+ * <p> It also contains methods for changing the current directory and getting the current path. </p>
+ * 
+ * <p> The class has the following methods: </p>
+ * <ul>
+ * <li> {@link #FileSystem()} </li>
+ * <li> {@link #createFile(String, Directory)} </li>
+ * <li> {@link #createDirectory(String, Directory)} </li>
+ * <li> {@link #deleteFileOrDirectory(String, Directory)} </li>
+ * <li> {@link #moveElement(String, String, Directory)} </li>
+ * <li> {@link #search(String)} </li>
+ * <li> {@link #printDirectoryTree(Directory)} </li>
+ * <li> {@link #listContents(Directory)} </li>
+ * <li> {@link #sortDirectoryByDate(Directory)} </li>
+ * <li> {@link #getCurrentPath(Directory)} </li>
+ * <li> {@link #changeDirectory(Directory, String)} </li>
+ * <li> {@link #getRoot()} </li>
+ * </ul>
+ * 
+ */
+
 public class FileSystem {
-	private final Directory	root;
-	private static final int ASCII_ACK = 6;
+	private final Directory	root; // The root directory
+	private static final int ASCII_ACK = 6; // ASCII value for ACK character (used for saving)
 	/**
 	 * Creates a new file system.
 	 *
-	 * <p> The file system has a root directory. </p>
-	 *
+	 * <p> The file system initially contains a root directory. </p>
 	 */
 	public FileSystem() {
 		root = new Directory("/", null);
@@ -21,10 +46,10 @@ public class FileSystem {
 	 * @param parent the parent directory
 	 */
 	public void createFile(String name, Directory parent){
-		// Create a new file
 		File newFile = new File(name, parent);
-		parent.add(newFile);
+		parent.add(newFile); // use add method from Directory class
 	}
+
 	/**
 	 * Creates new file to parent directory.
 	 *
@@ -33,12 +58,9 @@ public class FileSystem {
 	 * @throws IllegalArgumentException if the file already exists
 	 */
 	public void createDirectory(String name, Directory parent) throws IllegalArgumentException{
-		// Create a new directory
-		// if exist already, print error message
-		for (var e : parent.getChildren()){
-			if (e.getName().equals(name)){
-				throw new IllegalArgumentException("Directory already exists.");
-			}
+		FileSystemElement element = parent.getChild(name);
+		if (element != null){
+			throw new IllegalArgumentException("Directory already exists.");
 		}
 		Directory newDirectory = new Directory(name, parent);
 		parent.add(newDirectory);
@@ -54,7 +76,7 @@ public class FileSystem {
 		// Delete a element recursively
 		for (var e : parent.getChildren()){
 			if (e.getName().equals(name)){
-				parent.remove(e);
+				parent.remove(e); // use recursive remove method from Directory class
 				return;
 			}
 		}
@@ -66,76 +88,77 @@ public class FileSystem {
 	 * @param name the name of the file or directory
 	 * @param path the path of the new parent directory
 	 * @param parent the parent directory
-	 * @throws IllegalArgumentException if the file or directory does not exist or if the file or directory already exists in the new parent directory
+	 * @throws IllegalArgumentException if the element is not found in parent directory
+	 * @throws IllegalArgumentException if the path is invalid
+	 * @throws IllegalArgumentException if the same named element already exists in the new parent directory
 	 */
 	public void moveElement(String name, String path, Directory parent) throws IllegalArgumentException{
-		// Move an element to a new parent
-
-		FileSystemElement element = null;
-		for (var e : parent.getChildren()){
-			if (e.getName().equals(name)){
-				element = e;
-				break;
-			}
-		}
-
+		FileSystemElement element = parent.getChild(name); // getting the element to move
 		if (element == null){
 			throw new IllegalArgumentException("Element not found.");
 		}
-		Directory newParent = changeDirectory(root, path);
-		for (var e : newParent.getChildren()){
-			if (e.getName().equals(name)){
-				throw new IllegalArgumentException("Element already exists in the new directory.");
-			}
+		Directory newParent = changeDirectory(root, path); // getting the new parent directory
+		if (newParent == null){
+			throw new IllegalArgumentException("Invalid path.");
 		}
-		parent.singleRemove(element);
-		newParent.add(element);
+
+		FileSystemElement e = newParent.getChild(name); // checking if the same named element already exists in the new parent directory
+		if (e != null){
+			throw new IllegalArgumentException("Element already exists in the new parent directory.");
+		}
+
+		parent.removeRef(element); // removing the reference of the element from the parent directory
+		newParent.add(element); // adding the element to the new parent directory
+
+		// printing the moved element information
 		if (element instanceof Directory){
-			// Directory moved: Reports to /home/user/Documents
 			System.out.println("Directory moved: " + element.getName() + " to " + path);
 		}
 		else {
-			// File moved: Report.docx to /home/user/Documents/Reports
 			System.out.println("File moved: " + element.getName() + " to " + path);
 		}
 	}
 
 	/**
-	 * search for an element in the file system recursively
+	 * Search for an element in the file system recursively
+	 * 
+	 * <p> This method is used to search for an element in the file system recursively. </p>
+	 * <p> This method is a helper method for the search method. </p>
+	 * 
 	 * @param directory the directory to search in
 	 * @param name the name of the element to search for
-	 * @param f the number of elements found
+	 * @param found the number of elements found
 	 * @return the number of elements found
 	 */
-	private int searchRec(Directory directory, String name, int f){
+	private int searchRec(Directory directory, String name, int found){
 		// Search for an element in a directory recursively
 		for (var e : directory.getChildren()){
 			if (e.getName().equals(name)){
 				e.print("Found: ");
-				f += 1;
+				found += 1;
 			}
 			if (e instanceof Directory){
-				f = searchRec((Directory)e, name, f);
+				found = searchRec((Directory)e, name, found);
 			}
 		}
-		return f;
+		return found;
 	}
 
 	/**
-	 * search for an element in the file system
+	 * Search for an element in the file system
 	 * @param name the name of the element to search for
 	 * @return true if the element is found, false otherwise
 	 */
 	public boolean search(String name){
-		// Search for an element in the file system
 		int f = searchRec(root, name, 0);
 		return f > 0;
 	}
 
 	/**
-	 * print the directory tree recursively
+	 * Print the directory tree recursively
 	 * <br>
-	 * it calculates the path of the directory and prints the tree according to '/' in the path
+	 * <p> It calculates the path of the directory and prints the tree according to '/' in the path </p>
+	 
 	 * @param directory the directory to print
 	 */
 	public void printDirectoryTree(Directory directory){
@@ -165,7 +188,7 @@ public class FileSystem {
 	}
 
 	/**
-	 * list the contents of a directory
+	 * List the contents of a directory
 	 *
 	 * @param directory the directory to list the contents of
 	 */
@@ -180,13 +203,16 @@ public class FileSystem {
 		}
 	}
 	/**
-	 * sort the contents of a directory by date created
-	 *
+	 * Sort the contents of a directory by date created
+	 * <p> This method is used to sort the contents of a directory by date created. </p>
+	 * <p> I used java.util.Collections.sort() method to sort the contents of a directory. </p>
+	 * <p> I used the compareTo() method to compare the date created of the files. </p>
+	 * 
 	 * @param directory the directory to sort the contents of
 	 */
 	public void sortDirectoryByDate(Directory directory){
 		// Sort the contents of a directory by date created
-		directory.sortByDate();
+		directory.sortByDate(); // use sortByDate method from Directory class
 		for (var e : directory.getChildren()){
 			if (e instanceof File){
 				System.out.println(e + " (" + ((File)e).getDateCreated() + ")");
@@ -197,10 +223,12 @@ public class FileSystem {
 	}
 
 	/**
-	 * get the path of a directory recursively
+	 * Get the path of a directory recursively
+	 * <p> This method is used to get the path of a directory recursively. </p>
+	 * <p> This method is a helper method for the getCurrentPath method. </p>
+	 * 
 	 * @param dir the directory to get the path of
 	 * @param path the path of the directory
-	 *
 	 * @return the path of the directory
 	 */
 	private String getPathRec(Directory dir, String path){
@@ -211,7 +239,7 @@ public class FileSystem {
 	}
 
 	/**
-	 * get the current path of a directory
+	 * Get the current path of a directory
 	 * @param directory the directory to get the path of
 	 * @return the current path of the directory
 	 */
@@ -223,7 +251,9 @@ public class FileSystem {
 	}
 
 	/**
-	 * change the current directory recursively
+	 * Change the current directory recursively
+	 * <p> This method is used to change the current directory recursively. </p>
+	 * 
 	 * @param directory the current directory
 	 * @param path the path to change to
 	 * @return the new directory
@@ -231,22 +261,22 @@ public class FileSystem {
 	 */
 	public Directory changeDirectory(Directory directory , String path) throws IllegalArgumentException{
 		// Change the current directory recursively
-		if (path.length() == 0){
+		if (path.length() == 0){ // if path is empty
 			return directory;
 		}
-		else if (path.equals("/")){
+		else if (path.equals("/")){ // if path is root
 			return root;
 		}
-		else if (path.equals(".")){
+		else if (path.equals(".")){ // if path is current directory
 			return directory;
 		}
-		else if (path.equals("..")){
+		else if (path.equals("..")){ // if path is parent directory
 			if (directory.getParent() == null){
 				return directory;
 			}
 			return (Directory)directory.getParent();
 		}
-		else if (path.charAt(0) == '/'){
+		else if (path.charAt(0) == '/'){ // get rid of the first '/' for each recursive call /gtu/cpp/ -> gtu/cpp/ (split)-> /cpp/(this else if block) -> cpp/
 			return changeDirectory(directory, path.substring(1));
 		}
 		else {

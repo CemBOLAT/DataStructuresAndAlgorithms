@@ -3,7 +3,23 @@ import java.io.PrintWriter;
 
 /**
  * Represents a file system element.
- *
+ * <p> This class is used to represent a file system element. </p>
+ * <p> It is the superclass of the Directory and File classes. </p>
+ * <p> It contains the name of the file system element, the date created, and the parent directory. </p>
+ * 
+ * <p> The class has the following methods: </p>
+ * <ul>
+ *  <li> {@link #FileSystemElement(String, FileSystemElement)}: Creates a new file system element with a name and a parent directory. </li>
+ *  <li> {@link #FileSystemElement(String, FileSystemElement, Timestamp)}: Creates a new file system element with a name, a parent directory, and a creation date. </li>
+ *  <li> {@link #getName()}: Returns the name of the file system element. </li>
+ *  <li> {@link #getDateCreated()}: Returns the date created. </li>
+ *  <li> {@link #getParent()}: Returns the parent directory. </li>
+ *  <li> {@link #setParent(FileSystemElement)}: Sets the parent directory. </li>
+ *  <li> {@link #getFullPath()}: Returns the full path of the file system element. </li>
+ *  <li> {@link #print(String)}: Prints the file system element with a prefix. </li>
+ *  <li> {@link #saveElement(PrintWriter)}: Saves the file system element to a file. </li>
+ * </ul>
+ * 
  */
 public abstract class FileSystemElement {
     private final String        name;
@@ -87,7 +103,14 @@ public abstract class FileSystemElement {
         return getPathRecursive();
 	}
 
-
+    /**
+     * Prints the file system element with a prefix.
+     * @param prefix the prefix to print
+     */
     public abstract void print(String prefix);
+    /**
+     * Saves the file system element to a file.
+     * @param writer the writer to save the file
+     */
     public abstract void saveElement(PrintWriter writer);
 }
