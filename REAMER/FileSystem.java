@@ -74,11 +74,16 @@ public class FileSystem {
 	 */
 	public void deleteFileOrDirectory(String name, Directory parent){
 		// Delete a element recursively
+		int found = 0;
 		for (var e : parent.getChildren()){
 			if (e.getName().equals(name)){
 				parent.remove(e); // use recursive remove method from Directory class
+				found += 1;
 				return;
 			}
+		}
+		if (found == 0){
+			System.out.println("Element not found.");
 		}
 	}
 
