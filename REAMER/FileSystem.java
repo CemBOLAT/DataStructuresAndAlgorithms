@@ -44,8 +44,13 @@ public class FileSystem {
 	 *
 	 * @param name the name of the file
 	 * @param parent the parent directory
+	 * @throws IllegalArgumentException if the same named element already exists
 	 */
 	public void createFile(String name, Directory parent){
+		FileSystemElement element = parent.getChild(name);
+		if (element != null){
+			throw new IllegalArgumentException("Same named element already exists.");
+		}
 		File newFile = new File(name, parent);
 		parent.add(newFile); // use add method from Directory class
 	}
@@ -55,12 +60,12 @@ public class FileSystem {
 	 *
 	 * @param name the name of the file
 	 * @param parent the parent directory
-	 * @throws IllegalArgumentException if the file already exists
+	 * @throws IllegalArgumentException if the same named element already exists
 	 */
 	public void createDirectory(String name, Directory parent) throws IllegalArgumentException{
 		FileSystemElement element = parent.getChild(name);
 		if (element != null){
-			throw new IllegalArgumentException("Directory already exists.");
+			throw new IllegalArgumentException("Same named element already exists.");
 		}
 		Directory newDirectory = new Directory(name, parent);
 		parent.add(newDirectory);
