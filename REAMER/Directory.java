@@ -92,7 +92,7 @@ public class Directory extends FileSystemElement {
 		if (child instanceof Directory) {
 			System.out.println("Directory deleted: " + child.getName() + "/");
 		} else {
-			System.out.println("Directory deleted: " + child.getName());
+			System.out.println("File deleted: " + child.getName());
 		}
 	}
 

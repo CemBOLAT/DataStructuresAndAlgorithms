@@ -214,10 +214,13 @@ public class FileSystem {
 		// Sort the contents of a directory by date created
 		directory.sortByDate(); // use sortByDate method from Directory class
 		for (var e : directory.getChildren()){
+			String date = e.getDateCreated().toString();
+			int index = date.indexOf(".");
+			date = date.substring(0, index);
 			if (e instanceof File){
-				System.out.println(e + " (" + ((File)e).getDateCreated() + ")");
+				System.out.println(e + " (" + date + ")");
 			} else {
-				System.out.println(e + " (" + ((Directory)e).getDateCreated() + ")");
+				System.out.println(e + " (" + date + ")");
 			}
 		}
 	}
@@ -253,6 +256,43 @@ public class FileSystem {
 	/**
 	 * Change the current directory recursively
 	 * <p> This method is used to change the current directory recursively. </p>
+	 * <p> This method is a helper method for the changeDirectory method. </p>
+	 * 
+	 * @param directory the current directory
+	 * @param path the path to change to
+	 * @return the new directory
+	 * @throws IllegalArgumentException if the path is invalid
+	 */
+	private Directory changeDirectoryRec(Directory directory, String path) throws IllegalArgumentException{
+		// Change the current directory recursively
+		if (path.length() == 0){
+			return directory;
+		}
+		if (path.charAt(0) == '/'){ // // get rid of the first '/' for each recursive call /gtu/cpp/ -> gtu/cpp/ (split)-> /cpp/(this else if block) -> cpp/
+			return changeDirectoryRec(directory, path.substring(1));
+		}
+		else {
+			String[] parts = path.split("/");
+			for (var e : directory.getChildren()){
+				if (e.getName().equals(parts[0])){
+					if (e instanceof Directory){
+						if (parts.length == 1){
+							return (Directory)e;
+						}
+						return changeDirectoryRec((Directory)e, path.substring(parts[0].length()));
+					}
+					else {
+						throw new IllegalArgumentException("Invalid path.");
+					}
+				}
+			}
+		}
+		throw new IllegalArgumentException("Invalid path.");
+	}
+
+	/**
+	 * Change the current directory recursively
+	 * <p> This method is used to change the current directory recursively. </p>
 	 * 
 	 * @param directory the current directory
 	 * @param path the path to change to
@@ -261,10 +301,7 @@ public class FileSystem {
 	 */
 	public Directory changeDirectory(Directory directory , String path) throws IllegalArgumentException{
 		// Change the current directory recursively
-		if (path.length() == 0){ // if path is empty
-			return directory;
-		}
-		else if (path.equals("/")){ // if path is root
+		if (path.equals("/")){ // if path is root
 			return root;
 		}
 		else if (path.equals(".")){ // if path is current directory
@@ -276,26 +313,7 @@ public class FileSystem {
 			}
 			return (Directory)directory.getParent();
 		}
-		else if (path.charAt(0) == '/'){ // get rid of the first '/' for each recursive call /gtu/cpp/ -> gtu/cpp/ (split)-> /cpp/(this else if block) -> cpp/
-			return changeDirectory(directory, path.substring(1));
-		}
-		else {
-			String[] parts = path.split("/");
-			for (var e : directory.getChildren()){
-				if (e.getName().equals(parts[0])){
-					if (e instanceof Directory){
-						if (parts.length == 1){
-							return (Directory)e;
-						}
-						return changeDirectory((Directory)e, path.substring(parts[0].length()));
-					}
-					else {
-						throw new IllegalArgumentException("Invalid path.");
-					}
-				}
-			}
-		}
-		throw new IllegalArgumentException("Invalid path.");
+		return changeDirectoryRec(root, path);
 	}
 
 	/**

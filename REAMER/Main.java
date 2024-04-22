@@ -21,6 +21,26 @@ public class Main {
 	private static FileSystem fileSystem = new FileSystem(); // file system as teacher showed in ps
 	private static final int ASCII_ACK = 6; // ASCII code for ACK character (used to differentiate between files and directories while saving and loading) external property
 
+	/**
+	 * Main method to test the file system
+	 * 
+	 * <p> The user can change directories, list directory contents, create files and directories, delete files and directories, move files and directories, search for files and directories, print the directory tree, sort contents by date created, and exit the program. </p>
+	 * <p> The file system is saved to a file called "filesystem.txt" when the user exits the program. (external property) </p>
+	 * <p> The file system is loaded from the file "filesystem.txt" when the program starts. (external property) </p>
+	 * <br>
+	 * <p> The user can enter the following options: </p>
+	 * <p> 1. Change directory </p>
+	 * <p> 2. List directory contents </p>
+	 * <p> 3. Create file/directory </p>
+	 * <p> 4. Delete file/directory </p>
+	 * <p> 5. Move file/directory </p>
+	 * <p> 6. Search file/directory </p>
+	 * <p> 7. Print directory tree </p>
+	 * <p> 8. Sort contents by date created </p>
+	 * <p> 9. Exit </p>
+	 * 
+	 * @param args the command line arguments
+	 */
 	public static void main(String[] args){
 		currentDirectory = fileSystem.getRoot(); // initial directory is root
 		loadFileSystem(fileSystem); // load file system from file
@@ -76,7 +96,7 @@ public class Main {
 	private static void changeDirectory(){
 		currentDirectory.print("Current directory: ");
 		String path = getString("Enter new directory path: ");
-		currentDirectory = fileSystem.changeDirectory(fileSystem.getRoot(), path);
+		currentDirectory = fileSystem.changeDirectory(currentDirectory, path);
 		currentDirectory.print("Directory changed to: ");
 	}
 
