@@ -6,9 +6,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
- 
 
-# Make data base, printed on Mon Apr 22 13:04:39 2024
+# Make data base, printed on Mon Apr 22 15:13:07 2024
 
 # Variables
 
@@ -19,7 +18,6 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # environment
 VSCODE_CRASH_REPORTER_PROCESS_TYPE = extensionHost
 # makefile (from `Makefile', line 5)
- 
 SRC := Directory.java File.java FileSystem.java FileSystemElement.java Main.java
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
@@ -154,7 +152,7 @@ CLICOLOR = 1
 # environment
 LANG = C
 # environment
-VSCODE_PID = 7791
+VSCODE_PID = 24513
 # variable set hash-table stats:
 # Load=71/1024=7%, Rehash=0, Collisions=2/102=2%
 
@@ -182,7 +180,7 @@ VSCODE_PID = 7791
 Directory.class: Directory.java
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `Directory'
-#  Last modified 2024-04-22 11:57:32
+#  Last modified 2024-04-22 14:58:11
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -217,7 +215,6 @@ all: Directory.class File.class FileSystem.class FileSystemElement.class Main.cl
 #  File has not been updated.
 
 # Not a target:
- 
 Main.java:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -257,7 +254,7 @@ Makefile:
 # Not a target:
 Directory.java:
 #  Implicit rule search has been done.
-#  Last modified 2024-04-22 11:57:29
+#  Last modified 2024-04-22 14:55:27
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -266,8 +263,9 @@ Directory.java:
 FileSystem.class: FileSystem.java
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `FileSystem'
-#  Last modified 2024-04-22 12:18:07
+#  Last modified 2024-04-22 14:58:14
 #  File has been updated.
+ 
 #  Needs to be updated (-q is set).
 # automatic
 # @ := FileSystem.class
@@ -312,7 +310,7 @@ FileSystemElement.java:
 # Not a target:
 FileSystem.java:
 #  Implicit rule search has been done.
-#  Last modified 2024-04-22 13:04:29
+#  Last modified 2024-04-22 15:12:48
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -347,7 +345,7 @@ clean:
 File.class: File.java
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `File'
-#  Last modified 2024-04-22 11:17:23
+#  Last modified 2024-04-22 14:58:12
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -375,7 +373,7 @@ doc: Directory.java File.java FileSystem.java FileSystemElement.java Main.java
 # Not a target:
 File.java:
 #  Implicit rule search has been done.
-#  Last modified 2024-04-22 11:15:42
+#  Last modified 2024-04-22 14:56:32
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -400,6 +398,6 @@ Main.class:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Mon Apr 22 13:04:39 2024
+# Finished Make data base on Mon Apr 22 15:13:07 2024
 
  

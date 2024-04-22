@@ -57,7 +57,6 @@ public class Main {
 			} catch (NumberFormatException e){
 				System.out.println("Invalid option. Please try again.");
 			} catch (Exception e){
-				/* Handle exception */
 				System.out.println(e.getMessage());
 			}
 		}
@@ -79,10 +78,10 @@ public class Main {
 	}
 
 	private static void changeDirectory(){
-		System.out.println("Current directory: " + fileSystem.getCurrentPath(currentDirectory));
+		currentDirectory.print("Current directory: ");
 		String path = getString("Enter new directory path: ");
 		currentDirectory = fileSystem.changeDirectory(fileSystem.getRoot(), path);
-		System.out.println("Directory changed to: " + fileSystem.getCurrentPath(currentDirectory));
+		currentDirectory.print("Directory changed to: ");
 	}
 
 	private static void searchFileOrDirectory(){
@@ -94,19 +93,19 @@ public class Main {
 	}
 
 	private static void listDirectoryContents(){
-		System.out.println("Listing contents of " + fileSystem.getCurrentPath(currentDirectory) + ":");
+		currentDirectory.print("Listing contents of ");
 		fileSystem.listContents(currentDirectory);
 	}
 
 	private static void createFileOrDirectory() throws IllegalArgumentException {
-		System.out.println("Current directory: " + fileSystem.getCurrentPath(currentDirectory));
+		currentDirectory.print("Current directory: ");
 		String option = getString("Create file or directory (f/d): ");
 		if (option.equals("d")){
-			String name = getString("Enter name for new file: ");
+			String name = getString("Enter name for new directory: ");
 			fileSystem.createDirectory(name, currentDirectory);
 			System.out.println("Directory created: " + name + "/");
 		} else if (option.equals("f")){
-			String name = getString("Enter name for new directory: ");
+			String name = getString("Enter name for new file: ");
 			fileSystem.createFile(name, currentDirectory);
 			System.out.println("File created: " + name);
 		} else {
@@ -115,7 +114,7 @@ public class Main {
 	}
 
 	private static void deleteFileOrDirectory(){
-		System.out.println("Current directory: " + fileSystem.getCurrentPath(currentDirectory));
+		currentDirectory.print("Current directory: ");
 		String option = getString("Enter name of file/directory to delete: ");
 		fileSystem.deleteFileOrDirectory(option, currentDirectory);
 
@@ -127,9 +126,9 @@ public class Main {
 	}
 
 	private static void moveFileOrDirectory(){
-		System.out.println("Current directory: " + fileSystem.getCurrentPath(currentDirectory));
+		currentDirectory.print("Current directory: ");
 		String name = getString("Enter name of file/directory to move: ");
-		String path = getString("Enter new directory path:");
+		String path = getString("Enter new directory path: ");
 
 		fileSystem.moveElement(name, path, currentDirectory);
 	}
