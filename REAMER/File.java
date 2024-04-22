@@ -2,6 +2,9 @@ import java.sql.Timestamp;
 import java.io.PrintWriter;
 
 public class File extends FileSystemElement {
+
+	private static final int ASCII_ACK = 6;
+
 	public File(String name, FileSystemElement parent) {
 		super(name, parent);
 	}
@@ -20,4 +23,8 @@ public class File extends FileSystemElement {
 		System.out.println(prefix + getName());
 	}
 
+	@Override
+	public void saveElement(PrintWriter writer){
+		writer.println(getName() + " " + getDateCreated().getTime() + " " + getParent().getFullPath());
+	}
 }

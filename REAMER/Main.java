@@ -58,7 +58,7 @@ public class Main {
 				System.out.println("Invalid option. Please try again.");
 			} catch (Exception e){
 				/* Handle exception */
-				System.out.println(e);
+				System.out.println(e.getMessage());
 			}
 		}
 	}
@@ -75,38 +75,110 @@ public class Main {
 
 	private static void printDirectoryTree(){
 		System.out.println("Path to current directory from root: ");
+		fileSystem.printDirectoryTree(currentDirectory);
 	}
 
 	private static void changeDirectory(){
 		System.out.println("Current directory: " + fileSystem.getCurrentPath(currentDirectory));
 		String path = getString("Enter new directory path: ");
+		currentDirectory = fileSystem.changeDirectory(fileSystem.getRoot(), path);
+		System.out.println("Directory changed to: " + fileSystem.getCurrentPath(currentDirectory));
 	}
 
 	private static void searchFileOrDirectory(){
 		String name = getString("Search query: ");
+		System.out.println("Searching from root...");
+		if (!fileSystem.search(name)){
+			System.out.println("Element not found: " + name);
+		}
 	}
 
 	private static void listDirectoryContents(){
 		System.out.println("Listing contents of " + fileSystem.getCurrentPath(currentDirectory) + ":");
+		fileSystem.listContents(currentDirectory);
 	}
 
 	private static void createFileOrDirectory() throws IllegalArgumentException {
 		System.out.println("Current directory: " + fileSystem.getCurrentPath(currentDirectory));
+		String option = getString("Create file or directory (f/d): ");
+		if (option.equals("d")){
+			String name = getString("Enter name for new file: ");
+			fileSystem.createDirectory(name, currentDirectory);
+			System.out.println("Directory created: " + name + "/");
+		} else if (option.equals("f")){
+			String name = getString("Enter name for new directory: ");
+			fileSystem.createFile(name, currentDirectory);
+			System.out.println("File created: " + name);
+		} else {
+			throw new IllegalArgumentException("Invalid option. Please try again.");
+		}
 	}
 
 	private static void deleteFileOrDirectory(){
 		System.out.println("Current directory: " + fileSystem.getCurrentPath(currentDirectory));
 		String option = getString("Enter name of file/directory to delete: ");
+		fileSystem.deleteFileOrDirectory(option, currentDirectory);
+
 	}
 
 	private static void sortContentsByDateCreated(){
 		System.out.println("Sorting contents of " + fileSystem.getCurrentPath(currentDirectory) + " by date created:");
+		fileSystem.sortDirectoryByDate(currentDirectory);
 	}
 
 	private static void moveFileOrDirectory(){
 		System.out.println("Current directory: " + fileSystem.getCurrentPath(currentDirectory));
 		String name = getString("Enter name of file/directory to move: ");
 		String path = getString("Enter new directory path:");
+
+		fileSystem.moveElement(name, path, currentDirectory);
+	}
+
+	private static void saverFileSystem(){
+		try{
+			PrintWriter writer = new PrintWriter(new FileWriter(FILE_SYSTEM_FILE));
+			Directory root = fileSystem.getRoot();
+			root.saveElement(writer);
+			writer.close();
+		} catch (Exception e){
+			System.out.println("Error saving file system.");
+			/* Handle exception */
+		}
+	}
+
+	private static void loadFileSystem(FileSystem fileSystem){
+		try {
+			Scanner scanner = new Scanner(new java.io.File(FILE_SYSTEM_FILE));
+			String line;
+			while (scanner.hasNextLine()){
+				line = scanner.nextLine();
+				String[] parts = line.split(" ");
+				if (parts.length != 3){
+					System.out.println("Error loading file system.");
+					return;
+				}
+				if (parts[2].charAt(0) == '/' && parts[2].length() > 1){
+					parts[2] = parts[2].substring(1);
+				}
+				if (parts[0].charAt(0) == (char)ASCII_ACK){
+					Directory parent = fileSystem.changeDirectory(fileSystem.getRoot(), parts[2]);
+					if (parent != null){
+						Directory newDirectory = new Directory(parts[0].substring(1), parent, new Timestamp(Long.parseLong(parts[1])));
+						parent.add(newDirectory);
+					}
+				} else {
+					Directory parent = fileSystem.changeDirectory(fileSystem.getRoot(), parts[2]);
+					if (parent != null){
+						File newFile = new File(parts[0], parent, new Timestamp(Long.parseLong(parts[1])));
+						parent.add(newFile);
+					}
+				}
+			}
+			scanner.close();
+		} catch (Exception e){
+			System.out.println("Error loading file system.");
+			/* Handle exception */
+		}
 	}
 
 	public void printMenu(){

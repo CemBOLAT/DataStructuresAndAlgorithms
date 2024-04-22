@@ -12,6 +12,12 @@ public abstract class FileSystemElement {
         this.parent = parent;
     }
 
+    public FileSystemElement(String name, FileSystemElement parent, Timestamp dateCreated) {
+        this.name = name;
+        this.dateCreated = dateCreated;
+        this.parent = parent;
+    }
+
     public String getName() {
         return name;
     }
@@ -44,4 +50,5 @@ public abstract class FileSystemElement {
 
 
     public abstract void print(String prefix);
+    public abstract void saveElement(PrintWriter writer);
 }

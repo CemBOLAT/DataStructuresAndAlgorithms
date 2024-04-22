@@ -22,7 +22,29 @@ public class Directory extends FileSystemElement {
 		child.setParent(this);
 	}
 
+	public void removeRec(FileSystemElement child){
+		if (child instanceof Directory){
+			Directory dir = (Directory) child;
+			for (var e : dir.getChildren()){
+				removeRec(e);
+			}
+		}
+		children.remove(child);
+		child.setParent(null);
+
+	}
+
 	public void remove(FileSystemElement child) {
+		removeRec(child);
+		if (child instanceof Directory) {
+			System.out.println("Directory deleted: " + child.getName() + "/");
+		} else {
+			System.out.println("File deleted: " + child.getName());
+		}
+	}
+
+
+	public void singleRemove(FileSystemElement child) {
 		children.remove(child);
 		child.setParent(null);
 	}
@@ -40,7 +62,21 @@ public class Directory extends FileSystemElement {
 		}
 	}
 
+	public void sortByDate() {
+		children.sort((a, b) -> a.getDateCreated().compareTo(b.getDateCreated()));
+	}
+
 	public List<FileSystemElement> getChildren() {
 		return children;
+	}
+
+	@Override
+	public void saveElement(PrintWriter writer) {
+		if (getParent() != null) {
+			writer.println((char)ASCII_ACK + getName() + " " + getDateCreated().getTime() + " " + getParent().getFullPath());
+		}
+		for (var child : children) {
+			child.saveElement(writer);
+		}
 	}
 }
