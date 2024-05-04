@@ -15,12 +15,16 @@ public class preprocessor {
 	}
 	
 	private void capitalize() {
-		// 
+		StringBuilder sb = new StringBuilder();
 		for (var c : initial_string.toCharArray()) {
 			if (c >= 'a' && c <= 'z') {
-				preprocessed_string += (char)(c - 32);
+				sb.append((char)(c - 32));
+			}
+			if (c >= 'A' && c <= 'Z') {
+				sb.append(c);
 			}
 		}
+		preprocessed_string = sb.toString();
 	}
 
 	private void clean() {
