@@ -6,45 +6,48 @@ public class MergeSort extends SortAlgorithm {
 
 	private void merge(int arr[], int begin, int mid, int end){
         // fill this method
-        int leftIndex = begin;
-        int rightIndex = mid + 1;
-        int tempIndex = 0;
-        int temp[] = new int[end - begin + 1];
-        while (leftIndex <= mid && rightIndex <= end) {
+        int leftIndex = begin; // Index of the left part of the array
+        int rightIndex = mid + 1; // Index of the right part of the array
+        int tempIndex = 0; // Index of the temporara array
+        int temp[] = new int[end - begin + 1]; // Temporary array to store the merged array it costs O(n) memory space
+        while (leftIndex <= mid && rightIndex <= end) { // Compare the elements of the left and right parts of the array
             comparison_counter += 1;
-            if (arr[leftIndex] < arr[rightIndex]) {
+
+            if (arr[leftIndex] < arr[rightIndex]) { // If the left element is smaller than the right element
                 temp[tempIndex] = arr[leftIndex];
                 leftIndex++;
-            } else {
+            } else { // If the right element is smaller than the left element
                 temp[tempIndex] = arr[rightIndex];
                 rightIndex++;
             }
+            
             tempIndex++;
         }
-        while (leftIndex <= mid) {
+        // One of the parts may have elements left because of the previous while loop finishes when one of the parts is empty
+        while (leftIndex <= mid) { // if there are still elements in the left part of the array
             temp[tempIndex] = arr[leftIndex];
             leftIndex++;
             tempIndex++;
         }
-        while (rightIndex <= end) {
+        while (rightIndex <= end) { // if there are still elements in the right part of the array
             temp[tempIndex] = arr[rightIndex];
             rightIndex++;
             tempIndex++;
         }
-        for (int i = 0; i < temp.length; i++) {
+        for (int i = 0; i < temp.length; i++) { // Copy the temporary array to the original array
             arr[begin + i] = temp[i];
         }
     }
 
     private void sort(int arr[], int begin, int end){
-        // fill this method
-        if (begin >= end) {
+        // Merge Sort Algorithm
+        if (begin >= end) { // Base case: If the array has only one element or is empty
             return;
         }
-        int mid = (end + begin) / 2;
-        sort(arr, begin, mid);
-        sort(arr, mid + 1, end);
-        merge(arr, begin, mid, end);
+        int mid = (end + begin) / 2; // Find the middle index
+        sort(arr, begin, mid); // sort left part of the array
+        sort(arr, mid + 1, end); // sort right part of the array
+        merge(arr, begin, mid, end); // merge these two parts
     }
 
     @Override

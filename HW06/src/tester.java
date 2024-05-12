@@ -2,7 +2,7 @@ public class tester {
 
 	public static void main(String[] args) {
 		int my_array[] = {4, 2, 6, 5, 1, 8, 7, 3}; // this array will be edited by TA during assessment...
-		
+
 		System.out.print("Initial Array: ");
 		for(int e: my_array)
 			System.out.print(e + " ");
