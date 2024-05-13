@@ -6,8 +6,8 @@ public class tester {
 		System.out.print("Initial Array: ");
 		for(int e: my_array)
 			System.out.print(e + " ");
-		System.out.println("\n");		
-		
+		System.out.println("\n");
+
 		SelectionSort ss = new SelectionSort(my_array);
 		ss.sort_and_print();
 		BubbleSort bs = new BubbleSort(my_array);
