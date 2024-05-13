@@ -5,7 +5,6 @@ public class MergeSort extends SortAlgorithm {
 	}
 
 	private void merge(int arr[], int begin, int mid, int end){
-        // fill this method
         int leftIndex = begin; // Index of the left part of the array
         int rightIndex = mid + 1; // Index of the right part of the array
         int tempIndex = 0; // Index of the temporara array
