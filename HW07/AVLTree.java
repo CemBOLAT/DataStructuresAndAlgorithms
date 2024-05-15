@@ -2,13 +2,36 @@
 public class AVLTree {
 
     private Node root;
-    
 
     public AVLTree() {
         this.root = null;
     }
 
-    
+    private void rotateRight(Node node){
+        Node left = node.left;
+        Node left_right = left.right;
+
+        left.right = node;
+        node.left = left_right;
+
+        node.height = 1 + Math.max(height(node.left), height(node.right));
+        left.height = 1 + Math.max(height(left.left), height(left.right));
+
+        return left;
+    }
+
+    private void rotateLeft(Node node){
+        Node right = node.right;
+        Node right_left = right.left;
+
+        right.left = node;
+        node.right = right_left;
+
+        node.height = 1 + Math.max(height(node.left), height(node.right));
+        right.height = 1 + Math.max(height(right.left), height(right.right));
+
+        return right;
+    }
 
     private void rotate(Node node, Stock data) {
         node.height = 1 + Math.max(height(node.left), height(node.right));
@@ -54,14 +77,59 @@ public class AVLTree {
 
     public void insert(Stock data) {
         root = insertHelper(root, data);
+        return;
+    }
+
+    private void deleteHelper(Node node, Stock data) {
+        if (node == null){
+            return null;
+        }
+        if (data.getSymbol().equals(node.data.getSymbol())){
+            if (node.left == null && node.right == null){
+                return null;
+            }
+            if (node.left == null){
+                return node.right;
+            }
+            if (node.right == null){
+                return node.left;
+            }
+            Node min = findMin(node.right);
+            node.data = min.data;
+            node.right = deleteHelper(node.right, min.data);
+        }
+        if (data.getSymbol().compareTo(node.data.getSymbol()) < 0){
+            node.left = deleteHelper(node.left, data);
+        } else {
+            node.right = deleteHelper(node.right, data);
+        }
+        node.height = 1 + Math.max(height(node.left), height(node.right)); // update height
+
+        rotate(node, data);
+        
     }
 
     public void delete(Stock data) {
+        root = deleteHelper(root, data);
+    }
 
+    private boolean searchHelper(Node node, Stock data) {
+        if (node == null) {
+            return false;
+        }
+        if (data.getSymbol().equals(node.data.getSymbol())) {
+            return true;
+        }
+        if (data.getSymbol().compareTo(node.data.getSymbol()) < 0) {
+            return searchHelper(node.left, data);
+        } else {
+            return searchHelper(node.right, data);
+        }
+        return false; // unreachable
     }
 
     public boolean search(Stock data) {
-        return false;
+        return searchHelper(root, data);
     }
 
     private height(Node node){
@@ -97,5 +165,9 @@ public class AVLTree {
             this.right = right;
             this.height = 1;
         }
+    }
+
+    public static void main(String[] args){
+        
     }
 }
