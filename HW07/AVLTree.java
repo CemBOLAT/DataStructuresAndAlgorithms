@@ -35,25 +35,25 @@ public class AVLTree {
         return right;
     }
 
-    private Node rotate(Node node, Stock data) {
+    private Node rotate(Node node, String symbol) {
         node.height = 1 + Math.max(height(node.left), height(node.right));
         int balance = balancingFactor(node);
         if (balance > 1){ // left is heavier
             Node left = node.left;
-            if (left != null && data.getSymbol().compareTo(left.data.getSymbol()) < 0){ // left left case if the inserted data is the most least.
+            if (left != null && symbol.compareTo(left.data.getSymbol()) < 0){ // left left case if the inserted data is the most least.
                 return rotateRight(node);
             }
-            else if (left != null && data.getSymbol().compareTo(left.data.getSymbol()) > 0){ // left right case if the inserted data is more than the left child.
+            else if (left != null && symbol.compareTo(left.data.getSymbol()) > 0){ // left right case if the inserted data is more than the left child.
                 node.left = rotateLeft(node.left); // important to update the left child after rotation
                 return rotateRight(node); // rotate the node
             }
         }
         else if (balance < -1){ // right is heavier
             Node right = node.right;
-            if (right != null && data.getSymbol().compareTo(right.data.getSymbol()) > 0){ // right right case if the inserted data is the most heaviest.
+            if (right != null && symbol.compareTo(right.data.getSymbol()) > 0){ // right right case if the inserted data is the most heaviest.
                 return rotateLeft(node);
             }
-            else if (right != null && data.getSymbol().compareTo(right.data.getSymbol()) < 0){ // right left case if the inserted data is less than the right child.
+            else if (right != null && symbol.compareTo(right.data.getSymbol()) < 0){ // right left case if the inserted data is less than the right child.
                 node.right = rotateRight(node.right); // important to update the right child after rotation
                 return rotateLeft(node); // rotate the node
             }
@@ -61,12 +61,14 @@ public class AVLTree {
         return node;
     }
 
-    private Node insertHelper(Node node, Stock data) throws Exception {
+    private Node insertHelper(Node node, Stock data) {
         if (node == null){
             return new Node(data);
         }
         if (data.getSymbol().equals(node.data.getSymbol())){
-            throw new Exception("Stock already exists");
+            node.data.setVolume(data.getVolume());
+            node.data.setPrice(data.getPrice());
+            node.data.setMarketCap(data.getMarketCap());
         }
         if (data.getSymbol().compareTo(node.data.getSymbol()) < 0){
             node.left = insertHelper(node.left, data);
@@ -75,19 +77,19 @@ public class AVLTree {
         }
         node.height = 1 + Math.max(height(node.left), height(node.right)); // update height
 
-        return rotate(node, data);
+        return rotate(node, data.getSymbol());
     }
 
-    public void insert(Stock data) throws Exception {
+    public void insert(Stock data) {
         root = insertHelper(root, data);
         return;
     }
 
-    private Node deleteHelper(Node node, Stock data) {
+    private Node deleteHelper(Node node, String symbol){
         if (node == null){
             return null;
         }
-        if (data.getSymbol().equals(node.data.getSymbol())){
+        if (symbol.equals(node.data.getSymbol())){
             if (node.left == null && node.right == null){
                 return null;
             }
@@ -99,32 +101,32 @@ public class AVLTree {
             }
             Node min = findMin(node.right);
             node.data = min.data;
-            node.right = deleteHelper(node.right, min.data);
+            node.right = deleteHelper(node.right, min.data.getSymbol());
         }
-        if (data.getSymbol().compareTo(node.data.getSymbol()) < 0){
-            node.left = deleteHelper(node.left, data);
+        if (symbol.compareTo(node.data.getSymbol()) < 0){
+            node.left = deleteHelper(node.left, symbol);
         } else {
-            node.right = deleteHelper(node.right, data);
+            node.right = deleteHelper(node.right, symbol);
         }
         node.height = 1 + Math.max(height(node.left), height(node.right)); // update height
-        return rotate(node, data);
+        return rotate(node, symbol);
     }
 
-    public void delete(Stock data) {
-        root = deleteHelper(root, data);
+    public void delete(String symbol) {
+        root = deleteHelper(root, symbol);
     }
 
-    private boolean searchHelper(Node node, Stock data) {
+    private Stock searchHelper(Node node, String symbol) {
         if (node == null) {
-            return false;
+            return null;
         }
-        if (data.getSymbol().equals(node.data.getSymbol())) {
-            return true;
+        if (symbol.equals(node.data.getSymbol())) {
+            return node.data;
         }
-        if (data.getSymbol().compareTo(node.data.getSymbol()) < 0) {
-            return searchHelper(node.left, data);
+        if (symbol.compareTo(node.data.getSymbol()) < 0) {
+            return searchHelper(node.left, symbol);
         } else {
-            return searchHelper(node.right, data);
+            return searchHelper(node.right, symbol);
         }
     }
 
@@ -135,8 +137,8 @@ public class AVLTree {
         return findMin(node.left);
     }
 
-    public boolean search(Stock data) {
-        return searchHelper(root, data);
+    public Stock search(String symbol) {
+        return searchHelper(root, symbol);
     }
 
     private int height(Node node){

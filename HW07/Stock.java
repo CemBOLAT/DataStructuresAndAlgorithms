@@ -5,7 +5,7 @@ public class Stock {
     private long volume;
     private long marketCap;
 
-    public Stock(String symbol, double price, long volume, long marketCap) throws IllegalArgumentException {
+    public Stock(String symbol, double price, long volume, long marketCap) {
         setSymbol(symbol);
         setPrice(price);
         setVolume(volume);
@@ -16,10 +16,10 @@ public class Stock {
         return symbol;
     }
 
-    public void setSymbol(String symbol) throws IllegalArgumentException {
-        if (symbol == null || symbol.isEmpty()) {
-            throw new IllegalArgumentException("Symbol cannot be null or empty");
-        }
+    public void setSymbol(String symbol)  {
+        //if (symbol == null || symbol.isEmpty()) {
+        //    throw new IllegalArgumentException("Symbol cannot be null or empty");
+        //}
         this.symbol = symbol;
     }
 
@@ -27,10 +27,7 @@ public class Stock {
         return price;
     }
 
-    public void setPrice(double price) throws IllegalArgumentException {
-        if (price <= 0) {
-            throw new IllegalArgumentException("Price must be greater than 0");
-        }
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -38,10 +35,7 @@ public class Stock {
         return volume;
     }
 
-    public void setVolume(long volume) throws IllegalArgumentException {
-        if (volume < 0) {
-            throw new IllegalArgumentException("Volume must be greater than or equal to 0");
-        }
+    public void setVolume(long volume) {
         this.volume = volume;
     }
 
@@ -49,10 +43,7 @@ public class Stock {
         return marketCap;
     }
 
-    public void setMarketCap(long marketCap) throws IllegalArgumentException {
-        if (marketCap < 0) {
-            throw new IllegalArgumentException("Market cap must be greater than or equal to 0");
-        }
+    public void setMarketCap(long marketCap) {
         this.marketCap = marketCap;
     }
 

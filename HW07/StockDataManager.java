@@ -1,22 +1,40 @@
 
 public class StockDataManager{
 
-    AVLTree tree;
+    private AVLTree root;
 
     public StockDataManager(){
-        tree = new AVLTree();
+        root = new AVLTree();
     }
 
-    public addStock(){
-
+    public void addOrUpdateStock(String symbol, double price, long volume, long marketCap) {
+        Stock existingStock = root.search(symbol);
+        if (existingStock != null) {
+            existingStock.setPrice(price);
+            existingStock.setVolume(volume);
+            existingStock.setMarketCap(marketCap);
+        } else {
+            Stock newStock = new Stock(symbol, price, volume, marketCap);
+            root.insert(newStock);
+        }
     }
 
-    public removeStock(){
-
+    // Remove a stock
+    public void removeStock(String symbol) {
+        root.delete(symbol);
     }
 
-    public searchStock(){
-
+    // Search for a stock
+    public Stock searchStock(String symbol) {
+        return root.search(symbol);
     }
-    
+
+    public void updateStock(String symbol, double newPrice, long newVolume, long newMarketCap) {
+        Stock stock = root.search(symbol);
+        if (stock != null) {
+            stock.setPrice(newPrice);
+           stock.setVolume(newVolume);
+            stock.setMarketCap(newMarketCap);
+        }
+    }
 }
