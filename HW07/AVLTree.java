@@ -1,4 +1,6 @@
 
+// https://www.youtube.com/watch?v=jDM6_TnYIqE&t=1535s
+// CHANNEL : ABDUL BARI
 public class AVLTree {
 
     private Node root;
@@ -7,7 +9,7 @@ public class AVLTree {
         this.root = null;
     }
 
-    private void rotateRight(Node node){
+    private Node rotateRight(Node node){
         Node left = node.left;
         Node left_right = left.right;
 
@@ -20,7 +22,7 @@ public class AVLTree {
         return left;
     }
 
-    private void rotateLeft(Node node){
+    private Node rotateLeft(Node node){
         Node right = node.right;
         Node right_left = right.left;
 
@@ -33,37 +35,38 @@ public class AVLTree {
         return right;
     }
 
-    private void rotate(Node node, Stock data) {
+    private Node rotate(Node node, Stock data) {
         node.height = 1 + Math.max(height(node.left), height(node.right));
         int balance = balancingFactor(node);
         if (balance > 1){ // left is heavier
             Node left = node.left;
             if (left != null && data.getSymbol().compareTo(left.data.getSymbol()) < 0){ // left left case if the inserted data is the most least.
-                return rightRotate(node);
+                return rotateRight(node);
             }
             else if (left != null && data.getSymbol().compareTo(left.data.getSymbol()) > 0){ // left right case if the inserted data is more than the left child.
-                node.left = leftRotate(node.left); // important to update the left child after rotation
-                return rightRotate(node); // rotate the node
+                node.left = rotateLeft(node.left); // important to update the left child after rotation
+                return rotateRight(node); // rotate the node
             }
         }
         else if (balance < -1){ // right is heavier
             Node right = node.right;
             if (right != null && data.getSymbol().compareTo(right.data.getSymbol()) > 0){ // right right case if the inserted data is the most heaviest.
-                return leftRotate(node);
+                return rotateLeft(node);
             }
             else if (right != null && data.getSymbol().compareTo(right.data.getSymbol()) < 0){ // right left case if the inserted data is less than the right child.
-                node.right = rightRotate(node.right); // important to update the right child after rotation
-                return leftRotate(node); // rotate the node
+                node.right = rotateRight(node.right); // important to update the right child after rotation
+                return rotateLeft(node); // rotate the node
             }
         }
+        return node;
     }
 
-    private void insertHelper(Node node, Stock data) throws InvalidOperation {
+    private Node insertHelper(Node node, Stock data) throws Exception {
         if (node == null){
             return new Node(data);
         }
         if (data.getSymbol().equals(node.data.getSymbol())){
-            throw new InvalidOperation("Stock already exists");
+            throw new Exception("Stock already exists");
         }
         if (data.getSymbol().compareTo(node.data.getSymbol()) < 0){
             node.left = insertHelper(node.left, data);
@@ -72,15 +75,15 @@ public class AVLTree {
         }
         node.height = 1 + Math.max(height(node.left), height(node.right)); // update height
 
-        rotate(node, data);
+        return rotate(node, data);
     }
 
-    public void insert(Stock data) {
+    public void insert(Stock data) throws Exception {
         root = insertHelper(root, data);
         return;
     }
 
-    private void deleteHelper(Node node, Stock data) {
+    private Node deleteHelper(Node node, Stock data) {
         if (node == null){
             return null;
         }
@@ -104,9 +107,7 @@ public class AVLTree {
             node.right = deleteHelper(node.right, data);
         }
         node.height = 1 + Math.max(height(node.left), height(node.right)); // update height
-
-        rotate(node, data);
-        
+        return rotate(node, data);
     }
 
     public void delete(Stock data) {
@@ -125,25 +126,44 @@ public class AVLTree {
         } else {
             return searchHelper(node.right, data);
         }
-        return false; // unreachable
+    }
+
+    private Node findMin(Node node){
+        if (node.left == null){
+            return node;
+        }
+        return findMin(node.left);
     }
 
     public boolean search(Stock data) {
         return searchHelper(root, data);
     }
 
-    private height(Node node){
+    private int height(Node node){
         if(node == null){
             return 0;
         }
         return node.height;
     }
 
-    private balancingFactor(Node node){
+    private int balancingFactor(Node node){
         if(node == null){
             return 0;
         }
         return height(node.left) - height(node.right);
+    }
+
+    private void printInOrderHelper(Node node) {
+        if (node == null) {
+            return;
+        }
+        printInOrderHelper(node.left);
+        System.out.println(node.data);
+        printInOrderHelper(node.right);
+    }
+
+    public void printInOrder() {
+        printInOrderHelper(root);
     }
 
     private static class Node {
@@ -167,7 +187,34 @@ public class AVLTree {
         }
     }
 
-    public static void main(String[] args){
-        
-    }
+    //public static void main(String[] args){
+    //    // Give me test code for AVLTreeü
+//
+    //    try{
+    //        AVLTree tree = new AVLTree();
+    //        tree.insert(new Stock("AOOGL", 200.0, 2000, 2000000));
+    //        tree.insert(new Stock("BAPL", 100.0, 1000, 1000000));
+    //        tree.printInOrder();
+    //        System.out.println("**********");
+    //        tree.insert(new Stock("C", 300.0, 3000, 3000000));
+    //        tree.printInOrder();
+    //        System.out.println("**********");
+//
+    //        tree.insert(new Stock("D", 400.0, 4000, 4000000));
+    //        tree.insert(new Stock("E", 500.0, 5000, 5000000));
+    //        tree.insert(new Stock("F", 600.0, 6000, 6000000));
+    //        tree.insert(new Stock("G", 700.0, 7000, 7000000));
+    //        tree.insert(new Stock("H", 800.0, 8000, 8000000));
+    //        tree.printInOrder();
+    //        System.out.println("**********");
+//
+    //        tree.delete(new Stock("AOOGL", 200.0, 2000, 2000000));
+//
+    //        tree.printInOrder();
+    //        System.out.println("**********");
+//
+    //    } catch (Exception e){
+    //        System.out.println(e);
+    //    }
+    //}
 }
