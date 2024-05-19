@@ -6,9 +6,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
- 
 
-# Make data base, printed on Sun May 19 16:57:45 2024
+# Make data base, printed on Sun May 19 19:29:01 2024
 
 # Variables
 
@@ -124,8 +123,6 @@ XPC_SERVICE_NAME = application.com.microsoft.VSCode.24955631.24955637
 HOMEBREW_PREFIX = /opt/homebrew
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
-# environment
-VSCODE_L10N_BUNDLE_LOCATION = file:///Users/cembolat/.vscode/extensions/ms-ceintl.vscode-language-pack-tr-1.89.2024050109/translations/extensions/vscode.json-language-features.i18n.json
 # automatic
 +F = $(notdir $+)
 # environment
@@ -157,7 +154,7 @@ LANG = C
 # environment
 VSCODE_PID = 40083
 # variable set hash-table stats:
-# Load=72/1024=7%, Rehash=0, Collisions=2/101=2%
+# Load=71/1024=7%, Rehash=0, Collisions=2/101=2%
 
 # Pattern-specific Variable Values
 
@@ -165,14 +162,14 @@ VSCODE_PID = 40083
 
 # Directories
 
-# . (device 16777232, inode 25579383): 18 files, no impossibilities.
+# . (device 16777232, inode 25579383): 20 files, no impossibilities.
 
-# 18 files, no impossibilities in 1 directories.
+# 20 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
 %.class: %.java
-#  commands to execute (from `makefile', line 13):
+#  commands to execute (from `makefile', line 17):
 	@javac $(JFLAGS) $<
 	
 
@@ -183,12 +180,12 @@ VSCODE_PID = 40083
 GUIVisualization.class: GUIVisualization.java
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `GUIVisualization'
-#  Last modified 2024-05-19 16:29:13
+#  Last modified 2024-05-19 19:20:30
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `makefile', line 13):
+#  commands to execute (from `makefile', line 17):
 	@javac $(JFLAGS) $<
 	
 
@@ -225,8 +222,9 @@ all: AVLTree.class GUIVisualization.class Main.class RandomInputGenerator.class 
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/10=10%
 #  commands to execute (from `makefile', line 9):
-	@echo "\033[0;32mThe Inventory Management System has been created by Cemal BOLAT.\nStudent No: 210104004010\033[0m"
-	@echo "\033[0;33mmake | doc | clean | cleandoc | re | redoc | fclean | readme\033[0m"
+	@echo "\033[0;32mThe Stock Management System has been created by Cemal BOLAT.\nStudent No: 210104004010\033[0m"
+	@echo "\033[0;34mDefault run option is with using 'input.txt' file.\033[0m"
+	@echo "\033[0;33mmake | doc | clean | cleandoc | re | redoc | fclean | run\033[0m"
 	
 
 .PHONY: all run doc clean cleandoc re redoc fclean
@@ -242,18 +240,18 @@ StockDataManager.class: StockDataManager.java
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `makefile', line 13):
+#  commands to execute (from `makefile', line 17):
 	@javac $(JFLAGS) $<
 	
 
 # Not a target:
 Main.java:
+ 
 #  Implicit rule search has been done.
-#  Last modified 2024-05-19 16:55:04
+#  Last modified 2024-05-19 19:28:06
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
- 
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 cleandoc:
@@ -261,7 +259,7 @@ cleandoc:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `makefile', line 24):
+#  commands to execute (from `makefile', line 28):
 	@rm -rf ./javadoc
 	@echo "\033[0;31mThe documentation has been removed.\033[0m"
 	
@@ -275,7 +273,7 @@ cleandoc:
 # Not a target:
 GUIVisualization.java:
 #  Implicit rule search has been done.
-#  Last modified 2024-05-19 16:17:53
+#  Last modified 2024-05-19 19:20:00
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -284,7 +282,7 @@ GUIVisualization.java:
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2024-05-19 16:17:53
+#  Last modified 2024-05-19 18:27:18
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -313,7 +311,7 @@ Stock.class: Stock.java
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `makefile', line 13):
+#  commands to execute (from `makefile', line 17):
 	@javac $(JFLAGS) $<
 	
 
@@ -326,12 +324,12 @@ Stock.class: Stock.java
 AVLTree.class: AVLTree.java
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `AVLTree'
-#  Last modified 2024-05-19 16:27:22
+#  Last modified 2024-05-19 18:24:17
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `makefile', line 13):
+#  commands to execute (from `makefile', line 17):
 	@javac $(JFLAGS) $<
 	
 
@@ -341,18 +339,21 @@ re: clean all
 #  File does not exist.
 #  File has not been updated.
 
-run:
+run: AVLTree.class GUIVisualization.class Main.class RandomInputGenerator.class Stock.class StockDataManager.class
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
+#  commands to execute (from `makefile', line 14):
+	@java $(JFLAGS) Main input.txt
+	
 
 clean:
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `makefile', line 20):
+#  commands to execute (from `makefile', line 24):
 	@rm -f $(CLASSES)
 	@echo "\033[0;31mAll class files have been removed.\033[0m"
 	
@@ -360,7 +361,7 @@ clean:
 # Not a target:
 RandomInputGenerator.java:
 #  Implicit rule search has been done.
-#  Last modified 2024-05-19 16:47:26
+#  Last modified 2024-05-19 18:30:38
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -378,19 +379,19 @@ Stock.java:
 RandomInputGenerator.class: RandomInputGenerator.java
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `RandomInputGenerator'
-#  Last modified 2024-05-19 16:47:35
+#  Last modified 2024-05-19 18:31:43
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `makefile', line 13):
+#  commands to execute (from `makefile', line 17):
 	@javac $(JFLAGS) $<
 	
 
 # Not a target:
 AVLTree.java:
 #  Implicit rule search has been done.
-#  Last modified 2024-05-19 16:27:19
+#  Last modified 2024-05-19 18:23:53
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -401,7 +402,7 @@ doc: AVLTree.java GUIVisualization.java Main.java RandomInputGenerator.java Stoc
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `makefile', line 16):
+#  commands to execute (from `makefile', line 20):
 	@javadoc $(JDOCFLAGS) $(SRC)
 	@echo "\033[0;32mThe documentation has been created successfully.\033[0m"
 	
@@ -409,17 +410,17 @@ doc: AVLTree.java GUIVisualization.java Main.java RandomInputGenerator.java Stoc
 Main.class: Main.java
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `Main'
-#  Last modified 2024-05-19 16:55:20
+#  Last modified 2024-05-19 19:28:11
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `makefile', line 13):
+#  commands to execute (from `makefile', line 17):
 	@javac $(JFLAGS) $<
 	
 
 # files hash-table stats:
-# Load=24/1024=2%, Rehash=0, Collisions=4/82=5%
+# Load=24/1024=2%, Rehash=0, Collisions=4/88=5%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -431,6 +432,6 @@ Main.class: Main.java
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Sun May 19 16:57:45 2024
+# Finished Make data base on Sun May 19 19:29:01 2024
 
  

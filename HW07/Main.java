@@ -1,11 +1,12 @@
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class Main {
 
-    public static RandomInputGenerator randomInputGenerator = new RandomInputGenerator();
-    public static GUIVisualization guiVisualization = new GUIVisualization("line");
+    public static RandomInputGenerator generator = new RandomInputGenerator();
+    public static GUIVisualization visualization = new GUIVisualization("line");
 
     public static void main(String[] args) {
         if (args.length != 1) {
@@ -13,8 +14,13 @@ public class Main {
             return;
         }
 
-        randomInputGenerator.generateRandomInputs(args[0]);
-        guiVisualization.setVisible(true);
+        generator.generateRandomInputs(args[0], 1000);
+        visualization.setVisible(true);
+
+        // Add lines for different operations
+        visualization.addLine(Color.RED); // ADD operation
+        visualization.addLine(Color.BLUE); // SEARCH operation
+        visualization.addLine(Color.GREEN); // REMOVE operation
 
         String inputFile = args[0];
         StockDataManager manager = new StockDataManager();
@@ -27,7 +33,12 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         // Perform a simple performance analysis
+        performPerformanceAnalysis(manager, 1000);
+        performPerformanceAnalysis(manager, 1000);
+        performPerformanceAnalysis(manager, 1000);
+        performPerformanceAnalysis(manager, 1000);
         performPerformanceAnalysis(manager, 1000);
     }
 
@@ -61,29 +72,42 @@ public class Main {
 
     private static void performPerformanceAnalysis(StockDataManager manager, int size) {
         long startTime, endTime;
+        long totalAddTime = 0, totalSearchTime = 0, totalRemoveTime = 0;
 
         // Measure time for ADD operation
-        startTime = System.nanoTime();
         for (int i = 0; i < size; i++) {
+            startTime = System.nanoTime();
             manager.addOrUpdateStock("SYM" + i, Math.random() * 100, (long) (Math.random() * 1000000), (long) (Math.random() * 1000000000));
+            endTime = System.nanoTime();
+            totalAddTime += (endTime - startTime);
         }
-        endTime = System.nanoTime();
-        System.out.println("Average ADD time: " + (endTime - startTime) / size + " ns");
+        long averageAddTime = totalAddTime / size;
+        visualization.addDataPoint(0, manager.getSize(), averageAddTime);
+		System.out.println("Average ADD time: " + averageAddTime + " ns");
 
         // Measure time for SEARCH operation
-        startTime = System.nanoTime();
         for (int i = 0; i < size; i++) {
+            startTime = System.nanoTime();
             manager.searchStock("SYM" + i);
+            endTime = System.nanoTime();
+            totalSearchTime += (endTime - startTime);
         }
-        endTime = System.nanoTime();
-        System.out.println("Average SEARCH time: " + (endTime - startTime) / size + " ns");
+        long averageSearchTime = totalSearchTime / size;
+        visualization.addDataPoint(1, manager.getSize(), averageSearchTime);
+        System.out.println("Average SEARCH time: " + averageSearchTime + " ns");
 
-        //Measure time for REMOVE operation
-        startTime = System.nanoTime();
+        // Measure time for REMOVE operation
         for (int i = 0; i < size; i++) {
-           manager.removeStock("SYM" + i);
+            startTime = System.nanoTime();
+            manager.removeStock("SYM" + i);
+            endTime = System.nanoTime();
+            totalRemoveTime += (endTime - startTime);
         }
-        endTime = System.nanoTime();
-        System.out.println("Average REMOVE time: " + (endTime - startTime) / size + " ns");
+        long averageRemoveTime = totalRemoveTime / size;
+        visualization.addDataPoint(2, manager.getSize(), averageRemoveTime);
+        System.out.println("Average REMOVE time: " + averageRemoveTime + " ns");
+
+        System.out.println("***********************************");
+        visualization.repaint();  // Update the visualization
     }
 }

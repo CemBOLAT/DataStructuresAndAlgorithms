@@ -4,25 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GUIVisualization extends JFrame {
-    private List<Integer> dataPointsX; // List to store x-axis data points
-    private List<Long> dataPointsY; // List to store y-axis data points
+    private List<List<Long>> dataPointsY; // List to store multiple Y data points for different operations
+    private List<Color> colors; // List to store colors for different lines
     private String plotType; // Type of plot ("line" or "scatter")
 
     public GUIVisualization(String plotType) {
         this.plotType = plotType; // Set the plot type
-        this.dataPointsX = new ArrayList<>(); // Initialize x-axis data points list
-        this.dataPointsY = new ArrayList<>(); // Initialize y-axis data points list
-
-        // Sample data points to reflect O(log n) complexity
-        for (int i = 1; i <= 10; i++) {
-            dataPointsX.add(i * 1000); // Add sample x-axis data points
-            dataPointsY.add((long) (Math.log(i * 1000) * 1000)); // Add sample y-axis data points reflecting O(log n)
-        }
+        this.dataPointsY = new ArrayList<>(); // Initialize list for Y data points
+        this.colors = new ArrayList<>(); // Initialize list for colors
 
         setTitle("Performance Graph Visualization"); // Set the title of the window
         setSize(800, 600); // Set the size of the window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set the default close operation
         setLocationRelativeTo(null); // Center the window on the screen
+    }
+
+    public void addLine(Color color) {
+        dataPointsY.add(new ArrayList<>()); // Add a new list for Y data points for this line
+        colors.add(color); // Add the color for this line
+    }
+
+    public void addDataPoint(int lineIndex, int x, long y) {
+        if (lineIndex < dataPointsY.size()) {
+            dataPointsY.get(lineIndex).add(y); // Add the Y data point to the specified line
+        }
     }
 
     @Override
@@ -52,7 +57,7 @@ public class GUIVisualization extends JFrame {
             int x1 = width - padding;
             int y0 = height - ((i * (height - padding * 2 - labelPadding)) / numberYDivisions + padding);
             int y1 = y0;
-            if (dataPointsY.size() > 0) {
+            if (!dataPointsY.isEmpty()) {
                 g2.setColor(Color.LIGHT_GRAY); // Set color for grid lines
                 g2.drawLine(padding + labelPadding + 1 + labelPadding, y0, x1, y1); // Draw grid line
                 g2.setColor(Color.BLACK); // Set color for labels
@@ -64,17 +69,18 @@ public class GUIVisualization extends JFrame {
         }
 
         // Create hatch marks and grid lines for x axis.
-        for (int i = 0; i < dataPointsX.size(); i++) {
-            if (dataPointsX.size() > 1) {
-                int x0 = i * (width - padding * 2 - labelPadding) / (dataPointsX.size() - 1) + padding + labelPadding;
+        int size = dataPointsY.isEmpty() ? 0 : dataPointsY.get(0).size();
+        for (int i = 0; i < size; i++) {
+            if (size > 1) {
+                int x0 = i * (width - padding * 2 - labelPadding) / (size - 1) + padding + labelPadding;
                 int x1 = x0;
                 int y0 = height - padding - labelPadding;
                 int y1 = y0 - 4;
-                if ((i % ((int) ((dataPointsX.size() / 20.0)) + 1)) == 0) {
+                if ((i % ((int) ((size / 20.0)) + 1)) == 0) {
                     g2.setColor(Color.LIGHT_GRAY); // Set color for grid lines
                     g2.drawLine(x0, height - padding - labelPadding - 1 - labelPadding, x1, padding); // Draw grid line
                     g2.setColor(Color.BLACK); // Set color for labels
-                    String xLabel = dataPointsX.get(i) + ""; // Generate x-axis label
+                    String xLabel = i + ""; // Generate x-axis label
                     FontMetrics metrics = g2.getFontMetrics(); // Get font metrics for label width
                     int labelWidth = metrics.stringWidth(xLabel);
                     g2.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3); // Draw x-axis label
@@ -89,22 +95,25 @@ public class GUIVisualization extends JFrame {
 
         // Draw the actual graph.
         Stroke oldStroke = g2.getStroke();
-        g2.setColor(Color.BLUE); // Set color for the graph
         g2.setStroke(new BasicStroke(2f)); // Set stroke for the graph
 
-        if (plotType.equals("line")) {
-            for (int i = 0; i < dataPointsX.size() - 1; i++) {
-                int x1 = i * (width - padding * 2 - labelPadding) / (dataPointsX.size() - 1) + padding + labelPadding;
-                int y1 = height - padding - labelPadding - (int) ((dataPointsY.get(i) * 1.0) / getMaxYValue() * (height - padding * 2 - labelPadding));
-                int x2 = (i + 1) * (width - padding * 2 - labelPadding) / (dataPointsX.size() - 1) + padding + labelPadding;
-                int y2 = height - padding - labelPadding - (int) ((dataPointsY.get(i + 1) * 1.0) / getMaxYValue() * (height - padding * 2 - labelPadding));
-                g2.drawLine(x1, y1, x2, y2); // Draw line between data points
-            }
-        } else if (plotType.equals("scatter")) {
-            for (int i = 0; i < dataPointsX.size(); i++) {
-                int x = i * (width - padding * 2 - labelPadding) / (dataPointsX.size() - 1) + padding + labelPadding;
-                int y = height - padding - labelPadding - (int) ((dataPointsY.get(i) * 1.0) / getMaxYValue() * (height - padding * 2 - labelPadding));
-                g2.fillOval(x - 3, y - 3, 6, 6); // Draw data point as a small circle
+        for (int i = 0; i < dataPointsY.size(); i++) {
+            List<Long> data = dataPointsY.get(i);
+            g2.setColor(colors.get(i)); // Set color for this line
+            if (plotType.equals("line")) {
+                for (int j = 0; j < data.size() - 1; j++) {
+                    int x1 = j * (width - padding * 2 - labelPadding) / (data.size() - 1) + padding + labelPadding;
+                    int y1 = height - padding - labelPadding - (int) ((data.get(j) * 1.0) / getMaxYValue() * (height - padding * 2 - labelPadding));
+                    int x2 = (j + 1) * (width - padding * 2 - labelPadding) / (data.size() - 1) + padding + labelPadding;
+                    int y2 = height - padding - labelPadding - (int) ((data.get(j + 1) * 1.0) / getMaxYValue() * (height - padding * 2 - labelPadding));
+                    g2.drawLine(x1, y1, x2, y2); // Draw line between data points
+                }
+            } else if (plotType.equals("scatter")) {
+                for (int j = 0; j < data.size(); j++) {
+                    int x = j * (width - padding * 2 - labelPadding) / (data.size() - 1) + padding + labelPadding;
+                    int y = height - padding - labelPadding - (int) ((data.get(j) * 1.0) / getMaxYValue() * (height - padding * 2 - labelPadding));
+                    g2.fillOval(x - 3, y - 3, 6, 6); // Draw data point as a small circle
+                }
             }
         }
 
@@ -113,9 +122,19 @@ public class GUIVisualization extends JFrame {
 
     private long getMaxYValue() {
         long max = Long.MIN_VALUE; // Initialize max value to minimum possible value
-        for (Long y : dataPointsY) {
-            max = Math.max(max, y); // Find maximum y value
+        for (List<Long> data : dataPointsY) {
+            for (Long y : data) {
+                max = Math.max(max, y); // Find maximum y value
+            }
         }
         return max; // Return maximum y value
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            String plotType = "line"; // Change to "scatter" for scatter plot
+            GUIVisualization frame = new GUIVisualization(plotType); // Create a new instance of GUIVisualization
+            frame.setVisible(true); // Make the frame visible
+        });
     }
 }

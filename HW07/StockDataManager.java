@@ -24,6 +24,10 @@ public class StockDataManager{
         root.delete(symbol);
     }
 
+    public int getSize() {
+        return root.getSize();
+    }
+
     // Search for a stock
     public Stock searchStock(String symbol) {
         return root.search(symbol);

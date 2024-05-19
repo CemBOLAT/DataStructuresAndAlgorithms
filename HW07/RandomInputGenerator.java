@@ -4,8 +4,8 @@ import java.io.PrintWriter;
 import java.util.Set;
 
 public class RandomInputGenerator {
-    public static int MAX_STOCKS = 100;
-    public static int deleted[] = new int[MAX_STOCKS];
+    public static int MAX_STOCKS;
+    public static int deleted[];
     public static Set<String> symbols = new java.util.HashSet<>();
 
     public double generateRandomPrice() {
@@ -33,9 +33,11 @@ public class RandomInputGenerator {
         return result.toString();
     }
 
-    public void generateRandomInputs(String inputFile) {
+    public void generateRandomInputs(String inputFile, int numStocks) {
         // Implement this method
         File file = new File(inputFile);
+        MAX_STOCKS = numStocks;
+        deleted = new int[MAX_STOCKS];
 
         // create a new file if it does not exist
         if (!file.exists()) {

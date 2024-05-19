@@ -35,11 +35,12 @@ public class AVLTree {
         return right;
     }
 
-    private Node rotate(Node node, String symbol) {
+    private Node rotate(Node node) {
         node.height = 1 + Math.max(height(node.left), height(node.right));
         int balance = balancingFactor(node);
         if (balance > 1){
-            if (balancingFactor(node.left) < 0){ // left right case
+            // left right case
+            if (balancingFactor(node.left) < 0){
                 node.left = rotateLeft(node.left); // important to update the left child after rotation
                 return rotateRight(node); // rotate the node
             }
@@ -62,7 +63,7 @@ public class AVLTree {
         if (node == null){
             return new Node(data);
         }
-        if (data.getSymbol().equals(node.data.getSymbol()) == true){
+        if (data.getSymbol().equals(node.data.getSymbol())){
             node.data.setVolume(data.getVolume());
             node.data.setPrice(data.getPrice());
             node.data.setMarketCap(data.getMarketCap());
@@ -75,12 +76,11 @@ public class AVLTree {
         }
         node.height = 1 + Math.max(height(node.left), height(node.right)); // update height
 
-        return rotate(node, data.getSymbol());
+        return rotate(node);
     }
 
     public void insert(Stock data) {
         root = insertHelper(root, data);
-        return;
     }
 
     private Node deleteHelper(Node node, String symbol){
@@ -107,7 +107,7 @@ public class AVLTree {
             node.right = deleteHelper(node.right, symbol);
         }
         node.height = 1 + Math.max(height(node.left), height(node.right)); // update height
-        return rotate(node, symbol);
+        return rotate(node);
     }
 
     public void delete(String symbol) {
@@ -192,6 +192,18 @@ public class AVLTree {
         printPostOrderHelper(root);
     }
 
+    private int getSizeHelper(Node node){
+        if (node == null){
+            return 0;
+        }
+        return 1 + getSizeHelper(node.left) + getSizeHelper(node.right);
+    }
+
+    public int getSize(){
+        return getSizeHelper(root);
+    }
+
+
     private static class Node {
         Stock data;
         Node left;
@@ -205,16 +217,10 @@ public class AVLTree {
             this.height = 1;
         }
 
-        public Node(Stock data, Node left, Node right) {
-            this.data = data;
-            this.left = left;
-            this.right = right;
-            this.height = 1;
-        }
     }
 
     //public static void main(String[] args){
-    //    // Give me test code for AVLTreeü
+    //    // Give me test code for AVLTree
 //
     //    try{
     //        AVLTree tree = new AVLTree();
