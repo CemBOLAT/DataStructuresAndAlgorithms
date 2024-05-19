@@ -38,25 +38,22 @@ public class AVLTree {
     private Node rotate(Node node, String symbol) {
         node.height = 1 + Math.max(height(node.left), height(node.right));
         int balance = balancingFactor(node);
-        if (balance > 1){ // left is heavier
-            Node left = node.left;
-            if (left != null && symbol.compareTo(left.data.getSymbol()) < 0){ // left left case if the inserted data is the most least.
-                return rotateRight(node);
-            }
-            else if (left != null && symbol.compareTo(left.data.getSymbol()) > 0){ // left right case if the inserted data is more than the left child.
+        if (balance > 1){
+            if (balancingFactor(node.left) < 0){ // left right case
                 node.left = rotateLeft(node.left); // important to update the left child after rotation
                 return rotateRight(node); // rotate the node
             }
+            else
+                return rotateRight(node); // left left case
         }
-        else if (balance < -1){ // right is heavier
-            Node right = node.right;
-            if (right != null && symbol.compareTo(right.data.getSymbol()) > 0){ // right right case if the inserted data is the most heaviest.
-                return rotateLeft(node);
-            }
-            else if (right != null && symbol.compareTo(right.data.getSymbol()) < 0){ // right left case if the inserted data is less than the right child.
+
+        if (balance < -1){
+            if (balancingFactor(node.right) > 0){ // right left case
                 node.right = rotateRight(node.right); // important to update the right child after rotation
                 return rotateLeft(node); // rotate the node
             }
+            else
+                return rotateLeft(node); // right right case
         }
         return node;
     }
@@ -65,10 +62,11 @@ public class AVLTree {
         if (node == null){
             return new Node(data);
         }
-        if (data.getSymbol().equals(node.data.getSymbol())){
+        if (data.getSymbol().equals(node.data.getSymbol()) == true){
             node.data.setVolume(data.getVolume());
             node.data.setPrice(data.getPrice());
             node.data.setMarketCap(data.getMarketCap());
+            return node;
         }
         if (data.getSymbol().compareTo(node.data.getSymbol()) < 0){
             node.left = insertHelper(node.left, data);
@@ -166,6 +164,32 @@ public class AVLTree {
 
     public void printInOrder() {
         printInOrderHelper(root);
+    }
+
+    private void printPreOrderHelper(Node node) {
+        if (node == null) {
+            return;
+        }
+        System.out.println(node.data);
+        printPreOrderHelper(node.left);
+        printPreOrderHelper(node.right);
+    }
+
+    public void printPreOrder() {
+        printPreOrderHelper(root);
+    }
+
+    private void printPostOrderHelper(Node node) {
+        if (node == null) {
+            return;
+        }
+        printPostOrderHelper(node.left);
+        printPostOrderHelper(node.right);
+        System.out.println(node.data);
+    }
+
+    public void printPostOrder() {
+        printPostOrderHelper(root);
     }
 
     private static class Node {

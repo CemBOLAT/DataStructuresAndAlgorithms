@@ -17,9 +17,6 @@ public class Stock {
     }
 
     public void setSymbol(String symbol)  {
-        //if (symbol == null || symbol.isEmpty()) {
-        //    throw new IllegalArgumentException("Symbol cannot be null or empty");
-        //}
         this.symbol = symbol;
     }
 

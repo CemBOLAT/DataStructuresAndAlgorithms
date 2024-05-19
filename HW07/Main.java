@@ -27,7 +27,6 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         // Perform a simple performance analysis
         performPerformanceAnalysis(manager, 1000);
     }
@@ -52,7 +51,7 @@ public class Main {
                 }
                 break;
             case "UPDATE":
-                manager.updateStock(tokens[1], Double.parseDouble(tokens[3]), Long.parseLong(tokens[4]), Long.parseLong(tokens[5]));
+                manager.updateStock(tokens[1], Double.parseDouble(tokens[2]), Long.parseLong(tokens[3]), Long.parseLong(tokens[4]));
                 break;
             default:
                 System.out.println("Unknown command: " + command);
@@ -79,12 +78,12 @@ public class Main {
         endTime = System.nanoTime();
         System.out.println("Average SEARCH time: " + (endTime - startTime) / size + " ns");
 
-        // Measure time for REMOVE operation
-        //startTime = System.nanoTime();
-        //for (int i = 0; i < size; i++) {
-        //    manager.removeStock("SYM" + i);
-        //}
-        //endTime = System.nanoTime();
-        //System.out.println("Average REMOVE time: " + (endTime - startTime) / size + " ns");
+        //Measure time for REMOVE operation
+        startTime = System.nanoTime();
+        for (int i = 0; i < size; i++) {
+           manager.removeStock("SYM" + i);
+        }
+        endTime = System.nanoTime();
+        System.out.println("Average REMOVE time: " + (endTime - startTime) / size + " ns");
     }
 }

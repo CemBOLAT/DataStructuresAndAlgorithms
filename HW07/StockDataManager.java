@@ -33,7 +33,7 @@ public class StockDataManager{
         Stock stock = root.search(symbol);
         if (stock != null) {
             stock.setPrice(newPrice);
-           stock.setVolume(newVolume);
+            stock.setVolume(newVolume);
             stock.setMarketCap(newMarketCap);
         }
     }
