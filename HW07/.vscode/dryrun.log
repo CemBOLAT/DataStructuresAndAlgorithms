@@ -1,0 +1,12 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/cembolat/Desktop/JavaC/HW07'
+javac -classpath . AVLTree.java
+javac -classpath . GUIVisualization.java
+javac -classpath . Main.java
+javac -classpath . RandomInputGenerator.java
+javac -classpath . Stock.java
+javac -classpath . StockDataManager.java
+echo "\033[0;32mThe Inventory Management System has been created by Cemal BOLAT.\nStudent No: 210104004010\033[0m"
+echo "\033[0;33mmake | doc | clean | cleandoc | re | redoc | fclean | readme\033[0m"
+make: Leaving directory `/Users/cembolat/Desktop/JavaC/HW07'
+ 

@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 import java.util.Set;
 
 public class RandomInputGenerator {
-    public static int MAX_STOCKS = 1000;
+    public static int MAX_STOCKS = 100;
     public static int deleted[] = new int[MAX_STOCKS];
     public static Set<String> symbols = new java.util.HashSet<>();
 
@@ -48,7 +48,7 @@ public class RandomInputGenerator {
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
             //Add 1000 random stocks
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < MAX_STOCKS; i++) {
                 do {
                     String symbol = generateRandomString(5);
                     if (!symbols.contains(symbol)) {
@@ -59,9 +59,9 @@ public class RandomInputGenerator {
                 } while (true);
             }
 
-            for (int i = 0; i < 300; i++) {
+            for (int i = 0; i < MAX_STOCKS * 0.3; i++) {
                 do {
-                    int nbr = getRandomNumberInRange(0, 1000);
+                    int nbr = getRandomNumberInRange(0, MAX_STOCKS);
                     if (deleted[nbr] != 1) {
                         //  get the element at that index in set
                         String symbol = (String) symbols.toArray()[nbr];
@@ -72,9 +72,9 @@ public class RandomInputGenerator {
                 } while (true);
             }
 
-            for (int i = 0; i < 300; i++) {
+            for (int i = 0; i < MAX_STOCKS * 0.3; i++) {
                do {
-                   int nbr = getRandomNumberInRange(0, 1000);
+                   int nbr = getRandomNumberInRange(0, MAX_STOCKS);
                    if (deleted[nbr] != 1) {
                         String symbol = (String) symbols.toArray()[nbr];
                         writer.println("SEARCH " + symbol);
@@ -83,9 +83,9 @@ public class RandomInputGenerator {
                } while (true);
             }
 
-            for (int i = 0; i < 300; i++) {
+            for (int i = 0; i < MAX_STOCKS * 0.3; i++) {
                do {
-                   int nbr = getRandomNumberInRange(0, 1000);
+                   int nbr = getRandomNumberInRange(0, MAX_STOCKS);
                    if (deleted[nbr] != 1) {
                         String symbol = (String) symbols.toArray()[nbr];
                         writer.println("UPDATE " + symbol + " " + generateRandomPrice() + " " + generateRandomVolume() + " " + generateRandomMarketCap());
