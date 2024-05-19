@@ -14,13 +14,13 @@ public class Main {
             return;
         }
 
-        generator.generateRandomInputs(args[0], 1000);
+        generator.generateRandomInputs(args[0], 100);
         visualization.setVisible(true);
 
         // Add lines for different operations
-        visualization.addLine(Color.RED); // ADD operation
-        visualization.addLine(Color.BLUE); // SEARCH operation
-        visualization.addLine(Color.GREEN); // REMOVE operation
+        visualization.addLine(Color.RED); // ADD operation (1)
+        visualization.addLine(Color.BLUE); // SEARCH operation (2)
+        visualization.addLine(Color.GREEN); // REMOVE operation (3)
 
         String inputFile = args[0];
         StockDataManager manager = new StockDataManager();
@@ -35,11 +35,12 @@ public class Main {
         }
 
         // Perform a simple performance analysis
+        performPerformanceAnalysis(manager, 10);
+        performPerformanceAnalysis(manager, 100);
         performPerformanceAnalysis(manager, 1000);
-        performPerformanceAnalysis(manager, 1000);
-        performPerformanceAnalysis(manager, 1000);
-        performPerformanceAnalysis(manager, 1000);
-        performPerformanceAnalysis(manager, 1000);
+        performPerformanceAnalysis(manager, 10000);
+        performPerformanceAnalysis(manager, 100000);
+        performPerformanceAnalysis(manager, 1000000);
     }
 
     private static void processCommand(String line, StockDataManager manager) {
@@ -82,7 +83,7 @@ public class Main {
             totalAddTime += (endTime - startTime);
         }
         long averageAddTime = totalAddTime / size;
-        visualization.addDataPoint(0, manager.getSize(), averageAddTime);
+        visualization.addDataPoint(1, size, averageAddTime); // (1, size, averageAddTime
 		System.out.println("Average ADD time: " + averageAddTime + " ns");
 
         // Measure time for SEARCH operation
@@ -93,7 +94,7 @@ public class Main {
             totalSearchTime += (endTime - startTime);
         }
         long averageSearchTime = totalSearchTime / size;
-        visualization.addDataPoint(1, manager.getSize(), averageSearchTime);
+        visualization.addDataPoint(2, size, averageSearchTime); // (2, size, averageSearchTime
         System.out.println("Average SEARCH time: " + averageSearchTime + " ns");
 
         // Measure time for REMOVE operation
@@ -104,10 +105,10 @@ public class Main {
             totalRemoveTime += (endTime - startTime);
         }
         long averageRemoveTime = totalRemoveTime / size;
-        visualization.addDataPoint(2, manager.getSize(), averageRemoveTime);
+        visualization.addDataPoint(3, size, averageRemoveTime); // (3, size, averageRemoveTime
         System.out.println("Average REMOVE time: " + averageRemoveTime + " ns");
 
-        System.out.println("***********************************");
+        System.out.println("************************************");
         visualization.repaint();  // Update the visualization
     }
 }

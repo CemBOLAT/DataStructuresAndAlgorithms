@@ -95,6 +95,7 @@ public class RandomInputGenerator {
                    }
                } while (true);
             }
+            writer.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

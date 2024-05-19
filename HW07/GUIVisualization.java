@@ -4,14 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GUIVisualization extends JFrame {
-    private List<List<Long>> dataPointsY; // List to store multiple Y data points for different operations
-    private List<Color> colors; // List to store colors for different lines
+    private List<List<Integer>> dataPointsX; // List to store x-axis data points
+    private List<List<Long>> dataPointsY; // List to store y-axis data points
+    private List<Color> colors; // List to store colors for each line
+    // private List<Integer> dataPointsX; // List to store x-axis data points
+    // private List<Long> dataPointsY; // List to store y-axis data points
     private String plotType; // Type of plot ("line" or "scatter")
 
     public GUIVisualization(String plotType) {
         this.plotType = plotType; // Set the plot type
-        this.dataPointsY = new ArrayList<>(); // Initialize list for Y data points
-        this.colors = new ArrayList<>(); // Initialize list for colors
+        this.dataPointsX = new ArrayList<>(); // Initialize x-axis data points list
+        this.dataPointsY = new ArrayList<>(); // Initialize y-axis data points list
+        this.colors = new ArrayList<>(); // Initialize colors list
+
+        // 0 for default log n complexity 1 for add operation, 2 for search operation, 3 for remove operation
+
+        addLine(Color.BLACK); // Add line for default O(log n) complexity
+
+        // Sample data points to reflect O(log n) complexity
+        for (int i = 1; i <= 13; i++) {
+            dataPointsX.get(0).add(i * 1000); // Add sample x-axis data points
+            dataPointsY.get(0).add((long) (Math.log(i * 1000) * 1000)); // Add sample y-axis data points reflecting O(log n)
+        }
 
         setTitle("Performance Graph Visualization"); // Set the title of the window
         setSize(800, 600); // Set the size of the window
@@ -19,15 +33,15 @@ public class GUIVisualization extends JFrame {
         setLocationRelativeTo(null); // Center the window on the screen
     }
 
-    public void addLine(Color color) {
-        dataPointsY.add(new ArrayList<>()); // Add a new list for Y data points for this line
-        colors.add(color); // Add the color for this line
+    public void addLine(Color color){
+        dataPointsX.add(new ArrayList<>());
+        dataPointsY.add(new ArrayList<>());
+        colors.add(color);
     }
 
-    public void addDataPoint(int lineIndex, int x, long y) {
-        if (lineIndex < dataPointsY.size()) {
-            dataPointsY.get(lineIndex).add(y); // Add the Y data point to the specified line
-        }
+    public void addDataPoint(int lineIndex, int x, long y){
+        dataPointsX.get(lineIndex).add(x);
+        dataPointsY.get(lineIndex).add(y);
     }
 
     @Override
@@ -122,19 +136,13 @@ public class GUIVisualization extends JFrame {
 
     private long getMaxYValue() {
         long max = Long.MIN_VALUE; // Initialize max value to minimum possible value
-        for (List<Long> data : dataPointsY) {
-            for (Long y : data) {
-                max = Math.max(max, y); // Find maximum y value
+        for (List<Long> dataPoints : dataPointsY) {
+            for (Long value : dataPoints) {
+                if (value > max) {
+                    max = value; // Update max value if current value is greater
+                }
             }
         }
-        return max; // Return maximum y value
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            String plotType = "line"; // Change to "scatter" for scatter plot
-            GUIVisualization frame = new GUIVisualization(plotType); // Create a new instance of GUIVisualization
-            frame.setVisible(true); // Make the frame visible
-        });
+        return max; // Return the max value
     }
 }
