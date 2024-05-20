@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -6,7 +5,7 @@ import java.io.IOException;
 public class Main {
 
     public static RandomInputGenerator generator = new RandomInputGenerator();
-    public static GUIVisualization visualization = new GUIVisualization("line");
+    public static GUIVisualization visualization = new GUIVisualization("scatter");
 
     public static void main(String[] args) {
         if (args.length != 1) {
@@ -14,16 +13,9 @@ public class Main {
             return;
         }
 
-        generator.generateRandomInputs(args[0], 100);
-        visualization.setVisible(true);
-
-        // Add lines for different operations
-        visualization.addLine(Color.RED); // ADD operation (1)
-        visualization.addLine(Color.BLUE); // SEARCH operation (2)
-        visualization.addLine(Color.GREEN); // REMOVE operation (3)
-
         String inputFile = args[0];
         StockDataManager manager = new StockDataManager();
+        visualization.setVisible(true);
 
         try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
             String line;
@@ -35,12 +27,10 @@ public class Main {
         }
 
         // Perform a simple performance analysis
-        performPerformanceAnalysis(manager, 10);
-        performPerformanceAnalysis(manager, 100);
-        performPerformanceAnalysis(manager, 1000);
-        performPerformanceAnalysis(manager, 10000);
-        performPerformanceAnalysis(manager, 100000);
-        performPerformanceAnalysis(manager, 1000000);
+        for (int i = 1; i < 100; i++) {
+            performPerformanceAnalysis(manager, i * 1000);
+        }
+        visualization.repaint(); // Repaint the graph
     }
 
     private static void processCommand(String line, StockDataManager manager) {
@@ -73,42 +63,34 @@ public class Main {
 
     private static void performPerformanceAnalysis(StockDataManager manager, int size) {
         long startTime, endTime;
-        long totalAddTime = 0, totalSearchTime = 0, totalRemoveTime = 0;
-
-        // Measure time for ADD operation
-        for (int i = 0; i < size; i++) {
-            startTime = System.nanoTime();
-            manager.addOrUpdateStock("SYM" + i, Math.random() * 100, (long) (Math.random() * 1000000), (long) (Math.random() * 1000000000));
-            endTime = System.nanoTime();
-            totalAddTime += (endTime - startTime);
-        }
-        long averageAddTime = totalAddTime / size;
-        visualization.addDataPoint(1, size, averageAddTime); // (1, size, averageAddTime
-		System.out.println("Average ADD time: " + averageAddTime + " ns");
 
         // Measure time for SEARCH operation
+        startTime = System.nanoTime();
         for (int i = 0; i < size; i++) {
-            startTime = System.nanoTime();
             manager.searchStock("SYM" + i);
-            endTime = System.nanoTime();
-            totalSearchTime += (endTime - startTime);
         }
-        long averageSearchTime = totalSearchTime / size;
-        visualization.addDataPoint(2, size, averageSearchTime); // (2, size, averageSearchTime
-        System.out.println("Average SEARCH time: " + averageSearchTime + " ns");
+        endTime = System.nanoTime();
+        System.out.println("Average SEARCH time: " + (endTime - startTime) / size + " ns");
+        visualization.addDataPoint(size, (endTime - startTime) / size);
+
+        // Measure time for ADD operation
+        startTime = System.nanoTime();
+        for (int i = 0; i < size; i++) {
+            manager.addOrUpdateStock("SYM" + i, Math.random() * 100, (long) (Math.random() * 1000000), (long) (Math.random() * 1000000000));
+        }
+        endTime = System.nanoTime();
+        visualization.addDataPoint(size, (endTime - startTime) / size);
+        System.out.println("Average ADD time: " + (endTime - startTime) / size + " ns");
+
+
 
         // Measure time for REMOVE operation
+        startTime = System.nanoTime();
         for (int i = 0; i < size; i++) {
-            startTime = System.nanoTime();
             manager.removeStock("SYM" + i);
-            endTime = System.nanoTime();
-            totalRemoveTime += (endTime - startTime);
         }
-        long averageRemoveTime = totalRemoveTime / size;
-        visualization.addDataPoint(3, size, averageRemoveTime); // (3, size, averageRemoveTime
-        System.out.println("Average REMOVE time: " + averageRemoveTime + " ns");
-
-        System.out.println("************************************");
-        visualization.repaint();  // Update the visualization
+        endTime = System.nanoTime();
+        visualization.addDataPoint(size, (endTime - startTime) / size);
+        System.out.println("Average REMOVE time: " + (endTime - startTime) / size + " ns");
     }
 }

@@ -1,6 +1,3 @@
-
-// https://www.youtube.com/watch?v=jDM6_TnYIqE&t=1535s
-// CHANNEL : ABDUL BARI
 public class AVLTree {
 
     private Node root;
@@ -40,7 +37,7 @@ public class AVLTree {
         int balance = balancingFactor(node);
         if (balance > 1){
             // left right case
-            if (balancingFactor(node.left) < 0){
+            if (node.data.getSymbol().compareTo(node.left.data.getSymbol()) < 0){
                 node.left = rotateLeft(node.left); // important to update the left child after rotation
                 return rotateRight(node); // rotate the node
             }
@@ -49,7 +46,7 @@ public class AVLTree {
         }
 
         if (balance < -1){
-            if (balancingFactor(node.right) > 0){ // right left case
+            if (node.data.getSymbol().compareTo(node.right.data.getSymbol()) > 0){
                 node.right = rotateRight(node.right); // important to update the right child after rotation
                 return rotateLeft(node); // rotate the node
             }
@@ -100,8 +97,7 @@ public class AVLTree {
             Node min = findMin(node.right);
             node.data = min.data;
             node.right = deleteHelper(node.right, min.data.getSymbol());
-        }
-        if (symbol.compareTo(node.data.getSymbol()) < 0){
+        } else if (symbol.compareTo(node.data.getSymbol()) < 0){
             node.left = deleteHelper(node.left, symbol);
         } else {
             node.right = deleteHelper(node.right, symbol);
@@ -216,37 +212,42 @@ public class AVLTree {
             this.right = null;
             this.height = 1;
         }
-
     }
 
-    //public static void main(String[] args){
-    //    // Give me test code for AVLTree
-//
-    //    try{
-    //        AVLTree tree = new AVLTree();
-    //        tree.insert(new Stock("AOOGL", 200.0, 2000, 2000000));
-    //        tree.insert(new Stock("BAPL", 100.0, 1000, 1000000));
-    //        tree.printInOrder();
-    //        System.out.println("**********");
-    //        tree.insert(new Stock("C", 300.0, 3000, 3000000));
-    //        tree.printInOrder();
-    //        System.out.println("**********");
-//
-    //        tree.insert(new Stock("D", 400.0, 4000, 4000000));
-    //        tree.insert(new Stock("E", 500.0, 5000, 5000000));
-    //        tree.insert(new Stock("F", 600.0, 6000, 6000000));
-    //        tree.insert(new Stock("G", 700.0, 7000, 7000000));
-    //        tree.insert(new Stock("H", 800.0, 8000, 8000000));
-    //        tree.printInOrder();
-    //        System.out.println("**********");
-//
-    //        tree.delete(new Stock("AOOGL", 200.0, 2000, 2000000));
-//
-    //        tree.printInOrder();
-    //        System.out.println("**********");
-//
-    //    } catch (Exception e){
-    //        System.out.println(e);
-    //    }
-    //}
+    private void printLevel(Node node, int level) {
+        if (node == null) {
+            return;
+        }
+        if (level == 1) {
+            System.out.println(node.data);
+        } else if (level > 1) {
+            printLevel(node.left, level - 1);
+            printLevel(node.right, level - 1);
+        }
+    }
+
+    public void levelOrder() {
+        int h = height(root);
+        for (int i = 1; i <= h; i++) {
+            System.out.println("Level " + i + ":");
+            printLevel(root, i);
+        }
+    }
+
+    public static void main(String[] args){
+        // Give me test code for AVLTree
+
+        try{
+            AVLTree tree = new AVLTree();
+            for (int i = 0; i < 26; i++){
+                tree.insert(new Stock("A" + (char)('A' + i), 1.0, 1, 1));
+            }
+            tree.levelOrder();
+            
+
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    }
 }
+

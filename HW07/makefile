@@ -11,7 +11,7 @@ all: $(CLASSES)
 	@echo "\033[0;33mmake | doc | clean | cleandoc | re | redoc | fclean | run\033[0m"
 
 run: $(CLASSES)
-	@java $(JFLAGS) Main input.txt
+	@java -Xint $(JFLAGS) Main input.txt
 
 %.class : %.java
 	@javac $(JFLAGS) $<
