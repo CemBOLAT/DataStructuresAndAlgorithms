@@ -1,22 +1,23 @@
-
 public class Stock {
     private String symbol;
     private double price;
     private long volume;
     private long marketCap;
 
+    // Constructor
     public Stock(String symbol, double price, long volume, long marketCap) {
-        setSymbol(symbol);
-        setPrice(price);
-        setVolume(volume);
-        setMarketCap(marketCap);
+        this.symbol = symbol;
+        this.price = price;
+        this.volume = volume;
+        this.marketCap = marketCap;
     }
 
+    // Getters and Setters
     public String getSymbol() {
         return symbol;
     }
 
-    public void setSymbol(String symbol)  {
+    public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
 

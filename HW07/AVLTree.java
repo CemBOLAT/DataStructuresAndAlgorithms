@@ -1,253 +1,196 @@
 public class AVLTree {
-
-    private Node root;
-
-    public AVLTree() {
-        this.root = null;
-    }
-
-    private Node rotateRight(Node node){
-        Node left = node.left;
-        Node left_right = left.right;
-
-        left.right = node;
-        node.left = left_right;
-
-        node.height = 1 + Math.max(height(node.left), height(node.right));
-        left.height = 1 + Math.max(height(left.left), height(left.right));
-
-        return left;
-    }
-
-    private Node rotateLeft(Node node){
-        Node right = node.right;
-        Node right_left = right.left;
-
-        right.left = node;
-        node.right = right_left;
-
-        node.height = 1 + Math.max(height(node.left), height(node.right));
-        right.height = 1 + Math.max(height(right.left), height(right.right));
-
-        return right;
-    }
-
-    private Node rotate(Node node) {
-        node.height = 1 + Math.max(height(node.left), height(node.right));
-        int balance = balancingFactor(node);
-        if (balance > 1){
-            // left right case
-            if (node.data.getSymbol().compareTo(node.left.data.getSymbol()) < 0){
-                node.left = rotateLeft(node.left); // important to update the left child after rotation
-                return rotateRight(node); // rotate the node
-            }
-            else
-                return rotateRight(node); // left left case
-        }
-
-        if (balance < -1){
-            if (node.data.getSymbol().compareTo(node.right.data.getSymbol()) > 0){
-                node.right = rotateRight(node.right); // important to update the right child after rotation
-                return rotateLeft(node); // rotate the node
-            }
-            else
-                return rotateLeft(node); // right right case
-        }
-        return node;
-    }
-
-    private Node insertHelper(Node node, Stock data) {
-        if (node == null){
-            return new Node(data);
-        }
-        if (data.getSymbol().equals(node.data.getSymbol())){
-            node.data.setVolume(data.getVolume());
-            node.data.setPrice(data.getPrice());
-            node.data.setMarketCap(data.getMarketCap());
-            return node;
-        }
-        if (data.getSymbol().compareTo(node.data.getSymbol()) < 0){
-            node.left = insertHelper(node.left, data);
-        } else {
-            node.right = insertHelper(node.right, data);
-        }
-        node.height = 1 + Math.max(height(node.left), height(node.right)); // update height
-
-        return rotate(node);
-    }
-
-    public void insert(Stock data) {
-        root = insertHelper(root, data);
-    }
-
-    private Node deleteHelper(Node node, String symbol){
-        if (node == null){
-            return null;
-        }
-        if (symbol.equals(node.data.getSymbol())){
-            if (node.left == null && node.right == null){
-                return null;
-            }
-            if (node.left == null){
-                return node.right;
-            }
-            if (node.right == null){
-                return node.left;
-            }
-            Node min = findMin(node.right);
-            node.data = min.data;
-            node.right = deleteHelper(node.right, min.data.getSymbol());
-        } else if (symbol.compareTo(node.data.getSymbol()) < 0){
-            node.left = deleteHelper(node.left, symbol);
-        } else {
-            node.right = deleteHelper(node.right, symbol);
-        }
-        node.height = 1 + Math.max(height(node.left), height(node.right)); // update height
-        return rotate(node);
-    }
-
-    public void delete(String symbol) {
-        root = deleteHelper(root, symbol);
-    }
-
-    private Stock searchHelper(Node node, String symbol) {
-        if (node == null) {
-            return null;
-        }
-        if (symbol.equals(node.data.getSymbol())) {
-            return node.data;
-        }
-        if (symbol.compareTo(node.data.getSymbol()) < 0) {
-            return searchHelper(node.left, symbol);
-        } else {
-            return searchHelper(node.right, symbol);
-        }
-    }
-
-    private Node findMin(Node node){
-        if (node.left == null){
-            return node;
-        }
-        return findMin(node.left);
-    }
-
-    public Stock search(String symbol) {
-        return searchHelper(root, symbol);
-    }
-
-    private int height(Node node){
-        if(node == null){
-            return 0;
-        }
-        return node.height;
-    }
-
-    private int balancingFactor(Node node){
-        if(node == null){
-            return 0;
-        }
-        return height(node.left) - height(node.right);
-    }
-
-    private void printInOrderHelper(Node node) {
-        if (node == null) {
-            return;
-        }
-        printInOrderHelper(node.left);
-        System.out.println(node.data);
-        printInOrderHelper(node.right);
-    }
-
-    public void printInOrder() {
-        printInOrderHelper(root);
-    }
-
-    private void printPreOrderHelper(Node node) {
-        if (node == null) {
-            return;
-        }
-        System.out.println(node.data);
-        printPreOrderHelper(node.left);
-        printPreOrderHelper(node.right);
-    }
-
-    public void printPreOrder() {
-        printPreOrderHelper(root);
-    }
-
-    private void printPostOrderHelper(Node node) {
-        if (node == null) {
-            return;
-        }
-        printPostOrderHelper(node.left);
-        printPostOrderHelper(node.right);
-        System.out.println(node.data);
-    }
-
-    public void printPostOrder() {
-        printPostOrderHelper(root);
-    }
-
-    private int getSizeHelper(Node node){
-        if (node == null){
-            return 0;
-        }
-        return 1 + getSizeHelper(node.left) + getSizeHelper(node.right);
-    }
-
-    public int getSize(){
-        return getSizeHelper(root);
-    }
-
-
-    private static class Node {
-        Stock data;
-        Node left;
-        Node right;
+    private class Node {
+        Stock stock;
+        Node left, right;
         int height;
 
-        public Node(Stock data) {
-            this.data = data;
-            this.left = null;
-            this.right = null;
+        Node(Stock stock) {
+            this.stock = stock;
             this.height = 1;
         }
     }
 
-    private void printLevel(Node node, int level) {
-        if (node == null) {
-            return;
-        }
-        if (level == 1) {
-            System.out.println(node.data);
-        } else if (level > 1) {
-            printLevel(node.left, level - 1);
-            printLevel(node.right, level - 1);
-        }
+    private Node root;
+
+    // Insertion
+    public void insert(Stock stock) {
+        root = insert(root, stock);
     }
 
-    public void levelOrder() {
-        int h = height(root);
-        for (int i = 1; i <= h; i++) {
-            System.out.println("Level " + i + ":");
-            printLevel(root, i);
-        }
+    private int height(Node node) {
+        return (node == null) ? 0 : node.height;
     }
 
-    public static void main(String[] args){
-        // Give me test code for AVLTree
+    private int getBalance(Node node) {
+        return (node == null) ? 0 : height(node.left) - height(node.right);
+    }
 
-        try{
-            AVLTree tree = new AVLTree();
-            for (int i = 0; i < 26; i++){
-                tree.insert(new Stock("A" + (char)('A' + i), 1.0, 1, 1));
+    private Node rightRotate(Node node){
+        Node left = node.left;
+        Node leftRight = left.right;
+        left.right = node;
+        node.left = leftRight;
+        node.height = 1 + Math.max(height(node.left), height(node.right));
+        left.height = 1 + Math.max(height(left.left), height(left.right));
+        return left;
+    }
+
+    private Node leftRotate(Node node){
+        Node right = node.right;
+        Node rightLeft = right.left;
+        right.left = node;
+        node.right = rightLeft;
+        node.height = 1 + Math.max(height(node.left), height(node.right));
+        right.height = 1 + Math.max(height(right.left), height(right.right));
+        return right;
+    }
+
+    private Node insert(Node node, Stock stock) {
+        // Implementation of AVL Tree insertion logic (we have two parts: insertion and balancing)
+
+        // Insertion
+        if (node == null)
+            return new Node(stock);
+        if (stock.getSymbol().compareTo(node.stock.getSymbol()) < 0)
+            node.left = insert(node.left, stock);
+        else if (stock.getSymbol().compareTo(node.stock.getSymbol()) > 0)
+            node.right = insert(node.right, stock);
+        else
+            return node;
+
+        // Balancing
+        node.height = 1 + Math.max(height(node.left), height(node.right));
+        int balance = getBalance(node);
+
+        // Left Left Case
+        if (balance > 1 && node.left != null && getBalance(node.left) >= 0)
+            return rightRotate(node);
+        if (balance < -1 && node.right != null && getBalance(node.right) <= 0)
+            return leftRotate(node);
+        if (balance > 1 && node.left != null && getBalance(node.left) < 0) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
+        if (balance < -1 && node.right != null && getBalance(node.right) > 0) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
+        }
+        return node;
+    }
+
+    // Deletion
+    public void delete(String symbol) {
+        root = delete(root, symbol);
+    }
+
+
+    private Node findMin(Node node) {
+        Node current = node;
+        while (current.left != null)
+            current = current.left;
+        return current;
+    }
+
+    private Node delete(Node node, String symbol) {
+        // Implementation of AVL Tree deletion logic
+        if (node == null)
+            return null;
+        if (symbol.compareTo(node.stock.getSymbol()) < 0)
+            node.left = delete(node.left, symbol);
+        else if (symbol.compareTo(node.stock.getSymbol()) > 0)
+            node.right = delete(node.right, symbol);
+        else {
+            if (node.left == null || node.right == null) {
+                Node temp = (node.left == null) ? node.right : node.left;
+                if (temp == null) {
+                    temp = node;
+                    node = null;
+                } else
+                    node = temp;
+            } else {
+                Node temp = findMin(node.right);
+                node.stock = temp.stock;
+                node.right = delete(node.right, temp.stock.getSymbol());
             }
-            tree.levelOrder();
-            
-
-        } catch (Exception e){
-            System.out.println(e);
         }
+
+        // Balancing
+        if (node == null)
+            return null;
+        node.height = 1 + Math.max(height(node.left), height(node.right));
+        int balance = getBalance(node);
+        if (balance > 1 && getBalance(node.left) >= 0)
+            return rightRotate(node);
+        if (balance < -1 && getBalance(node.right) <= 0)
+            return leftRotate(node);
+        if (balance > 1 && getBalance(node.left) < 0) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
+        if (balance < -1 && getBalance(node.right) > 0) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
+        }
+        return node;
+    }
+
+    // Search
+    public Stock search(String symbol) {
+        Node result = search(root, symbol);
+        return (result != null) ? result.stock : null;
+    }
+
+    private Node search(Node node, String symbol) {
+        // Implementation of AVL Tree search logic
+        if (node == null)
+            return null;
+        if (symbol.compareTo(node.stock.getSymbol()) < 0)
+            return search(node.left, symbol);
+        else if (symbol.compareTo(node.stock.getSymbol()) > 0)
+            return search(node.right, symbol);
+        return node;
+    }
+
+    // Balancing methods (left rotation, right rotation, etc.)
+    // Height update and balance factor calculations
+
+    // In-order, pre-order, post-order traversals
+    // For example:
+
+    private void preOrderTraversal(Node node) {
+        if (node == null)
+            return;
+        System.out.println(node.stock);
+        preOrderTraversal(node.left);
+        preOrderTraversal(node.right);
+    }
+
+    private void postOrderTraversal(Node node) {
+        if (node == null)
+            return;
+        postOrderTraversal(node.left);
+        postOrderTraversal(node.right);
+        System.out.println(node.stock);
+    }
+
+    private void inOrderTraversal(Node node) {
+        if (node == null)
+            return;
+        inOrderTraversal(node.left);
+        System.out.println(node.stock);
+        inOrderTraversal(node.right);
+    }
+
+
+    public void preOrderTraversal() {
+        preOrderTraversal(root);
+    }
+
+    public void postOrderTraversal() {
+        postOrderTraversal(root);
+    }
+
+    public void inOrderTraversal() {
+        inOrderTraversal(root);
     }
 }
-

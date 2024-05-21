@@ -3,9 +3,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Main {
-
-    public static RandomInputGenerator generator = new RandomInputGenerator();
-    public static GUIVisualization visualization = new GUIVisualization("scatter");
+    public static RandomInputGenerator randomInputGenerator = new RandomInputGenerator();
+    public static GUIVisualization addVisualization = new GUIVisualization("scatter", "Add Visualization");
+    public static GUIVisualization searchVisualization = new GUIVisualization("scatter", "Search Visualization");
+    public static GUIVisualization removeVisualization = new GUIVisualization("scatter", "Remove Visualization");
 
     public static void main(String[] args) {
         if (args.length != 1) {
@@ -15,7 +16,11 @@ public class Main {
 
         String inputFile = args[0];
         StockDataManager manager = new StockDataManager();
-        visualization.setVisible(true);
+
+        randomInputGenerator.generateRandomInputs(inputFile, 1000);
+        addVisualization.setVisible(true);
+        searchVisualization.setVisible(true);
+        removeVisualization.setVisible(true);
 
         try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
             String line;
@@ -27,10 +32,12 @@ public class Main {
         }
 
         // Perform a simple performance analysis
-        for (int i = 1; i < 100; i++) {
-            performPerformanceAnalysis(manager, i * 1000);
+        for (int i = 1; i <= 100000; i += 100) {
+            performPerformanceAnalysis(manager, i * 10);
         }
-        visualization.repaint(); // Repaint the graph
+        addVisualization.repaint();
+        searchVisualization.repaint();
+        removeVisualization.repaint();
     }
 
     private static void processCommand(String line, StockDataManager manager) {
@@ -64,6 +71,15 @@ public class Main {
     private static void performPerformanceAnalysis(StockDataManager manager, int size) {
         long startTime, endTime;
 
+        // Measure time for ADD operation
+        startTime = System.nanoTime();
+        for (int i = 0; i < size; i++) {
+            manager.addOrUpdateStock("SYM" + i, Math.random() * 100, (long) (Math.random() * 1000000), (long) (Math.random() * 1000000000));
+        }
+        endTime = System.nanoTime();
+        System.out.println("Average ADD time: " + (endTime - startTime) / size + " ns");
+        addVisualization.addDataPoint(size, (endTime - startTime) / size);
+
         // Measure time for SEARCH operation
         startTime = System.nanoTime();
         for (int i = 0; i < size; i++) {
@@ -71,18 +87,7 @@ public class Main {
         }
         endTime = System.nanoTime();
         System.out.println("Average SEARCH time: " + (endTime - startTime) / size + " ns");
-        visualization.addDataPoint(size, (endTime - startTime) / size);
-
-        // Measure time for ADD operation
-        startTime = System.nanoTime();
-        for (int i = 0; i < size; i++) {
-            manager.addOrUpdateStock("SYM" + i, Math.random() * 100, (long) (Math.random() * 1000000), (long) (Math.random() * 1000000000));
-        }
-        endTime = System.nanoTime();
-        visualization.addDataPoint(size, (endTime - startTime) / size);
-        System.out.println("Average ADD time: " + (endTime - startTime) / size + " ns");
-
-
+        searchVisualization.addDataPoint(size, (endTime - startTime) / size);
 
         // Measure time for REMOVE operation
         startTime = System.nanoTime();
@@ -90,7 +95,10 @@ public class Main {
             manager.removeStock("SYM" + i);
         }
         endTime = System.nanoTime();
-        visualization.addDataPoint(size, (endTime - startTime) / size);
+        removeVisualization.addDataPoint(size, (endTime - startTime) / size);
         System.out.println("Average REMOVE time: " + (endTime - startTime) / size + " ns");
+        addVisualization.repaint();
+        searchVisualization.repaint();
+        removeVisualization.repaint();
     }
 }

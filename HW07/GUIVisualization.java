@@ -8,14 +8,18 @@ public class GUIVisualization extends JFrame {
     private List<Long> dataPointsY; // List to store y-axis data points
     private String plotType; // Type of plot ("line" or "scatter")
 
-    public GUIVisualization(String plotType) {
+    public GUIVisualization(String plotType, String title) {
         this.plotType = plotType; // Set the plot type
         this.dataPointsX = new ArrayList<>(); // Initialize x-axis data points list
         this.dataPointsY = new ArrayList<>(); // Initialize y-axis data points list
 
         // Sample data points to reflect O(log n) complexity
+        // for (int i = 1; i <= 10; i++) {
+        //     dataPointsX.add(i * 1000); // Add sample x-axis data points
+        //     dataPointsY.add((long) (Math.log(i * 1000) * 1000)); // Add sample y-axis data points reflecting O(log n)
+        // }
 
-        setTitle("Performance Graph Visualization"); // Set the title of the window
+        setTitle(title); // Set the title of the window
         setSize(800, 600); // Set the size of the window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set the default close operation
         setLocationRelativeTo(null); // Center the window on the screen
@@ -116,14 +120,14 @@ public class GUIVisualization extends JFrame {
     }
 
     public void addDataPoint(int x, long y) {
-        dataPointsX.add(x); // Add x-axis data point
-        dataPointsY.add(y); // Add y-axis data point
+        dataPointsX.add(x);
+        dataPointsY.add(y);
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             String plotType = "scatter"; // Change to "scatter" for scatter plot
-            GUIVisualization frame = new GUIVisualization(plotType); // Create a new instance of GUIVisualization
+            GUIVisualization frame = new GUIVisualization(plotType, "Title"); // Create a new instance of GUIVisualization
             frame.setVisible(true); // Make the frame visible
         });
     }
