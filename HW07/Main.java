@@ -3,10 +3,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Main {
-    public static RandomInputGenerator randomInputGenerator = new RandomInputGenerator();
     public static GUIVisualization addVisualization = new GUIVisualization("scatter", "Add Visualization");
     public static GUIVisualization searchVisualization = new GUIVisualization("scatter", "Search Visualization");
     public static GUIVisualization removeVisualization = new GUIVisualization("scatter", "Remove Visualization");
+    public static GUIVisualization updateVisualization = new GUIVisualization("scatter", "Update Visualization");
 
     public static void main(String[] args) {
         if (args.length != 1) {
@@ -16,11 +16,6 @@ public class Main {
 
         String inputFile = args[0];
         StockDataManager manager = new StockDataManager();
-
-        randomInputGenerator.generateRandomInputs(inputFile, 1000);
-        addVisualization.setVisible(true);
-        searchVisualization.setVisible(true);
-        removeVisualization.setVisible(true);
 
         try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
             String line;
@@ -32,12 +27,14 @@ public class Main {
         }
 
         // Perform a simple performance analysis
-        for (int i = 1; i <= 100000; i += 100) {
+        for (int i = 1; i <= 100000 / 5; i += 1000) {
             performPerformanceAnalysis(manager, i * 10);
         }
-        addVisualization.repaint();
-        searchVisualization.repaint();
-        removeVisualization.repaint();
+
+        addVisualization.setVisible(true);
+        searchVisualization.setVisible(true);
+        removeVisualization.setVisible(true);
+        updateVisualization.setVisible(true);
     }
 
     private static void processCommand(String line, StockDataManager manager) {
@@ -97,8 +94,18 @@ public class Main {
         endTime = System.nanoTime();
         removeVisualization.addDataPoint(size, (endTime - startTime) / size);
         System.out.println("Average REMOVE time: " + (endTime - startTime) / size + " ns");
+
+        // Measure time for UPDATE operation
+        startTime = System.nanoTime();
+        for (int i = 0; i < size; i++) {
+            manager.updateStock("SYM" + i, Math.random() * 100, (long) (Math.random() * 1000000), (long) (Math.random() * 1000000000));
+        }
+        endTime = System.nanoTime();
+        updateVisualization.addDataPoint(size, (endTime - startTime) / size);
+        System.out.println("Average UPDATE time: " + (endTime - startTime) / size + " ns");
         addVisualization.repaint();
         searchVisualization.repaint();
         removeVisualization.repaint();
+        updateVisualization.repaint();
     }
 }

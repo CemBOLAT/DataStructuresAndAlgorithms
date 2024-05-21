@@ -33,10 +33,10 @@ public class RandomInputGenerator {
         return result.toString();
     }
 
-    public void generateRandomInputs(String inputFile, int numStocks) {
+    public void generateRandomInputs(String inputFile, int numAdd, int numRemove, int numSearch, int numUpdate) {
         // Implement this method
         File file = new File(inputFile);
-        MAX_STOCKS = numStocks;
+        MAX_STOCKS = numAdd;
         deleted = new int[MAX_STOCKS];
 
         // create a new file if it does not exist
@@ -61,7 +61,7 @@ public class RandomInputGenerator {
                 } while (true);
             }
 
-            for (int i = 0; i < MAX_STOCKS * 0.3; i++) {
+            for (int i = 0; i < numRemove; i++) {
                 do {
                     int nbr = getRandomNumberInRange(0, MAX_STOCKS);
                     if (deleted[nbr] != 1) {
@@ -74,7 +74,7 @@ public class RandomInputGenerator {
                 } while (true);
             }
 
-            for (int i = 0; i < MAX_STOCKS * 0.3; i++) {
+            for (int i = 0; i < numSearch; i++) {
                do {
                    int nbr = getRandomNumberInRange(0, MAX_STOCKS);
                    if (deleted[nbr] != 1) {
@@ -85,7 +85,7 @@ public class RandomInputGenerator {
                } while (true);
             }
 
-            for (int i = 0; i < MAX_STOCKS * 0.3; i++) {
+            for (int i = 0; i < numUpdate; i++) {
                do {
                    int nbr = getRandomNumberInRange(0, MAX_STOCKS);
                    if (deleted[nbr] != 1) {
@@ -99,5 +99,15 @@ public class RandomInputGenerator {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        if (args.length != 5) {
+            System.out.println("Usage: java RandomInputGenerator <input_file> <numAdd> <numRemove> <numSearch> <numUpdate>");
+            return;
+        }
+
+        RandomInputGenerator randomInputGenerator = new RandomInputGenerator();
+        randomInputGenerator.generateRandomInputs(args[0], Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
     }
 }
