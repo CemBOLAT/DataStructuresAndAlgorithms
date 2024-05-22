@@ -24,7 +24,7 @@ public class GUIVisualization extends JFrame {
         this.dataPointsX = new ArrayList<>(); // Initialize x-axis data points list
         this.dataPointsY = new ArrayList<>(); // Initialize y-axis data points list
 
-        //Sample data points to reflect O(log n) complexity
+        // Sample data points to reflect O(log n) complexity
         for (int i = 1; i <= 10; i++) {
             dataPointsX.add(i * 1000); // Add sample x-axis data points
             dataPointsY.add((long) (Math.log(i * 1000) * 1000)); // Add sample y-axis data points reflecting O(log n)
@@ -147,6 +147,15 @@ public class GUIVisualization extends JFrame {
     }
 
     public static void main(String[] args) {
+        // Set default font to Arial for all components
+        UIManager.put("Label.font", new Font("Arial", Font.PLAIN, 12));
+        UIManager.put("Button.font", new Font("Arial", Font.PLAIN, 12));
+        UIManager.put("TextField.font", new Font("Arial", Font.PLAIN, 12));
+        UIManager.put("TextArea.font", new Font("Arial", Font.PLAIN, 12));
+        UIManager.put("ComboBox.font", new Font("Arial", Font.PLAIN, 12));
+        UIManager.put("List.font", new Font("Arial", Font.PLAIN, 12));
+        UIManager.put("Table.font", new Font("Arial", Font.PLAIN, 12));
+
         SwingUtilities.invokeLater(() -> {
             String plotType = "scatter"; // Change to "scatter" for scatter plot
             GUIVisualization frame = new GUIVisualization(plotType, "Title"); // Create a new instance of GUIVisualization

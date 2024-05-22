@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 
 public class Main {
-    
+
     // ArrayLists to store the x and y points for the performance analysis
     private static ArrayList<Integer> generalXPoints = new ArrayList<>();
     private static ArrayList<Long> addDataPointsY = new ArrayList<>();
@@ -46,14 +46,14 @@ public class Main {
         System.out.println("Time taken to process input file: " + (endTime - startTime) + " ns");
 
         // Perform performance analysis
-        for(int i = 1; i < 100; i++)
+        for(int i = 1; i < 250; i++)
         {
-            generalXPoints.add(i * 300);
+            generalXPoints.add(i * 50);
         }
 
-        for(int i = 1; i < 100; i++)
+        for(int i = 1; i < 250; i++)
         {
-            performPerformanceAnalysis(manager, i * 300);
+            performPerformanceAnalysis(manager, i * 50);
         }
 
         // Create GUIVisualizations for the performance analysis
@@ -61,16 +61,16 @@ public class Main {
             String plotType = "scatter"; // Change to "scatter" for scatter plot
             GUIVisualization frame = new GUIVisualization(plotType, generalXPoints, addDataPointsY, "Add Data Plots"); // Create a new instance of GUIVisualization
             frame.setVisible(true); // Make the frame visible
-        
+
             GUIVisualization frame2 = new GUIVisualization(plotType, generalXPoints, removeDataPointsY, "Remove Data Plots"); // Create a new instance of GUIVisualization
             frame2.setVisible(true); // Make the frame visible
-        
+
             GUIVisualization frame3 = new GUIVisualization(plotType, generalXPoints, searchDataPointsY, "Search Data Plots"); // Create a new instance of GUIVisualization
             frame3.setVisible(true); // Make the frame visible
-        
+
             GUIVisualization frame4 = new GUIVisualization(plotType, generalXPoints, updateDataPointsY, "Update Data Plots"); // Create a new instance of GUIVisualization
             frame4.setVisible(true); // Make the frame visible
-        
+
         });
 
     }
@@ -95,8 +95,8 @@ public class Main {
             case "SEARCH":
                 Stock stock = manager.searchStock(tokens[1]);
                 if (stock != null) {
-                    System.out.println("Stock found: " + tokens[1]);    
-                } 
+                    System.out.println("Stock found: " + tokens[1]);
+                }
                 else {
                     System.out.println("Stock not found: " + tokens[1]);
                 }
@@ -150,7 +150,7 @@ public class Main {
         System.out.println("Average UPDATE time: " + (endTime - startTime) / size + " ns");
 
         // Add data points for the performance analysis
-        updateDataPointsY.add((endTime - startTime) / size);        
+        updateDataPointsY.add((endTime - startTime) / size);
 
         // Measure time for REMOVE operation
         startTime = System.nanoTime();

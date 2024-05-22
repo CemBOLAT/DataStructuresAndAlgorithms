@@ -5,7 +5,9 @@ JDOCFLAGS := -protected -splitindex -use -author -version -d ./javadoc
 SRC := $(wildcard *.java)
 CLASSES := $(SRC:.java=.class)
 
-ADD := 1000
+
+
+ADD := 10000
 REMOVE := 300
 UPDATE := 300
 SEARCH := 200
@@ -21,10 +23,10 @@ all: $(CLASSES)
 	@echo "\033[0;33mmake | doc | clean | cleandoc | re | redoc | fclean | run | random\033[0m"
 
 random: $(CLASSES)
-	@java -Xint $(JFLAGS) RandomInputGenerator $(FILE) $(ADD) $(REMOVE) $(UPDATE) $(SEARCH)
+	@java -Djava.compiler=NONE $(JFLAGS) RandomInputGenerator $(FILE) $(ADD) $(REMOVE) $(UPDATE) $(SEARCH)
 
 run: $(CLASSES)
-	@java -Xint $(JFLAGS) Main $(FILE)
+	@java -Djava.compiler=NONE $(JFLAGS) Main $(FILE)
 
 %.class : %.java
 	@javac $(JFLAGS) $<
