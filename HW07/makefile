@@ -6,8 +6,8 @@ SRC := $(wildcard *.java)
 CLASSES := $(SRC:.java=.class)
 
 
-
-ADD := 10000
+NODE := 1000
+ADD := 9000
 REMOVE := 300
 UPDATE := 300
 SEARCH := 200
@@ -18,12 +18,12 @@ all: $(CLASSES)
 	@echo "\033[0;32mThe Stock Management System has been created by Cemal BOLAT.\nStudent No: 210104004010\033[0m"
 	@echo "\033[0;34mDefault run option is with using 'input.txt' file.\033[0m"
 	@echo "\033[0;34mIf you want to fill 'input.txt' file with random values, you can use 'make random' command.\033[0m"
-	@echo "\033[0;34mDefault add count is $(ADD), remove count is $(REMOVE), update count is $(UPDATE), search count is $(SEARCH).\033[0m"
+	@echo "\033[0;34mDefault node count is $(NODE), add count is $(ADD), remove count is $(REMOVE), update count is $(UPDATE), search count is $(SEARCH).\033[0m"
 	@echo "\033[0;34mIf you want to change these values, you can change the values from makefile.\033[0m"
 	@echo "\033[0;33mmake | doc | clean | cleandoc | re | redoc | fclean | run | random\033[0m"
 
 random: $(CLASSES)
-	@java -Djava.compiler=NONE $(JFLAGS) RandomInputGenerator $(FILE) $(ADD) $(REMOVE) $(UPDATE) $(SEARCH)
+	@java -Djava.compiler=NONE $(JFLAGS) RandomInputGenerator $(FILE) $(NODE) $(ADD) $(REMOVE) $(UPDATE) $(SEARCH)
 
 run: $(CLASSES)
 	@java -Djava.compiler=NONE $(JFLAGS) Main $(FILE)

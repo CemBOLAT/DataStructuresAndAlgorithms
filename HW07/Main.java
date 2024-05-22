@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 
+
+/**
+ * Main class to process the input file and perform performance analysis
+ */
 public class Main {
 
     // ArrayLists to store the x and y points for the performance analysis
@@ -12,10 +16,23 @@ public class Main {
     private static ArrayList<Long> removeDataPointsY = new ArrayList<>();
     private static ArrayList<Long> searchDataPointsY = new ArrayList<>();
     private static ArrayList<Long> updateDataPointsY = new ArrayList<>();
+    private static int xSize = 40;
+    private static int growthFactor = 500;
 
     /**
-     * Main method to process the input file and perform performance analysis
-     * @param args command line arguments (input file and add file)
+     * <p>
+     * Main method to process the input file and perform performance analysis.
+     * </p>
+     * Main method has the following steps:
+     * <ul>
+     * <li>Check for correct number of arguments</li>
+     * <li>Get the input file</li>
+     * <li>Process input file</li>
+     * <li>Print time taken to process input file</li>
+     * <li>Perform performance analysis for the operations (ADD, SEARCH, UPDATE, REMOVE)</li>
+     * <li>Create GUIVisualizations for the performance analysis</li>
+     * </ol>
+     * @param args command line arguments (input file)
      */
     public static void main(String[] args) {
 
@@ -45,15 +62,11 @@ public class Main {
         // Print time taken to process input file
         System.out.println("Time taken to process input file: " + (endTime - startTime) + " ns");
 
-        // Perform performance analysis
-        for(int i = 1; i < 250; i++)
+        for(int i = 1; i < xSize; i++)
         {
-            generalXPoints.add(i * 50);
-        }
-
-        for(int i = 1; i < 250; i++)
-        {
-            performPerformanceAnalysis(manager, i * 50);
+            generalXPoints.add(i * growthFactor); // Add data points for the performance analysis
+            performPerformanceAnalysis(manager, i * growthFactor);  // Perform performance analysis for the operations
+            System.gc(); // Call garbage collector to free up memory
         }
 
         // Create GUIVisualizations for the performance analysis
@@ -84,6 +97,10 @@ public class Main {
         String command = tokens[0];
 
         switch (command) {
+            case "NODE":
+                manager.addOrUpdateStock(tokens[1], Double.parseDouble(tokens[2]), Long.parseLong(tokens[3]), Long.parseLong(tokens[4]));
+                System.out.println("Node added: " + tokens[1]);
+                break;
             case "ADD":
                 manager.addOrUpdateStock(tokens[1], Double.parseDouble(tokens[2]), Long.parseLong(tokens[3]), Long.parseLong(tokens[4]));
                 System.out.println("Stock added: " + tokens[1]);
@@ -128,7 +145,7 @@ public class Main {
         System.out.println("Average ADD time: " + (endTime - startTime) / size + " ns");
 
         // Add data points for the performance analysis
-        addDataPointsY.add((endTime - startTime) / size);
+        addDataPointsY.add((endTime - startTime) / (size));
 
         // Measure time for SEARCH operation
         startTime = System.nanoTime();
@@ -139,7 +156,7 @@ public class Main {
         System.out.println("Average SEARCH time: " + (endTime - startTime) / size + " ns");
 
         // Add data points for the performance analysis
-        searchDataPointsY.add((endTime - startTime) / size);
+        searchDataPointsY.add((endTime - startTime) / (size));
 
         // Measure time for UPDATE operation
         startTime = System.nanoTime();
@@ -150,7 +167,7 @@ public class Main {
         System.out.println("Average UPDATE time: " + (endTime - startTime) / size + " ns");
 
         // Add data points for the performance analysis
-        updateDataPointsY.add((endTime - startTime) / size);
+        updateDataPointsY.add((endTime - startTime) / (size));
 
         // Measure time for REMOVE operation
         startTime = System.nanoTime();
@@ -161,6 +178,7 @@ public class Main {
         System.out.println("Average REMOVE time: " + (endTime - startTime) / size + " ns");
 
         // Add data points for the performance analysis
-        removeDataPointsY.add((endTime - startTime) / size);
+        removeDataPointsY.add((endTime - startTime) / (size));
+        System.out.println("*".repeat(50));
     }
 }

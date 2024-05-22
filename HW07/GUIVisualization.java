@@ -3,11 +3,23 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * GUIVisualization class to visualize data points on a graph.
+ */
+
 public class GUIVisualization extends JFrame {
     private List<Integer> dataPointsX; // List to store x-axis data points
     private List<Long> dataPointsY; // List to store y-axis data points
     private String plotType; // Type of plot ("line" or "scatter")
 
+    /**
+     * Constructor to create a new instance of GUIVisualization.
+     * @param plotType Type of plot ("line" or "scatter")
+     * @param dataPointsX List of x-axis data points
+     * @param dataPointsY List of y-axis data points
+     * @param title Title of the window
+     * @return New instance of GUIVisualization
+     */
     public GUIVisualization(String plotType, List<Integer> dataPointsX, List<Long> dataPointsY, String title) {
         this.plotType = plotType; // Set the plot type
         this.dataPointsX = dataPointsX; // Set the x-axis data points list

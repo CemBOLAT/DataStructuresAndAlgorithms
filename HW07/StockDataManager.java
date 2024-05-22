@@ -1,3 +1,7 @@
+
+/**
+ * StockDataManager class given to students
+*/
 public class StockDataManager {
     private AVLTree avlTree;
 

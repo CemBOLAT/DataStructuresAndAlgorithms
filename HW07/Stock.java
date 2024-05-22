@@ -1,3 +1,7 @@
+
+/**
+ * Stock class given from the assignment
+ */
 public class Stock {
     private String symbol;
     private double price;
