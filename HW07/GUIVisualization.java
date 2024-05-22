@@ -8,16 +8,38 @@ public class GUIVisualization extends JFrame {
     private List<Long> dataPointsY; // List to store y-axis data points
     private String plotType; // Type of plot ("line" or "scatter")
 
+    public GUIVisualization(String plotType, List<Integer> dataPointsX, List<Long> dataPointsY, String title) {
+        this.plotType = plotType; // Set the plot type
+        this.dataPointsX = dataPointsX; // Set the x-axis data points list
+        this.dataPointsY = dataPointsY; // Set the y-axis data points list
+
+        setTitle(title); // Set the title of the window
+        setSize(800, 600); // Set the size of the window
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set the default close operation
+        setLocationRelativeTo(null); // Center the window on the screen
+    }
+
     public GUIVisualization(String plotType, String title) {
         this.plotType = plotType; // Set the plot type
         this.dataPointsX = new ArrayList<>(); // Initialize x-axis data points list
         this.dataPointsY = new ArrayList<>(); // Initialize y-axis data points list
 
-        // Sample data points to reflect O(log n) complexity
-        // for (int i = 1; i <= 10; i++) {
-        //     dataPointsX.add(i * 1000); // Add sample x-axis data points
-        //     dataPointsY.add((long) (Math.log(i * 1000) * 1000)); // Add sample y-axis data points reflecting O(log n)
-        // }
+        //Sample data points to reflect O(log n) complexity
+        for (int i = 1; i <= 10; i++) {
+            dataPointsX.add(i * 1000); // Add sample x-axis data points
+            dataPointsY.add((long) (Math.log(i * 1000) * 1000)); // Add sample y-axis data points reflecting O(log n)
+        }
+
+        setTitle(title); // Set the title of the window
+        setSize(800, 600); // Set the size of the window
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set the default close operation
+        setLocationRelativeTo(null); // Center the window on the screen
+    }
+
+    public GUIVisualization(String plotType, String title, List<Integer> dataPointsX, List<Long> dataPointsY) {
+        this.plotType = plotType; // Set the plot type
+        this.dataPointsX = dataPointsX; // Set the x-axis data points list
+        this.dataPointsY = dataPointsY; // Set the y-axis data points list
 
         setTitle(title); // Set the title of the window
         setSize(800, 600); // Set the size of the window
@@ -120,8 +142,8 @@ public class GUIVisualization extends JFrame {
     }
 
     public void addDataPoint(int x, long y) {
-        dataPointsX.add(x);
-        dataPointsY.add(y);
+        dataPointsX.add(x); // Add x-axis data point
+        dataPointsY.add(y); // Add y-axis data point
     }
 
     public static void main(String[] args) {

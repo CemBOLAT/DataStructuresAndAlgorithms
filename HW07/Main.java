@@ -1,18 +1,24 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.SwingUtilities;
+
 
 public class Main {
-    public static GUIVisualization addVisualization = new GUIVisualization("scatter", "Add Visualization");
-    public static GUIVisualization searchVisualization = new GUIVisualization("scatter", "Search Visualization");
-    public static GUIVisualization removeVisualization = new GUIVisualization("scatter", "Remove Visualization");
-    public static GUIVisualization updateVisualization = new GUIVisualization("scatter", "Update Visualization");
+    public static List<Integer> dataPointsX = new ArrayList<>(); // List to store x-axis data points
+    public static List<Long> addPointsY = new ArrayList<>(); // List to store y-axis data points
+    public static List<Long> searchPointsY = new ArrayList<>(); // List to store y-axis data points  
+    public static List<Long> removePointsY = new ArrayList<>(); // List to store y-axis data points
+    public static List<Long> updatePointsY = new ArrayList<>(); // List to store y-axis data points
 
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("Usage: java Main <input_file>");
             return;
         }
+
 
         String inputFile = args[0];
         StockDataManager manager = new StockDataManager();
@@ -27,14 +33,30 @@ public class Main {
         }
 
         // Perform a simple performance analysis
-        for (int i = 1; i <= 100000 / 5; i += 1000) {
-            performPerformanceAnalysis(manager, i * 10);
+        for(int i = 2; i < 10; i++)
+        {
+            dataPointsX.add(i * 10000);
         }
 
-        addVisualization.setVisible(true);
-        searchVisualization.setVisible(true);
-        removeVisualization.setVisible(true);
-        updateVisualization.setVisible(true);
+        for(int i = 1; i < 10; i++)
+        {
+            performPerformanceAnalysis(manager, i * 10000, i != 1);
+        }
+
+        // Print the data points
+        SwingUtilities.invokeLater(() -> {
+            GUIVisualization addGui = new GUIVisualization("scatter", dataPointsX, addPointsY, "ADD Visualization");
+            addGui.setVisible(true);
+
+            GUIVisualization searchGui = new GUIVisualization("scatter", dataPointsX, searchPointsY, "SEARCH Visualization");
+            searchGui.setVisible(true);
+
+            GUIVisualization removeGui = new GUIVisualization("scatter", dataPointsX, removePointsY, "REMOVE Visualization");
+            removeGui.setVisible(true);
+
+            GUIVisualization updateGui = new GUIVisualization("scatter", dataPointsX, updatePointsY, "UPDATE Visualization");
+            updateGui.setVisible(true);
+        });
     }
 
     private static void processCommand(String line, StockDataManager manager) {
@@ -65,7 +87,7 @@ public class Main {
         }
     }
 
-    private static void performPerformanceAnalysis(StockDataManager manager, int size) {
+    private static void performPerformanceAnalysis(StockDataManager manager, int size, boolean firstRun) {
         long startTime, endTime;
 
         // Measure time for ADD operation
@@ -74,8 +96,10 @@ public class Main {
             manager.addOrUpdateStock("SYM" + i, Math.random() * 100, (long) (Math.random() * 1000000), (long) (Math.random() * 1000000000));
         }
         endTime = System.nanoTime();
-        System.out.println("Average ADD time: " + (endTime - startTime) / size + " ns");
-        addVisualization.addDataPoint(size, (endTime - startTime) / size);
+        if (firstRun) {
+            System.out.println("Average ADD time: " + (endTime - startTime) / size + " ns");
+            addPointsY.add((endTime - startTime) / size);
+        }
 
         // Measure time for SEARCH operation
         startTime = System.nanoTime();
@@ -83,17 +107,20 @@ public class Main {
             manager.searchStock("SYM" + i);
         }
         endTime = System.nanoTime();
-        System.out.println("Average SEARCH time: " + (endTime - startTime) / size + " ns");
-        searchVisualization.addDataPoint(size, (endTime - startTime) / size);
-
+        if (firstRun){
+            System.out.println("Average SEARCH time: " + (endTime - startTime) / size + " ns");
+            searchPointsY.add((endTime - startTime) / size);
+        }
         // Measure time for REMOVE operation
         startTime = System.nanoTime();
         for (int i = 0; i < size; i++) {
             manager.removeStock("SYM" + i);
         }
         endTime = System.nanoTime();
-        removeVisualization.addDataPoint(size, (endTime - startTime) / size);
-        System.out.println("Average REMOVE time: " + (endTime - startTime) / size + " ns");
+        if (firstRun){
+            System.out.println("Average REMOVE time: " + (endTime - startTime) / size + " ns");
+            removePointsY.add((endTime - startTime) / size);
+        }
 
         // Measure time for UPDATE operation
         startTime = System.nanoTime();
@@ -101,11 +128,10 @@ public class Main {
             manager.updateStock("SYM" + i, Math.random() * 100, (long) (Math.random() * 1000000), (long) (Math.random() * 1000000000));
         }
         endTime = System.nanoTime();
-        updateVisualization.addDataPoint(size, (endTime - startTime) / size);
-        System.out.println("Average UPDATE time: " + (endTime - startTime) / size + " ns");
-        addVisualization.repaint();
-        searchVisualization.repaint();
-        removeVisualization.repaint();
-        updateVisualization.repaint();
+        if (firstRun){
+            System.out.println("Average UPDATE time: " + (endTime - startTime) / size + " ns");
+            updatePointsY.add((endTime - startTime) / size);
+        }
+        System.out.println("*".repeat(50));
     }
 }

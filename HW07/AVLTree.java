@@ -193,4 +193,18 @@ public class AVLTree {
     public void inOrderTraversal() {
         inOrderTraversal(root);
     }
+
+    //public static void main(String[] args) {
+    //    AVLTree tree = new AVLTree();
+    //    for (int i = 3; i < 10; i++) {
+    //        Stock stock = new Stock("Stock" + i, 100.0 + i, 1000 + i, 10000 + i);
+    //        tree.insert(stock);
+    //    }
+    //    tree.insert(new Stock("Stock0", 100.0, 1000, 10000));
+    //    tree.insert(new Stock("Stock2", 100.0, 1000, 10000));
+    //    tree.insert(new Stock("Stock1", 100.0, 1000, 10000));
+    //    tree.inOrderTraversal();
+    //    
+    //}
+
 }
