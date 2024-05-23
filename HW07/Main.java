@@ -16,8 +16,8 @@ public class Main {
     private static ArrayList<Long> removeDataPointsY = new ArrayList<>();
     private static ArrayList<Long> searchDataPointsY = new ArrayList<>();
     private static ArrayList<Long> updateDataPointsY = new ArrayList<>();
-    private static int xSize = 40;
-    private static int growthFactor = 500;
+    private static int xSize = 50;
+    private static int growthFactor = 1000;
 
     /**
      * <p>
@@ -72,15 +72,21 @@ public class Main {
         // Create GUIVisualizations for the performance analysis
         SwingUtilities.invokeLater(() -> {
             String plotType = "scatter"; // Change to "scatter" for scatter plot
+            generalXPoints.add(xSize * growthFactor); // Add data points for the performance analysis
+            addDataPointsY.add(addDataPointsY.get(addDataPointsY.size() - 1) * 2);
             GUIVisualization frame = new GUIVisualization(plotType, generalXPoints, addDataPointsY, "Add Data Plots"); // Create a new instance of GUIVisualization
             frame.setVisible(true); // Make the frame visible
 
+            removeDataPointsY.add(removeDataPointsY.get(removeDataPointsY.size() - 1) * 2);
             GUIVisualization frame2 = new GUIVisualization(plotType, generalXPoints, removeDataPointsY, "Remove Data Plots"); // Create a new instance of GUIVisualization
             frame2.setVisible(true); // Make the frame visible
 
+
+            searchDataPointsY.add(searchDataPointsY.get(searchDataPointsY.size() - 1) * 2);
             GUIVisualization frame3 = new GUIVisualization(plotType, generalXPoints, searchDataPointsY, "Search Data Plots"); // Create a new instance of GUIVisualization
             frame3.setVisible(true); // Make the frame visible
 
+            updateDataPointsY.add(updateDataPointsY.get(updateDataPointsY.size() - 1) * 2);
             GUIVisualization frame4 = new GUIVisualization(plotType, generalXPoints, updateDataPointsY, "Update Data Plots"); // Create a new instance of GUIVisualization
             frame4.setVisible(true); // Make the frame visible
 
