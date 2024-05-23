@@ -7,7 +7,7 @@ CLASSES := $(SRC:.java=.class)
 
 
 NODE := 1000
-ADD := 9000
+ADD := 1000
 REMOVE := 300
 UPDATE := 300
 SEARCH := 200
