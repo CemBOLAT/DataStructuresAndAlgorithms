@@ -73,20 +73,20 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             String plotType = "scatter"; // Change to "scatter" for scatter plot
             generalXPoints.add(xSize * growthFactor); // Add data points for the performance analysis
-            addDataPointsY.add(addDataPointsY.get(addDataPointsY.size() - 1) * 2);
+            addDataPointsY.add(addDataPointsY.get(addDataPointsY.size() - 1) * (long)1.5);
             GUIVisualization frame = new GUIVisualization(plotType, generalXPoints, addDataPointsY, "Add Data Plots"); // Create a new instance of GUIVisualization
             frame.setVisible(true); // Make the frame visible
 
-            removeDataPointsY.add(removeDataPointsY.get(removeDataPointsY.size() - 1) * 2);
+            removeDataPointsY.add(removeDataPointsY.get(removeDataPointsY.size() - 1) * (long)1.5);
             GUIVisualization frame2 = new GUIVisualization(plotType, generalXPoints, removeDataPointsY, "Remove Data Plots"); // Create a new instance of GUIVisualization
             frame2.setVisible(true); // Make the frame visible
 
 
-            searchDataPointsY.add(searchDataPointsY.get(searchDataPointsY.size() - 1) * 2);
+            searchDataPointsY.add(searchDataPointsY.get(searchDataPointsY.size() - 1) * (long)1.5);
             GUIVisualization frame3 = new GUIVisualization(plotType, generalXPoints, searchDataPointsY, "Search Data Plots"); // Create a new instance of GUIVisualization
             frame3.setVisible(true); // Make the frame visible
 
-            updateDataPointsY.add(updateDataPointsY.get(updateDataPointsY.size() - 1) * 2);
+            updateDataPointsY.add(updateDataPointsY.get(updateDataPointsY.size() - 1) * (long)1.5);
             GUIVisualization frame4 = new GUIVisualization(plotType, generalXPoints, updateDataPointsY, "Update Data Plots"); // Create a new instance of GUIVisualization
             frame4.setVisible(true); // Make the frame visible
 
