@@ -9,7 +9,7 @@ import java.io.PrintWriter;
  * <p> It contains a list of children elements, which can be either files or directories. </p>
  * <p> It also contains methods for adding and removing children, as well as sorting them. </p>
  * <p> It extends the FileSystemElement class. </p>
- * 
+ *
  * <p> The class has the following methods: </p>
  * <ul>
  * 	<li> {@link #Directory(String, Directory)}: Creates a new directory with a name and a parent directory. </li>
@@ -44,8 +44,8 @@ public class Directory extends FileSystemElement {
 	/**
 	 * Creates a new directory with a name, a parent directory, and a creation date.
 	 *
-	 * @param name        the name of the directory
-	 * @param parent      the parent directory
+	 * @param name		the name of the directory
+	 * @param parent	  the parent directory
 	 * @param dateCreated the creation date of the directory
 	 */
 	public Directory(String name, Directory parent, Timestamp dateCreated) {
@@ -84,7 +84,7 @@ public class Directory extends FileSystemElement {
 	/**
 	 * Removes a child element from the directory.
 	 * <p> This method is used in deleting part of the file system. </p>
-	 * 
+	 *
 	 * @param child the child element to remove
 	 */
 	public void remove(FileSystemElement child) {
@@ -99,7 +99,7 @@ public class Directory extends FileSystemElement {
 	/**
 	 * Removes a single child element from the directory.
 	 * <p> This method is used in moving part of the file system. </p>
-	 * 
+	 *
 	 * @param child the child element to remove
 	 */
 	public void removeRef(FileSystemElement child) {
@@ -109,7 +109,7 @@ public class Directory extends FileSystemElement {
 
 	/**
 	 * Wanted format for printing the directory with '*' and '/'
-	 * 
+	 *
 	 * @return the formatted string
 	 */
 	@Override
@@ -129,7 +129,7 @@ public class Directory extends FileSystemElement {
 
 	/**
 	 * Sorts the children of the directory by name.
-	 * 
+	 *
 	 * <p> This method is used in sorting the children of the directory. </p>
 	 * <br>
 	 * postcondition: the children of the directory are sorted by name
@@ -149,11 +149,11 @@ public class Directory extends FileSystemElement {
 
 	/**
 	 * Saves the directory and its children to a file.
-	 * 
+	 *
 	 * <p> This method is externalized to the file system. </p>
 	 * <p> I used the ASCII value of ACK character to understand the format of element. </p>
 	 * <p> I add deleting and loading from the file system to make control of the file system. <like a tester> </p>
-	 * 
+	 *
 	 * @param writer the PrintWriter to write to the file
 	 */
 	@Override
@@ -168,7 +168,7 @@ public class Directory extends FileSystemElement {
 
 	/**
 	 * Returns the child element with the given name.
-	 * 
+	 *
 	 * @param name the name of the child element
 	 * @return the child element with the given name, or null if it does not exist
 	 */

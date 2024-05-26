@@ -1,8 +1,8 @@
 EXECUTABLE := Test.class
 SRC := *.java
 
-all : 
-	@echo 'make    compile|run|clean|rerun'
+all :
+	@echo 'make	compile|run|clean|rerun'
 
 run : $(EXECUTABLE)
 	@java Test

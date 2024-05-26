@@ -5,7 +5,7 @@ import java.io.PrintWriter;
  * A class representing a file in a file system.
  * <p> This class is used to represent a file in a file system. </p>
  * <p> It extends the FileSystemElement class. </p>
- * 
+ *
  * <p> The class has the following methods: </p>
  * <ul>
  *  <li> {@link #File(String, FileSystemElement)}: Creates a new file with a name and a parent directory. </li>
@@ -31,8 +31,8 @@ public class File extends FileSystemElement {
 	/**
 	 * Creates a new file with a name, a parent directory, and a creation date.
 	 *
-	 * @param name        the name of the file
-	 * @param parent      the parent directory
+	 * @param name		the name of the file
+	 * @param parent	  the parent directory
 	 * @param dateCreated the creation date of the file
 	 */
 	public File(String name, FileSystemElement parent, Timestamp dateCreated) {
@@ -41,7 +41,7 @@ public class File extends FileSystemElement {
 
 	/**
 	 * Wanted format for printing the file.
-	 * 
+	 *
 	 * @return the formatted string
 	 */
 	@Override

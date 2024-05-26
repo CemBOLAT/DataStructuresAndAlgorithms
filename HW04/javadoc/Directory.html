@@ -20,13 +20,13 @@
 </head>
 <body>
 <script type="text/javascript"><!--
-    try {
-        if (location.href.indexOf('is-external=true') == -1) {
-            parent.document.title="Directory";
-        }
-    }
-    catch(err) {
-    }
+	try {
+		if (location.href.indexOf('is-external=true') == -1) {
+			parent.document.title="Directory";
+		}
+	}
+	catch(err) {
+	}
 //-->
 var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
@@ -75,10 +75,10 @@ loadScripts(document, 'script');</script>
 <script type="text/javascript"><!--
   allClassesLink = document.getElementById("allclasses_navbar_top");
   if(window==top) {
-    allClassesLink.style.display = "block";
+	allClassesLink.style.display = "block";
   }
   else {
-    allClassesLink.style.display = "none";
+	allClassesLink.style.display = "none";
   }
   //-->
 </script>
@@ -143,20 +143,20 @@ extends <a href="FileSystemElement.html" title="class in &lt;Unnamed&gt;">FileSy
  <p> It contains a list of children elements, which can be either files or directories. </p>
  <p> It also contains methods for adding and removing children, as well as sorting them. </p>
  <p> It extends the FileSystemElement class. </p>
- 
+
  <p> The class has the following methods: </p>
  <ul>
-        <li> <a href="#%3Cinit%3E(java.lang.String,Directory)"><code>Directory(String, Directory)</code></a>: Creates a new directory with a name and a parent directory. </li>
-        <li> <a href="#%3Cinit%3E(java.lang.String,Directory,java.sql.Timestamp)"><code>Directory(String, Directory, Timestamp)</code></a>: Creates a new directory with a name, a parent directory, and a creation date. </li>
-        <li> <a href="#add(FileSystemElement)"><code>add(FileSystemElement)</code></a>: Adds a child element to the directory. </li>
-        <li> <a href="#remove(FileSystemElement)"><code>remove(FileSystemElement)</code></a>: Removes a child element from the directory. </li>
-        <li> <a href="#removeRef(FileSystemElement)"><code>removeRef(FileSystemElement)</code></a>: Removes a single child element from the directory. </li>
-        <li> <a href="#toString()"><code>toString()</code></a>: Wanted format for printing the directory with '*' and '/'. </li>
-        <li> <a href="#print(java.lang.String)"><code>print(String)</code></a>: Prints the directorys full path to the console. </li>
-        <li> <a href="#sortByDate()"><code>sortByDate()</code></a>: Sorts the children of the directory by name. </li>
-        <li> <a href="#getChildren()"><code>getChildren()</code></a>: Returns the children of the directory. </li>
-        <li> <a href="#saveElement(java.io.PrintWriter)"><code>saveElement(PrintWriter)</code></a>: Saves the directory and its children to a file. </li>
-        <li> <a href="#getChild(java.lang.String)"><code>getChild(String)</code></a>: Returns the child element with the given name. </li>
+		<li> <a href="#%3Cinit%3E(java.lang.String,Directory)"><code>Directory(String, Directory)</code></a>: Creates a new directory with a name and a parent directory. </li>
+		<li> <a href="#%3Cinit%3E(java.lang.String,Directory,java.sql.Timestamp)"><code>Directory(String, Directory, Timestamp)</code></a>: Creates a new directory with a name, a parent directory, and a creation date. </li>
+		<li> <a href="#add(FileSystemElement)"><code>add(FileSystemElement)</code></a>: Adds a child element to the directory. </li>
+		<li> <a href="#remove(FileSystemElement)"><code>remove(FileSystemElement)</code></a>: Removes a child element from the directory. </li>
+		<li> <a href="#removeRef(FileSystemElement)"><code>removeRef(FileSystemElement)</code></a>: Removes a single child element from the directory. </li>
+		<li> <a href="#toString()"><code>toString()</code></a>: Wanted format for printing the directory with '*' and '/'. </li>
+		<li> <a href="#print(java.lang.String)"><code>print(String)</code></a>: Prints the directorys full path to the console. </li>
+		<li> <a href="#sortByDate()"><code>sortByDate()</code></a>: Sorts the children of the directory by name. </li>
+		<li> <a href="#getChildren()"><code>getChildren()</code></a>: Returns the children of the directory. </li>
+		<li> <a href="#saveElement(java.io.PrintWriter)"><code>saveElement(PrintWriter)</code></a>: Saves the directory and its children to a file. </li>
+		<li> <a href="#getChild(java.lang.String)"><code>getChild(String)</code></a>: Returns the child element with the given name. </li>
  </ul></div>
 </li>
 </ul>
@@ -179,15 +179,15 @@ extends <a href="FileSystemElement.html" title="class in &lt;Unnamed&gt;">FileSy
 </tr>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String,Directory)">Directory</a></span>&#8203;(java.lang.String&nbsp;name,
-         <a href="Directory.html" title="class in &lt;Unnamed&gt;">Directory</a>&nbsp;parent)</code></th>
+		 <a href="Directory.html" title="class in &lt;Unnamed&gt;">Directory</a>&nbsp;parent)</code></th>
 <td class="colLast">
 <div class="block">Creates a new directory with a name and a parent directory.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String,Directory,java.sql.Timestamp)">Directory</a></span>&#8203;(java.lang.String&nbsp;name,
-         <a href="Directory.html" title="class in &lt;Unnamed&gt;">Directory</a>&nbsp;parent,
-         java.sql.Timestamp&nbsp;dateCreated)</code></th>
+		 <a href="Directory.html" title="class in &lt;Unnamed&gt;">Directory</a>&nbsp;parent,
+		 java.sql.Timestamp&nbsp;dateCreated)</code></th>
 <td class="colLast">
 <div class="block">Creates a new directory with a name, a parent directory, and a creation date.</div>
 </td>
@@ -311,7 +311,7 @@ extends <a href="FileSystemElement.html" title="class in &lt;Unnamed&gt;">FileSy
 <li class="blockList">
 <h4>Directory</h4>
 <pre>public&nbsp;Directory&#8203;(java.lang.String&nbsp;name,
-                 <a href="Directory.html" title="class in &lt;Unnamed&gt;">Directory</a>&nbsp;parent)</pre>
+				 <a href="Directory.html" title="class in &lt;Unnamed&gt;">Directory</a>&nbsp;parent)</pre>
 <div class="block">Creates a new directory with a name and a parent directory.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -327,8 +327,8 @@ extends <a href="FileSystemElement.html" title="class in &lt;Unnamed&gt;">FileSy
 <li class="blockList">
 <h4>Directory</h4>
 <pre>public&nbsp;Directory&#8203;(java.lang.String&nbsp;name,
-                 <a href="Directory.html" title="class in &lt;Unnamed&gt;">Directory</a>&nbsp;parent,
-                 java.sql.Timestamp&nbsp;dateCreated)</pre>
+				 <a href="Directory.html" title="class in &lt;Unnamed&gt;">Directory</a>&nbsp;parent,
+				 java.sql.Timestamp&nbsp;dateCreated)</pre>
 <div class="block">Creates a new directory with a name, a parent directory, and a creation date.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -432,7 +432,7 @@ extends <a href="FileSystemElement.html" title="class in &lt;Unnamed&gt;">FileSy
 <h4>sortByDate</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;sortByDate()</pre>
 <div class="block">Sorts the children of the directory by name.
- 
+
  <p> This method is used in sorting the children of the directory. </p>
  <br>
  postcondition: the children of the directory are sorted by name</div>
@@ -460,7 +460,7 @@ extends <a href="FileSystemElement.html" title="class in &lt;Unnamed&gt;">FileSy
 <h4>saveElement</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;saveElement&#8203;(java.io.PrintWriter&nbsp;writer)</pre>
 <div class="block">Saves the directory and its children to a file.
- 
+
  <p> This method is externalized to the file system. </p>
  <p> I used the ASCII value of ACK character to understand the format of element. </p>
  <p> I add deleting and loading from the file system to make control of the file system. <like a tester> </p></div>
@@ -525,10 +525,10 @@ extends <a href="FileSystemElement.html" title="class in &lt;Unnamed&gt;">FileSy
 <script type="text/javascript"><!--
   allClassesLink = document.getElementById("allclasses_navbar_bottom");
   if(window==top) {
-    allClassesLink.style.display = "block";
+	allClassesLink.style.display = "block";
   }
   else {
-    allClassesLink.style.display = "none";
+	allClassesLink.style.display = "none";
   }
   //-->
 </script>

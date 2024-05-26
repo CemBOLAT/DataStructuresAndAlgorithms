@@ -4,8 +4,8 @@ public class BubbleSort extends SortAlgorithm {
 		super(input_array);
 	}
 
-    @Override
-    public void sort() {
+	@Override
+	public void sort() {
 		// Bubble Sort Algorithm
 		boolean swapped = false; // Flag to check if any swapping has been done in the current iteration
 
@@ -23,11 +23,11 @@ public class BubbleSort extends SortAlgorithm {
 				break;
 			}
 		}
-    }
+	}
 
-    @Override
-    public void print() {
-    	System.out.print("Bubble Sort\t=>\t");
-    	super.print();
-    }
+	@Override
+	public void print() {
+		System.out.print("Bubble Sort\t=>\t");
+		super.print();
+	}
 }
