@@ -3,6 +3,8 @@ public class BTree<E extends Comparable<E>>{
 	/** The root node. */
 
 	private Node<E> root = null;
+	private static Node<E> newChild = null;
+	private static E newParent = null;
 	/** The maximum number of children of a node */
 	private int order;
 
@@ -36,13 +38,58 @@ public class BTree<E extends Comparable<E>>{
 		if (root.child[index] == null){
 			if (root.size < order - 1){
 				insertIntoNode(root, index, item, null);
+				newChild = null;
 			}
-
-
+			else {
+				splitNode(root, index, item, null);
+			}
+			return true;
 		} else {
-
+			boolean result = insert(root.child[index], item);
+			if (newChild != null){
+				if (root.size < order - 1){
+					insertIntoNode(root, index,  newParent, newChild);
+					newChild = null;
+				}
+				else {
+					splitNode(root, index, newParent, newChild);
+				}
+			}
+			return result;
 		}
 
+	}
+
+	private void splitNode(Node<E> node, int index, E item, Node<E> child) {
+		newChild = new Node<E>(order);
+		int numToMove = (order - 1) - ((order - 1) / 2);
+		if (index > (order - 1) / 2) { // new item goes in right node
+			numToMove--;
+		}
+		System.arraycopy(node.data, order - numToMove - 1, newChild.data, 0, numToMove);
+		System.arraycopy(node.child, order - numToMove, newChild.child, 1, numToMove);
+
+		node.size = order - numToMove - 1;
+		newChild.size = numToMove;
+
+		if (index == (order - 1) / 2){
+			newParent = item;
+			newChild.child[0] = child;
+		} else {
+			if (index < (order - 1) / 2){
+				insertIntoNode(node, index, item, child);
+			} else {
+				insertIntoNode(newChild, index - ((order - 1) / 2) - 1, item, child);
+			}
+			newParent = node.data[node.size - 1];
+			newChild.child[0] = node.child[node.size];
+			node.size--;
+		}
+
+		for (int i = node.size; i < node.data.length; i++){
+			node.data[i] = null;
+			node.child[i + 1] = null;
+		}
 	}
 
 	 /** Method to insert a new value into a node
