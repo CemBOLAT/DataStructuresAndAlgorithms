@@ -1,4 +1,5 @@
 import java.util.*;
+import java.text.SimpleDateFormat;
 
 public class Person {
     String name;
@@ -16,5 +17,16 @@ public class Person {
     @Override
     public String toString() {
         return name + " (Age: " + age + ", Hobbies: " + hobbies + ")";
+    }
+
+    private String TimestampConverter(Date ts){
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+        return simpleDateFormat.format(ts);
+    }
+
+    public String print(){
+        return name + " (Timestamp: " + TimestampConverter(timestamp) + ")";
     }
 }
