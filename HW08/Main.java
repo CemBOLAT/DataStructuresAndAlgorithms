@@ -1,6 +1,16 @@
 import java.util.*;
 
+/**
+ * Main class to demonstrate the SocialNetworkGraph class.
+ * The class provides a menu to interact with the social network.
+ * The user can add/remove people, add/remove friendships, find shortest path between two people,
+ * suggest friends for a person, and count clusters in the social network.
+ */
 public class Main {
+	/**
+	 * Main method to demonstrate the SocialNetworkGraph class.
+	 * @param args Command line arguments.
+	 */
 	public static void main(String[] args) {
 		SocialNetworkGraph network = new SocialNetworkGraph();
 		// Scanner scanner = new Scanner(System.in);
@@ -73,10 +83,14 @@ public class Main {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-
 	}
 
+	/**
+	 * Helper method to get a non-empty string from the user.
+	 * @param message Message to display to the user.
+	 * @return Non-empty string entered by the user.
+	 * @throws Exception If the input is empty or null.
+	*/
 	private static String getString(String message) throws Exception {
 		String output = "";
 		System.out.print(message + " ");
@@ -87,6 +101,12 @@ public class Main {
 		return output;
 	}
 
+
+	/**
+	 * Add a person to the social network.
+	 * @param network Social network graph object.
+	 * @throws Exception If the input is invalid.
+	 */
 	private static void addPerson(SocialNetworkGraph network) throws Exception {
 		String name = getString("Enter the name of the person:");
 
@@ -98,29 +118,54 @@ public class Main {
 		network.addPerson(name, age, Arrays.asList(hobbies));
 	}
 
+	/**
+	 * Remove a person from the social network.
+	 * @param network Social network graph object.
+	 * @throws Exception If the input is invalid.
+	 */
 	private static void removePerson(SocialNetworkGraph network) throws Exception {
 		String name = getString("Enter the name of the person to remove:");
 		network.removePerson(name);
 	}
 
+	/**
+	 * Add a friendship between two people in the social network.
+	 * @param network Social network graph object.
+	 * @throws Exception If the input is invalid.
+	 */
 	private static void addFriendship(SocialNetworkGraph network) throws Exception {
 		String name1 = getString("Enter first person’s name:");
 		String name2 = getString("Enter second person’s name:");
 		network.addFriendship(name1, name2);
 	}
 
+	/**
+	 * Remove a friendship between two people in the social network.
+	 * @param network Social network graph object.
+	 * @throws Exception If the input is invalid.
+	 */
 	private static void removeFriendship(SocialNetworkGraph network) throws Exception {
 		String name1 = getString("Enter first person’s name:");
 		String name2 = getString("Enter second person’s name:");
 		network.removeFriendship(name1, name2);
 	}
 
+	/**
+	 * Find the shortest path between two people in the social network.
+	 * @param network Social network graph object.
+	 * @throws Exception If the input is invalid.
+	 */
 	private static void findShortestPath(SocialNetworkGraph network) throws Exception {
 		String name1 = getString("Enter first person’s name:");
 		String name2 = getString("Enter second person’s name:");
 		network.findShortestPath(name1, name2);
 	}
 
+	/**
+	 * Suggest friends for a person in the social network.
+	 * @param network Social network graph object.
+	 * @throws Exception If the input is invalid.
+	 */
 	private static void suggestFriends(SocialNetworkGraph network) throws Exception {
 		String name = getString("Enter the name of the person:");
 		System.out.print("Enter maximum number of friends to suggest: ");
@@ -128,11 +173,18 @@ public class Main {
 		network.suggestFriends(name, maxFriends);
 	}
 
+	/**
+	 * Count clusters in the social network.
+	 * @param network Social network graph object.
+	 */
 	private static void countClusters(SocialNetworkGraph network) {
 		System.out.println("Counting clusters in the social network...");
 		network.countClusters();
 	}
 
+	/**
+	 * Print the menu options.
+	 */
 	private static void printMenu() {
 		System.out.println("===== Social Network Analysis Menu =====");
 		System.out.println("1. Add person");
