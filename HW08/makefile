@@ -6,7 +6,7 @@ SRC := $(wildcard *.java)
 CLASSES := $(SRC:.java=.class)
 
 all: $(CLASSES) readme
-	@echo "\033[0;32mThe Inventory Management System has been created by Cemal BOLAT.\nStudent No: 210104004010\033[0m"
+	@echo "\033[0;32mThe Social Network System has been created by Cemal BOLAT.\nStudent No: 210104004010\033[0m"
 	@echo "\033[0;33mmake | run | doc | clean | cleandoc | re | redoc | fclean | readme\033[0m"
 
 readme: Readme
