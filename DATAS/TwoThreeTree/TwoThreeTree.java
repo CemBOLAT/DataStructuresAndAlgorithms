@@ -2,18 +2,20 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
+// Predecessor : kendisinden küçük en büyük sayı
+// Successor : kendisinden büyük en küçük sayı
 public class TwoThreeTree {
 
 	private Node root;
 
-	private class Node {
+	private static class Node {
 		private int[] keys;
 		private Node[] children;
 		private int numKeys;
 		private int numOfChildren;
 		private boolean isLeaf;
 
-		public Node() {
+		private Node() {
 			keys = new int[3]; // one extra space for splitting
 			children = new Node[4]; // one extra space for splitting
 			numKeys = 0;
@@ -64,9 +66,42 @@ public class TwoThreeTree {
 			} else {
 				return children[numKeys].removeLargest();
 			}
-
 		}
 
+		public int indexOf(int key) {
+			for (int i = 0; i < numKeys; i++) {
+				if (keys[i] == key) {
+					return i;
+				}
+			}
+			return -1;
+		}
+
+		public void removeKey(int key) {
+			int index = indexOf(key);
+			for (int i = index; i < numKeys - 1; i++) {
+				keys[i] = keys[i + 1];
+			}
+			numKeys--;
+		}
+
+		public int subtreeIndex(int key) {
+			for (int i = 0; i < numKeys; i++) {
+				if (key < keys[i]) {
+					return i;
+				}
+			}
+			return numKeys;
+		}
+
+		public void replaceChild(Node oldChild, Node newChild) {
+			for (int i = 0; i < numOfChildren; i++) {
+				if (children[i] == oldChild) {
+					children[i] = newChild;
+					return;
+				}
+			}
+		}
 	}
 
 	public TwoThreeTree() {
@@ -160,11 +195,15 @@ public class TwoThreeTree {
 
 	public static void main(String[] args) {
 		TwoThreeTree tree = new TwoThreeTree();
-		for (int i = 1; i <= 100; i++) {
-			tree.insert((int)(Math.random() * 10000));
+		//for (int i = 1; i <= 10; i++) {
+		//	tree.insert((int)(Math.random() * 100));
+		//}
+		for (int i = 1; i <= 10; i++) {
+			tree.insert(i);
 		}
 		tree.printInOrder();
 		System.out.println();
 		//tree.printLevelOrder();
+
 	}
 }
