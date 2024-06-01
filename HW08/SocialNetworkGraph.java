@@ -104,6 +104,11 @@ public class SocialNetworkGraph {
 		Person person1 = people.get(name1);
 		Person person2 = people.get(name2);
 		if (person1 != null && person2 != null) {
+			// if the friendship already exists, do not add it again
+			if (friendships.get(person1).contains(person2)) {
+				System.out.println("Friendship already exists between " + person1.name + " and " + person2.name);
+				return;
+			}
 			friendships.get(person1).add(person2);
 			friendships.get(person2).add(person1);
 			System.out.println("Friendship added between " + person1.name + " and " + person2.name);
@@ -129,6 +134,10 @@ public class SocialNetworkGraph {
 		Person person1 = people.get(name1);
 		Person person2 = people.get(name2);
 		if (person1 != null && person2 != null) {
+			if (!friendships.get(person1).contains(person2)) {
+				System.out.println("Friendship does not exist between " + person1.name + " and " + person2.name);
+				return;
+			}
 			friendships.get(person1).remove(person2);
 			friendships.get(person2).remove(person1);
 			System.out.println("Friendship removed between " + person1.name + " and " + person2.name);
@@ -147,7 +156,6 @@ public class SocialNetworkGraph {
 	 * @param endName The name of the end person.
 	 */
 	public void findShortestPath(String startName, String endName) {
-		//implement logic here
 		Person start = people.get(startName);
 		Person end = people.get(endName);
 
@@ -164,6 +172,8 @@ public class SocialNetworkGraph {
 
 		/*
 			Firstly add the first element to the queue and mark it as visited.
+			Prev map is used to store the previous person of the current person.
+
 			Then, while the queue is not empty, poll the first element from the queue.
 			For each neighbor of the current element, if it is not visited, add it to the queue and mark it as visited.
 
@@ -184,6 +194,7 @@ public class SocialNetworkGraph {
 				}
 			}
 		}
+		System.out.println("No path found between " + startName + " and " + endName);
 	}
 
 	/**
@@ -203,7 +214,7 @@ public class SocialNetworkGraph {
 		for (Person person : path) {
 			sb.append(person.name).append(" -> ");
 		}
-		System.out.println("Shortest path: " + sb.substring(0, sb.length() - 4));
+		System.out.println("Shortest path: " + sb.substring(0, sb.length() - 4)); // Remove the last " -> "
 	}
 
 	/**
@@ -214,7 +225,6 @@ public class SocialNetworkGraph {
 	 * <p> The method prints the number of clusters and the people in each cluster. </p>
 	 */
 	public void countClusters() {
-		//implement logic here
 
 		Set<Person> visited = new HashSet<>();
 		List<List<Person>> clusters = new ArrayList<>();
@@ -236,7 +246,6 @@ public class SocialNetworkGraph {
 			}
 			System.out.println();
 		}
-
 	}
 
 	/**
@@ -265,12 +274,12 @@ public class SocialNetworkGraph {
 	}
 
 	// Helper class to store the score, number of mutual friends and number of common hobbies
-	private static class Point {
+	private static class SuggestionHelperClass {
 		private double score;
 		private int nbr_of_mutual_friends;
 		private int nbr_of_common_hobbies;
 
-		public Point(double score, int nbr_of_mutual_friends, int nbr_of_common_hobbies) {
+		public SuggestionHelperClass(double score, int nbr_of_mutual_friends, int nbr_of_common_hobbies) {
 			this.score = score;
 			this.nbr_of_mutual_friends = nbr_of_mutual_friends;
 			this.nbr_of_common_hobbies = nbr_of_common_hobbies;
@@ -289,7 +298,7 @@ public class SocialNetworkGraph {
 	 * @param maxFriends The maximum number of friends to suggest.
 	 */
 	private void suggestFriends(Person person, int maxFriends) {
-		Map<Person, Point> scores = new HashMap<>();
+		Map<Person, SuggestionHelperClass> scores = new HashMap<>();
 		for (var people : people.values()){
 			if (people == person) continue;
 			if (friendships.get(person).contains(people)) continue;
@@ -309,7 +318,8 @@ public class SocialNetworkGraph {
 			}
 
 			double score = mutualFriends * MUTUAL_FRIENDS + commonHobbies * COMMON_HOBBIES;
-			scores.put(people, new Point(score, mutualFriends, commonHobbies));
+			if (score == 0) continue; // If the score is 0, do not add it to the list
+			scores.put(people, new SuggestionHelperClass(score, mutualFriends, commonHobbies));
 		}
 
 		List<Person> suggestedFriends = new ArrayList<>(scores.keySet());

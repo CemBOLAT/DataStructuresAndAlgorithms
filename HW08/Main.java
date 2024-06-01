@@ -13,30 +13,31 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		SocialNetworkGraph network = new SocialNetworkGraph();
-		// Scanner scanner = new Scanner(System.in);
 
-		//// Adding some people for demonstration
+		// Adding some people to test easily
 		network.addPerson("John Doe", 25, Arrays.asList("reading", "hiking", "cooking"));
 		network.addPerson("Jane Smith", 22, Arrays.asList("swimming", "cooking"));
 		network.addPerson("Alice Johnson", 27, Arrays.asList("hiking", "painting"));
 		network.addPerson("Bob Brown", 30, Arrays.asList("reading", "swimming"));
 		network.addPerson("Emily Davis", 28, Arrays.asList("running", "swimming"));
 		network.addPerson("Frank Wilson", 26, Arrays.asList("reading", "hiking"));
-//
-		//// Adding friendships for demonstration
+		network.addPerson("Cemal Bolat", 21, Arrays.asList("swimming", "hiking", "cooking"));
+		network.addPerson("Kendrick Lamar", 35, Arrays.asList("singing", "jogging"));
+		network.addPerson("Drake", 30, Arrays.asList("singing", "climbing"));
+		network.addPerson("Donald Trump", 75, Arrays.asList("reading", "swimming"));
+
+		// Adding some friendships to test easily
 		network.addFriendship("John Doe", "Jane Smith");
-		network.addFriendship("Bob Brown", "Alice Johnson");
-		network.addFriendship("Jane Smith", "Bob Brown");
+		network.addFriendship("John Doe", "Alice Johnson");
+		network.addFriendship("Jane Smith", "Alice Johnson");
+		network.addFriendship("Bob Brown", "Emily Davis");
+		network.addFriendship("Bob Brown", "Frank Wilson");
 		network.addFriendship("Emily Davis", "Frank Wilson");
-//
-		//// // Finding shortest path for demonstration
-		network.findShortestPath("John Doe", "Alice Johnson");
-//
-		//// // Counting clusters for demonstration
-		//network.countClusters();
 
-		// scanner.close();
-
+		network.addFriendship("Cemal Bolat", "Kendrick Lamar");
+		network.addFriendship("Cemal Bolat", "Alice Johnson");
+		network.addFriendship("Emily Davis", "Drake");
+		network.addFriendship("Bob Brown", "John Doe");
 
 		try {
 			boolean exit = false;
@@ -110,11 +111,12 @@ public class Main {
 	private static void addPerson(SocialNetworkGraph network) throws Exception {
 		String name = getString("Enter the name of the person:");
 
-		System.out.print("Enter the age of the person:");
+		System.out.print("Enter the age of the person: ");
 		int age = Integer.parseInt(System.console().readLine());
 
-		System.out.print("Enter hobbies (comma-separated):");
-		String[] hobbies = System.console().readLine().split(",");
+
+		String hobbie = getString("Enter the hobbies of the person:");
+		String[] hobbies = hobbie.split(",");
 		network.addPerson(name, age, Arrays.asList(hobbies));
 	}
 
